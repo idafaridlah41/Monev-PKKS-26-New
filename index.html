@@ -62,7 +62,7 @@
                         <p class="text-xs text-slate-400">Kepmendikdasmen 271/2025 • PermenPANRB 7/2026 • Permendikdasmen 6/2026</p>
                     </div>
                 </div>
-                <!-- Desktop Navigation -->
+                <!-- Navigation -->
                 <div class="hidden md:flex space-x-1 text-sm font-medium">
                     <button type="button" onclick="window.switchTab('dashboard')" id="nav-dashboard" class="px-3 py-2 rounded-md bg-brand-700 text-white transition cursor-pointer">Konsep 6M & Siklus</button>
                     <button type="button" onclick="window.switchTab('komparasi')" id="nav-komparasi" class="px-3 py-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800 transition cursor-pointer">Komparasi ASN/Non-ASN</button>
@@ -126,7 +126,6 @@
                 </div>
             </div>
 
-            <!-- Mengembalikan Modul Eksplorasi Tahapan 6M -->
             <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-200">
                 <h3 class="text-lg font-bold text-slate-900 mb-2">Eksplorasi Tahapan 6M Pendampingan Pengawas</h3>
                 <div class="grid grid-cols-2 md:grid-cols-6 gap-2 mt-4">
@@ -185,9 +184,10 @@
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-4 no-print">
                     <div>
                         <h2 class="text-xl font-bold text-slate-900">Instrumen Monev 6M & PKKS Bertahap</h2>
-                        <p class="text-xs text-slate-500">Pilih periode penilaian (Triwulan I - IV/Final) untuk mengelola data kinerja secara terstruktur.</p>
+                        <p class="text-xs text-slate-500">Pilih periode penilaian untuk mengelola data kinerja yang tematik & terstruktur.</p>
                     </div>
                     <div class="flex flex-wrap gap-2">
+                        <button type="button" onclick="window.loadQuarterPreset()" class="px-3 py-1.5 text-xs bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded shadow-sm transition cursor-pointer" title="Muat Ulang Indikator Standar Triwulan Ini">📋 Muat Preset Triwulan</button>
                         <button type="button" onclick="window.copyFromPreviousQuarter()" class="px-3 py-1.5 text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded shadow-sm transition cursor-pointer">🔄 Import T-Sebelumnya</button>
                         <button type="button" onclick="window.addRow()" class="px-3 py-1.5 text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded shadow-sm transition cursor-pointer">➕ Tambah Indikator</button>
                         <button type="button" onclick="window.saveCurrentQuarterData()" class="px-3 py-1.5 text-xs bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded shadow-sm transition cursor-pointer">💾 Simpan Periode Ini</button>
@@ -217,10 +217,10 @@
                     <div class="bg-brand-50 p-2 rounded border border-brand-200">
                         <label class="block text-xs font-bold text-brand-900 mb-1">Periode Penilaian (Triwulanan)</label>
                         <select id="period-select" onchange="window.changeQuarter(this.value)" class="w-full p-1.5 border border-brand-300 rounded text-xs font-bold text-brand-800 bg-white">
-                            <option value="T1">Triwulan I (Januari - Maret)</option>
-                            <option value="T2">Triwulan II (April - Juni)</option>
-                            <option value="T3">Triwulan III (Juli - September)</option>
-                            <option value="T4">Triwulan IV / Final PKKS (Oktober - Desember)</option>
+                            <option value="T1">Triwulan I (Jan-Mar: Pemetaan & Perencanaan)</option>
+                            <option value="T2">Triwulan II (Apr-Jun: Pelaksanaan & Supervisi)</option>
+                            <option value="T3">Triwulan III (Jul-Sep: Pengawasan & Iklim)</option>
+                            <option value="T4">Triwulan IV (Okt-Des: Diseminasi & PKKS Final)</option>
                         </select>
                     </div>
                 </div>
@@ -456,21 +456,40 @@
         };
 
         let currentQuarter = "T1";
-        
-        let defaultIndicators = [
-            { dim: "Memetakan", title: "Pemetaan Awal Rapor Pendidikan", desc: "Analisis akar masalah dan kapasitas satuan pendidikan.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Pemetaan indikator numerasi tuntas.", score: 3 },
-            { dim: "Merencanakan", title: "Penyusunan RKT & RKAS Berbasis PBD", desc: "Penyusunan program benah mutu dalam dokumen perencanaan.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Program numerasi terakomodasi dalam RKT.", score: 3 },
-            { dim: "Melaksanakan", title: "Implementasi Supervisi & Kombel", desc: "Pelaksanaan observasi kelas dan aktivitas Komunitas Belajar.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Kombel internal aktif 2 minggu sekali.", score: 4 },
-            { dim: "Mengevaluasi", title: "Evaluasi Kinerja & Bukti Fisik", desc: "Penilaian berkala dan verifikasi tautan bukti dukung Drive.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Dokumen bukti fisik lengkap di folder Drive.", score: 3 },
-            { dim: "Mengendalikan", title: "Pengendalian Mutu & Kepatuhan", desc: "Umpan balik dialogis dan pengawasan TPPK.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "SK TPPK aktif dan berjalan.", score: 3 },
-            { dim: "Meningkatkan", title: "Peningkatan Mutu Berkelanjutan", desc: "Tindak lanjut rekomendasi dan diseminasi praktik baik.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Praktik baik dibagikan di MKKS.", score: 4 }
-        ];
+
+        // Bank Preset Indikator Standar Tematik per Triwulan
+        const quarterPresets = {
+            T1: [
+                { dim: "Memetakan", title: "Pemetaan Awal Rapor Pendidikan", desc: "Analisis identifikasi & refleksi indikator prioritas Rapor Pendidikan.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Pemetaan indikator numerasi & iklim sekolah tuntas.", score: 3 },
+                { dim: "Merencanakan", title: "Penyusunan RKT & RKAS Berbasis PBD", desc: "Perumusan program benah mutu ke dalam dokumen RKT dan RKAS/ARKAS.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Program numerasi terakomodasi dalam RKT dan RKAS.", score: 3 },
+                { dim: "Merencanakan", title: "Penetapan Sasaran Kinerja (RHK) KS", desc: "Penyelarasan RHK Kepala Sekolah dengan SKP Pengawas dan Dinas.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "RHK e-Kinerja BKN / SKP telah disetujui.", score: 4 },
+                { dim: "Mengendalikan", title: "Kesiapan Prasyarat Dokumen Operasional", desc: "Verifikasi kelengkapan dokumen manajerial awal tahun.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "SK Pembagian Tugas & Dokumen KOSP lengkap.", score: 3 }
+            ],
+            T2: [
+                { dim: "Melaksanakan", title: "Observasi Kinerja & Supervisi Guru", desc: "Pelaksanaan observasi kelas dan bimbingan teknis pedagogik guru.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Supervisi akademik Semester I terlaksana 100%.", score: 3 },
+                { dim: "Melaksanakan", title: "Penguatan Komunitas Belajar (Kombel)", desc: "Aktivasi jadwal rutin Kombel internal sekolah untuk refleksi pembelajaran.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Kombel aktif berkumpul 2 minggu sekali.", score: 4 },
+                { dim: "Mengevaluasi", title: "Evaluasi Progres Capaian Program S1", desc: "Penilaian ketercapaian target RKT pertengahan tahun ajaran.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Target program Semester I tercapai 85%.", score: 3 },
+                { dim: "Mengendalikan", title: "Pengawasan Penyerapan Dana ARKAS T1", desc: "Pengendalian penggunaan anggaran BOS sesuai dengan perencanaan.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "LPJ BOS Tahap I selesai tepat waktu.", score: 3 }
+            ],
+            T3: [
+                { dim: "Mengendalikan", title: "Pengawasan TPPK & Iklim Aman/Inklusif", desc: "Pengawasan pos pengaduan perundungan, kekerasan, & keteraturan.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Posko TPPK aktif dan sosialisasi terlaksana.", score: 3 },
+                { dim: "Melaksanakan", title: "Pendampingan Kebinekaan & Karakter", desc: "Implementasi kegiatan kokurikuler P5 & penguatan karakter siswa.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Gelar karya P5 berjalan lancar.", score: 4 },
+                { dim: "Mengevaluasi", title: "Refleksi Dialogis Hasil Pemantauan", desc: "Umpan balik dialogis pengawas atas bukti fisik Drive triwulanan.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Catatan perbaikan pengawas telah ditindaklanjuti.", score: 3 },
+                { dim: "Meningkatkan", title: "Penyesuaian Strategi Benah Mutu", desc: "Revisi kecil/penyesuaian program berdasarkan kendala lapangan.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Strategi pendampingan guru disesuaikan.", score: 3 }
+            ],
+            T4: [
+                { dim: "Meningkatkan", title: "Diseminasi & Pengimbasan Praktik Baik", desc: "Berbagi praktik baik kepemimpinan pembelajaran di MKKS/Kombel.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Praktik baik dipresentasikan di forum MKKS.", score: 4 },
+                { dim: "Meningkatkan", title: "Laporan Perbaikan Mutu Berkelanjutan", desc: "Penyusunan dokumen rekapitulasi evaluasi & rekomendasi tahun depan.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Laporan tindak lanjut mutu tuntas disusun.", score: 4 },
+                { dim: "Mengevaluasi", title: "Verifikasi Komprehensif Bukti Fisik", desc: "Pemeriksaan akhir kelengkapan portofolio Drive 6M T1–T4.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Folder Drive terverifikasi lengkap.", score: 3 },
+                { dim: "Mengevaluasi", title: "Penetapan Predikat PKKS Akhir Tahun", desc: "Integrasi Praktik Kinerja 6M dan Perilaku Kerja BerAKHLAK.", driveLink: "https://drive.google.com/drive/folders/contoh-arsip", obs: "Predikat Kinerja Kepala Sekolah ditetapkan Baik.", score: 4 }
+            ]
+        };
 
         let quarterData = {
-            T1: { items: JSON.parse(JSON.stringify(defaultIndicators)), feedback: "Implementasi Triwulan I berjalan lancar." },
-            T2: { items: JSON.parse(JSON.stringify(defaultIndicators)), feedback: "Progres Triwulan II menunjukkan peningkatan." },
-            T3: { items: JSON.parse(JSON.stringify(defaultIndicators)), feedback: "Pelaksanaan program konsisten di Triwulan III." },
-            T4: { items: JSON.parse(JSON.stringify(defaultIndicators)), feedback: "Capaian Triwulan IV memenuhi target tahunan." }
+            T1: { items: JSON.parse(JSON.stringify(quarterPresets.T1)), feedback: "Pemetaan dan perencanaan Triwulan I berjalan lancar." },
+            T2: { items: JSON.parse(JSON.stringify(quarterPresets.T2)), feedback: "Supervisi akademik dan Kombel Triwulan II terlaksana baik." },
+            T3: { items: JSON.parse(JSON.stringify(quarterPresets.T3)), feedback: "Pengawasan TPPK dan iklim sekolah Triwulan III konsisten." },
+            T4: { items: JSON.parse(JSON.stringify(quarterPresets.T4)), feedback: "Pengimbasan dan penilaian PKKS Triwulan IV memenuhi target." }
         };
 
         const berakhlakItems = [
@@ -530,7 +549,6 @@
 
         const raporOptions = ["Kemampuan Numerasi", "Karakter", "Kemampuan Literasi", "Kualitas Pembelajaran", "Iklim Kebinekaan", "Iklim Keamanan Satuan Pendidikan"];
 
-        // Navigation Tab Logic
         function switchTab(tabId) {
             const tabs = ['dashboard', 'komparasi', 'instrumen', 'tirta', 'pbd'];
             tabs.forEach(t => {
@@ -584,7 +602,12 @@
 
         function changeQuarter(newQ) {
             currentQuarter = newQ;
-            const labels = { T1: "Triwulan I", T2: "Triwulan II", T3: "Triwulan III", T4: "Triwulan IV / Final PKKS" };
+            const labels = { 
+                T1: "Triwulan I (Pemetaan & Perencanaan)", 
+                T2: "Triwulan II (Pelaksanaan & Supervisi)", 
+                T3: "Triwulan III (Pengawasan & Iklim)", 
+                T4: "Triwulan IV (Diseminasi & PKKS Final)" 
+            };
             document.getElementById('current-q-label').innerText = labels[newQ];
             
             const pkksSec = document.getElementById('pkks-final-section');
@@ -597,6 +620,16 @@
 
             document.getElementById('feedback-qualitative').value = quarterData[currentQuarter].feedback || '';
             renderTable();
+        }
+
+        function loadQuarterPreset() {
+            if (confirm(`Muat ulang susunan indikator standar khas untuk ${currentQuarter}? (Perubahan manual pada periode ini akan diperbarui)`)) {
+                if (quarterPresets[currentQuarter]) {
+                    quarterData[currentQuarter].items = JSON.parse(JSON.stringify(quarterPresets[currentQuarter]));
+                    renderTable();
+                    alert(`Preset indikator ${currentQuarter} berhasil dimuat!`);
+                }
+            }
         }
 
         function renderTable() {
@@ -1054,11 +1087,12 @@
             a.click();
         }
 
-        // Binding Functions Explicitly to Window Window Object
+        // Binding Functions
         window.switchTab = switchTab;
         window.showCycleDetail = showCycleDetail;
         window.toggleComparison = toggleComparison;
         window.changeQuarter = changeQuarter;
+        window.loadQuarterPreset = loadQuarterPreset;
         window.renderTable = renderTable;
         window.updateRowData = updateRowData;
         window.addRow = addRow;
