@@ -64,6 +64,13 @@
         .capacity-btn { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; background: white; cursor: pointer; font-size: 11px; font-weight: 600; text-align: center; }
         .capacity-btn.active { background-color: #e0e7ff; border-color: #4338ca; color: #1e1b4b; font-weight: bold; }
 
+        /* ANALYTICS DASHBOARD CARD STYLES */
+        .analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 15px; }
+        .stat-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center; }
+        .stat-val { font-size: 20px; font-weight: 800; color: #4f46e5; margin-top: 4px; }
+        .progress-bar-bg { background: #e2e8f0; border-radius: 10px; height: 10px; width: 100%; overflow: hidden; margin-top: 8px; }
+        .progress-bar-fill { background: #059669; height: 100%; transition: width 0.3s ease; }
+
         .print-header { display: none; }
         .q-section-divider { background: #1e1b4b; color: white; padding: 8px 12px; font-weight: bold; font-size: 12px; border-radius: 6px; margin: 20px 0 12px 0; display: flex; align-items: center; gap: 6px; }
 
@@ -72,7 +79,7 @@
 
         /* MANAJEMEN TATA LETAK CETAK / PRINT PREVIEW OPTIMAL */
         @media print {
-            header, .json-btns, .btn-action, button, #toast, .school-header, #identity-card-section, #quarter-info-banner, #toggle-target-only, #filter-comp, #search-box, .capacity-btn, span.badge-q, p.sub-desc { display: none !important; }
+            header, .json-btns, .btn-action, button, #toast, .school-header, #identity-card-section, #quarter-info-banner, #toggle-target-only, #filter-comp, #search-box, .capacity-btn, span.badge-q, p.sub-desc, .analytics-grid { display: none !important; }
             body, main, .card { background: white !important; color: black !important; padding: 0 !important; margin: 0 !important; border: none !important; box-shadow: none !important; width: 100% !important; max-width: 100% !important; }
             @page { size: A4 portrait; margin: 12mm 10mm 12mm 10mm; }
             
@@ -126,7 +133,6 @@
                     <button class="nav-btn" onclick="switchTab('komparasi')" id="nav-komparasi">ASN vs Non-ASN</button>
                     <button class="nav-btn" onclick="switchTab('roadmap')" id="nav-roadmap">Roadmap 6M (T1-T4)</button>
                     <button class="nav-btn" onclick="switchTab('instrumen')" id="nav-instrumen">Instrumen 45 Sub-Butir</button>
-                    <!-- URUTAN NAVIGASI DILURUSKAN: MATRIKS PBD DAHULU SEBELUM COACHING TIRTA -->
                     <button class="nav-btn" onclick="switchTab('pbd')" id="nav-pbd">Matriks PBD</button>
                     <button class="nav-btn" onclick="switchTab('tirta')" id="nav-tirta">Coaching TIRTA</button>
                     <button class="nav-btn" onclick="switchTab('eksekutif')" id="nav-eksekutif" style="background-color:#0284c7; color:white;">📊 Ringkasan Eksekutif</button>
@@ -374,6 +380,25 @@
                 </div>
             </div>
 
+            <!-- HASIL PENAMBAHAN FITUR 1: DASBOR ANALYTICS & KESIAPAN AKREDITASI -->
+            <div class="analytics-grid">
+                <div class="stat-card">
+                    <div style="font-size:11px; font-weight:bold; color:#475569;">PREDIKAT RATA-RATA SKOR TARGET</div>
+                    <div class="stat-val" id="stat-skor-val">0.00 / 4.00</div>
+                    <div style="font-size:10px; color:#64748b; margin-top:2px;" id="stat-skor-label">Belum Dinilai</div>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size:11px; font-weight:bold; color:#475569;">KELENGKAPAN BUKTI DUKUNG (DRIVE)</div>
+                    <div class="stat-val" id="stat-drive-val">0%</div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="stat-drive-bar" style="width:0%;"></div></div>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size:11px; font-weight:bold; color:#475569;">KESIAPAN AKREDITASI SISPENA</div>
+                    <div class="stat-val" style="font-size:14px; margin-top:8px;" id="stat-akreditasi-status">🔴 Belum Siap</div>
+                    <div style="font-size:10px; color:#64748b; margin-top:2px;" id="stat-akreditasi-desc">Dokumen di bawah 50%</div>
+                </div>
+            </div>
+
             <div id="quarter-info-banner" style="padding:12px 16px; border-radius:8px; margin-bottom:15px; border:1px solid #cbd5e1;"></div>
 
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
@@ -424,7 +449,7 @@
             </div>
         </div>
 
-        <!-- NAVIGASI 5: MATRIKS PBD (DIPINDAHKAN SEBELUM COACHING TIRTA) -->
+        <!-- NAVIGASI 5: MATRIKS PBD -->
         <div id="tab-pbd" class="card hidden">
             <!-- HEADER RESMI UNTUK PRINTOUT MATRIKS PBD -->
             <div class="print-header">
@@ -456,7 +481,7 @@
             <div id="pbd-container" style="margin-top:15px;"></div>
         </div>
 
-        <!-- NAVIGASI 6: COACHING TIRTA -->
+        <!-- NAVIGASI 6: COACHING TIRTA & SUPERVISI KLINIS -->
         <div id="tab-tirta" class="card hidden">
             <!-- HEADER RESMI UNTUK PRINTOUT COACHING TIRTA -->
             <div class="print-header">
@@ -497,6 +522,15 @@
             </div>
 
             <div id="tirta-container"></div>
+
+            <!-- HASIL PENAMBAHAN FITUR 2: MODUL SUPERVISI KLINIS PEMBELAJARAN -->
+            <div style="margin-top:25px; border-top:2px solid #e2e8f0; padding-top:15px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <h3 style="font-size:14px; font-weight:bold; color:#1e1b4b;">🏫 Log Observasi Pembelajaran (Supervisi Klinis Guru)</h3>
+                    <button class="btn-action btn-add" onclick="addSupervisiRow()">➕ Tambah Log Observasi Guru</button>
+                </div>
+                <div id="supervisi-container"></div>
+            </div>
         </div>
 
         <!-- NAVIGASI 7: RINGKASAN EKSEKUTIF (LAPORAN TERPADU 1 LEMBAR) -->
@@ -659,6 +693,10 @@
             ]
         };
 
+        const defaultSupervisi = [
+            { guru: "Asep Sunandar, S.Pd.", mapel: "Matematika", tgl: "2026-02-10", fokus: "3.5 (Pembelajaran Penalaran Kritis)", temuan: "Model PBL sudah diterapkan, namun pertanyaan pemantik masih bersifat hafalan.", rekomendasi: "Perlu bimbingan pembuatan Soal HOTS & Diskusi Reflektif." }
+        ];
+
         function createDb() {
             let db = {};
             for (let i = 1; i <= 20; i++) {
@@ -669,10 +707,10 @@
                     id: i,
                     profile: { ksSchool: sName, ksName: kName, ksNip: status === "ASN" ? `19680512 199403 ${i > 9 ? '1' : '2'} 00${i}` : "-", ksStatus: status, pengawasName: defaultPengawasName },
                     quarters: {
-                        T1: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T1)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T1)) },
-                        T2: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T2)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T2)) },
-                        T3: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T3)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T3)) },
-                        T4: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T4)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T4)) }
+                        T1: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T1)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T1)), supervisi: JSON.parse(JSON.stringify(defaultSupervisi)) },
+                        T2: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T2)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T2)), supervisi: [] },
+                        T3: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T3)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T3)), supervisi: [] },
+                        T4: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T4)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T4)), supervisi: [] }
                     }
                 };
             }
@@ -695,6 +733,9 @@
                             if (!db[id].quarters[q].tirta || db[id].quarters[q].tirta.length < 4) {
                                 db[id].quarters[q].tirta = JSON.parse(JSON.stringify(defaultTirtaByQuarter[q]));
                             }
+                            if (!db[id].quarters[q].supervisi) {
+                                db[id].quarters[q].supervisi = [];
+                            }
                         });
                     }
                 }
@@ -705,6 +746,7 @@
 
         function saveStorage() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify({ db, selectedSchoolId, currentQuarter }));
+            updateAnalyticsDashboard();
         }
 
         function syncT4() {
@@ -737,6 +779,51 @@
             if (prPbd) prPbd.innerText = info.alur;
         }
 
+        function updateAnalyticsDashboard() {
+            const q = db[selectedSchoolId].quarters[currentQuarter];
+            const activeTargets = roadmapInfoMap[currentQuarter].targetButirIds;
+            
+            let totalSkor = 0;
+            let countSkor = 0;
+            let countDrive = 0;
+            let totalTarget = 0;
+
+            q.items.forEach(x => {
+                if (activeTargets.includes(x.butirId)) {
+                    totalTarget++;
+                    if (x.score) { totalSkor += parseInt(x.score); countSkor++; }
+                    if (x.driveLink && x.driveLink.trim() !== "") { countDrive++; }
+                }
+            });
+
+            let rataRata = countSkor > 0 ? (totalSkor / countSkor).toFixed(2) : "0.00";
+            let pctDrive = totalTarget > 0 ? Math.round((countDrive / totalTarget) * 100) : 0;
+
+            document.getElementById('stat-skor-val').innerText = `${rataRata} / 4.00`;
+            
+            let predikatText = "Belum Dinilai";
+            if (rataRata >= 3.5) predikatText = "Sangat Baik (A)";
+            else if (rataRata >= 3.0) predikatText = "Baik (B)";
+            else if (rataRata >= 2.0) predikatText = "Cukup (C)";
+            else if (rataRata > 0) predikatText = "Kurang (D)";
+            document.getElementById('stat-skor-label').innerText = predikatText;
+
+            document.getElementById('stat-drive-val').innerText = `${pctDrive}%`;
+            document.getElementById('stat-drive-bar').style.width = `${pctDrive}%`;
+
+            let akredStatus = "🔴 Belum Siap";
+            let akredDesc = "Dokumen di bawah 50%";
+            if (pctDrive >= 80) {
+                akredStatus = "🟢 Siap Verifikasi Sispena";
+                akredDesc = "Dokumen terunggah ≥ 80%";
+            } else if (pctDrive >= 50) {
+                akredStatus = "🟡 Cukup Siap";
+                akredDesc = "Dokumen terunggah 50% - 79%";
+            }
+            document.getElementById('stat-akreditasi-status').innerText = akredStatus;
+            document.getElementById('stat-akreditasi-desc').innerText = akredDesc;
+        }
+
         function switchTab(tId) {
             ['spmi','komparasi','roadmap','instrumen','tirta','pbd','eksekutif'].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
@@ -755,10 +842,11 @@
             if (currentQuarter === 'T4') syncT4();
 
             updatePrintHeaders();
+            updateAnalyticsDashboard();
 
             if (tId === 'instrumen') renderTable();
             if (tId === 'pbd') renderPbd();
-            if (tId === 'tirta') renderTirta();
+            if (tId === 'tirta') { renderTirta(); renderSupervisi(); }
             if (tId === 'eksekutif') renderExecutiveSummary();
         }
 
@@ -775,9 +863,11 @@
             updateQuarterUI();
             if (newQ === 'T4') syncT4();
             updatePrintHeaders();
+            updateAnalyticsDashboard();
             renderTable();
             renderPbd();
             renderTirta();
+            renderSupervisi();
             renderExecutiveSummary();
             saveStorage();
         }
@@ -815,9 +905,11 @@
             loadProfileUI();
             if (currentQuarter === 'T4') syncT4();
             updatePrintHeaders();
+            updateAnalyticsDashboard();
             renderTable();
             renderPbd();
             renderTirta();
+            renderSupervisi();
             renderExecutiveSummary();
             saveStorage();
         }
@@ -882,7 +974,7 @@
                     </td>
                     <td><textarea oninput="db[selectedSchoolId].quarters[currentQuarter].items[${idx}].obs=this.value" rows="2" placeholder="Catatan observasi...">${item.obs || ''}</textarea></td>
                     <td>
-                        <select onchange="db[selectedSchoolId].quarters[currentQuarter].items[${idx}].score=this.value" style="width:100%; padding:6px; border:1px solid #cbd5e1; border-radius:4px;">
+                        <select onchange="db[selectedSchoolId].quarters[currentQuarter].items[${idx}].score=this.value; saveStorage();" style="width:100%; padding:6px; border:1px solid #cbd5e1; border-radius:4px;">
                             <option value="">-</option>
                             <option value="1" ${item.score == 1 ? 'selected' : ''}>1</option>
                             <option value="2" ${item.score == 2 ? 'selected' : ''}>2</option>
@@ -1130,6 +1222,64 @@
                     container.appendChild(div);
                 });
             }
+        }
+
+        /* RENDER MODUL SUPERVISI KLINIS PEMBELAJARAN */
+        function renderSupervisi() {
+            const container = document.getElementById('supervisi-container');
+            container.innerHTML = '';
+            
+            const list = db[selectedSchoolId].quarters[currentQuarter].supervisi || [];
+            list.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = "card-item";
+                div.style.cssText = "background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; padding:12px; margin-bottom:10px;";
+                div.innerHTML = `
+                    <button onclick="db[selectedSchoolId].quarters[currentQuarter].supervisi.splice(${idx},1); renderSupervisi(); saveStorage();" style="position:absolute; top:10px; right:12px; color:#ef4444; border:none; background:transparent; font-weight:bold; cursor:pointer;">✕ Hapus</button>
+                    
+                    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-bottom:8px;">
+                        <div>
+                            <label style="font-weight:bold; font-size:10px; color:#475569;">Nama Guru Terobservasi:</label>
+                            <input type="text" value="${item.guru || ''}" onchange="db[selectedSchoolId].quarters[currentQuarter].supervisi[${idx}].guru=this.value" style="width:100%; padding:4px 6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;">
+                        </div>
+                        <div>
+                            <label style="font-weight:bold; font-size:10px; color:#475569;">Mata Pelajaran / Kelas:</label>
+                            <input type="text" value="${item.mapel || ''}" onchange="db[selectedSchoolId].quarters[currentQuarter].supervisi[${idx}].mapel=this.value" style="width:100%; padding:4px 6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;">
+                        </div>
+                        <div>
+                            <label style="font-weight:bold; font-size:10px; color:#475569;">Tanggal & Sub-Indikator Fokus:</label>
+                            <input type="text" value="${item.fokus || ''}" onchange="db[selectedSchoolId].quarters[currentQuarter].supervisi[${idx}].fokus=this.value" style="width:100%; padding:4px 6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;">
+                        </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                        <div>
+                            <label style="font-weight:bold; font-size:10px; color:#475569;">Temuan Kunci Observasi:</label>
+                            <textarea onchange="db[selectedSchoolId].quarters[currentQuarter].supervisi[${idx}].temuan=this.value" rows="2" style="font-size:11px; padding:4px;">${item.temuan || ''}</textarea>
+                        </div>
+                        <div>
+                            <label style="font-weight:bold; font-size:10px; color:#475569;">Rekomendasi Umpan Balik Pengawas:</label>
+                            <textarea onchange="db[selectedSchoolId].quarters[currentQuarter].supervisi[${idx}].rekomendasi=this.value" rows="2" style="font-size:11px; padding:4px;">${item.rekomendasi || ''}</textarea>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function addSupervisiRow() {
+            if (!db[selectedSchoolId].quarters[currentQuarter].supervisi) {
+                db[selectedSchoolId].quarters[currentQuarter].supervisi = [];
+            }
+            db[selectedSchoolId].quarters[currentQuarter].supervisi.push({
+                guru: "Nama Guru Baru",
+                mapel: "Mata Pelajaran",
+                fokus: "Sub-Indikator Active",
+                temuan: "",
+                rekomendasi: ""
+            });
+            renderSupervisi();
+            saveStorage();
         }
 
         function renderExecutiveSummary() {
