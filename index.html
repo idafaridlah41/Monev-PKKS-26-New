@@ -64,7 +64,7 @@
         .capacity-btn { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; background: white; cursor: pointer; font-size: 11px; font-weight: 600; text-align: center; }
         .capacity-btn.active { background-color: #e0e7ff; border-color: #4338ca; color: #1e1b4b; font-weight: bold; }
 
-        /* ANALYTICS DASHBOARD CARD STYLES */
+        /* ANALYTICS DASHBOARD STYLES */
         .analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 15px; }
         .stat-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center; }
         .stat-val { font-size: 20px; font-weight: 800; color: #4f46e5; margin-top: 4px; }
@@ -77,7 +77,7 @@
         .hidden { display: none !important; }
         #toast { position: fixed; bottom: 20px; right: 20px; background: #1e1b4b; color: white; padding: 12px 20px; border-radius: 8px; font-weight: bold; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); z-index: 1000; }
 
-        /* MANAJEMEN TATA LETAK CETAK / PRINT PREVIEW OPTIMAL */
+        /* MANAJEMEN TATA LETAK KHUSUS CETAK/PRINT PREVIEW */
         @media print {
             header, .json-btns, .btn-action, button, #toast, .school-header, #identity-card-section, #quarter-info-banner, #toggle-target-only, #filter-comp, #search-box, .capacity-btn, span.badge-q, p.sub-desc, .analytics-grid { display: none !important; }
             body, main, .card { background: white !important; color: black !important; padding: 0 !important; margin: 0 !important; border: none !important; box-shadow: none !important; width: 100% !important; max-width: 100% !important; }
@@ -147,7 +147,7 @@
     </header>
 
     <main>
-        <!-- NAVIGASI 1: SIKLUS SPMI 6M PERMENDIKDASMEN NO. 21 TAHUN 2026 -->
+        <!-- NAVIGASI 1: SIKLUS SPMI (6M) -->
         <div id="tab-spmi" class="card">
             <span style="display:inline-block; padding:3px 8px; background:#e0e7ff; color:#3730a3; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:8px;">SISTEM PENJAMINAN MUTU INTERNAL (SPMI)</span>
             <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 6px; color:#0f172a;">Siklus Alur 6M SPMI Permendikdasmen Nomor 21 Tahun 2026</h2>
@@ -278,7 +278,7 @@
                     <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">BUTIR TARGET BAN-PDM:</h4>
                     <ul style="font-size:11px; padding-left:14px; font-weight:bold; color:#065f46;">
                         <li>Butir 1: Interaksi Sosio-Emosional</li>
-                        <li>Butir 2: Disiplin Positif Kelas</li>
+                        <li>Butir 2: Suasana Kelas</li>
                         <li>Butir 3: Pembelajaran Bermakna</li>
                         <li>Butir 4: Karakter & Bernalar Kritis</li>
                         <li>Butir 5: Evaluasi Refleksi SDM</li>
@@ -380,7 +380,7 @@
                 </div>
             </div>
 
-            <!-- HASIL PENAMBAHAN FITUR 1: DASBOR ANALYTICS & KESIAPAN AKREDITASI -->
+            <!-- DASBOR ANALYTICS & KESIAPAN AKREDITASI -->
             <div class="analytics-grid">
                 <div class="stat-card">
                     <div style="font-size:11px; font-weight:bold; color:#475569;">PREDIKAT RATA-RATA SKOR TARGET</div>
@@ -523,7 +523,7 @@
 
             <div id="tirta-container"></div>
 
-            <!-- HASIL PENAMBAHAN FITUR 2: MODUL SUPERVISI KLINIS PEMBELAJARAN -->
+            <!-- MODUL SUPERVISI KLINIS PEMBELAJARAN -->
             <div style="margin-top:25px; border-top:2px solid #e2e8f0; padding-top:15px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                     <h3 style="font-size:14px; font-weight:bold; color:#1e1b4b;">🏫 Log Observasi Pembelajaran (Supervisi Klinis Guru)</h3>
@@ -941,6 +941,7 @@
             saveStorage();
         }
 
+        /* REVISI PERBAIKAN UTAMA: RENDER TABLE & FUNGSI SIMPAN UNIK BERDASARKAN KODE INDIKATOR */
         function renderTable() {
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = '';
@@ -952,29 +953,30 @@
             const selectedComp = document.getElementById('filter-comp').value;
             const searchQuery = document.getElementById('search-box').value.trim().toLowerCase();
 
-            items.forEach((item, idx) => {
+            items.forEach((item) => {
                 if (targetOnly && !activeTargets.includes(item.butirId)) return;
                 if (selectedComp !== "ALL" && item.comp !== selectedComp) return;
                 if (searchQuery !== "" && !item.code.toLowerCase().includes(searchQuery) && !item.title.toLowerCase().includes(searchQuery)) return;
 
                 const tr = document.createElement('tr');
                 const isSaved = item.isSaved && item.driveLink && item.driveLink.trim() !== "";
+                const safeCode = item.code.replace('.', '_');
 
                 tr.innerHTML = `
                     <td style="text-align:center; font-weight:bold; background:#f8fafc;">${item.code}</td>
                     <td><strong style="color:#4f46e5;">${item.parentTitle}</strong><br><span style="font-size:10px; color:#64748b;">${item.comp}</span></td>
                     <td>${item.title}</td>
                     <td>
-                        <input type="text" id="drive-${idx}" value="${item.driveLink || ''}" ${isSaved ? 'disabled' : ''} style="width:100%; padding:6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;" placeholder="Format: [Kode]_[NamaDokumen] (contoh: ${item.code}_SOP.pdf)" oninput="db[selectedSchoolId].quarters[currentQuarter].items[${idx}].driveLink=this.value; db[selectedSchoolId].quarters[currentQuarter].items[${idx}].isSaved=false;">
+                        <input type="text" id="drive-input-${safeCode}" value="${item.driveLink || ''}" ${isSaved ? 'disabled' : ''} style="width:100%; padding:6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;" placeholder="Format: [Kode]_[NamaDokumen]" oninput="updateDriveValue('${item.code}', this.value)">
                         <div style="margin-top:4px; display:flex; gap:4px;">
-                            <button class="btn-action btn-save" onclick="saveDrive(${idx})">💾 Simpan</button>
-                            <button class="btn-action btn-edit" onclick="editDrive(${idx})">✏️ Edit</button>
+                            <button class="btn-action btn-save" onclick="saveDriveByCode('${item.code}')">💾 Simpan</button>
+                            <button class="btn-action btn-edit" onclick="editDriveByCode('${item.code}')">✏️ Edit</button>
                         </div>
                         ${isSaved ? `<a href="${item.driveLink}" target="_blank" class="btn-open">🔗 Buka Link Drive ↗</a>` : `<span style="color:#d97706; font-size:10px; font-weight:bold; display:block; margin-top:3px;">⚠️ Belum Diisi</span>`}
                     </td>
-                    <td><textarea oninput="db[selectedSchoolId].quarters[currentQuarter].items[${idx}].obs=this.value" rows="2" placeholder="Catatan observasi...">${item.obs || ''}</textarea></td>
+                    <td><textarea oninput="updateObsValue('${item.code}', this.value)" rows="2" placeholder="Catatan observasi...">${item.obs || ''}</textarea></td>
                     <td>
-                        <select onchange="db[selectedSchoolId].quarters[currentQuarter].items[${idx}].score=this.value; saveStorage();" style="width:100%; padding:6px; border:1px solid #cbd5e1; border-radius:4px;">
+                        <select onchange="updateScoreValue('${item.code}', this.value)" style="width:100%; padding:6px; border:1px solid #cbd5e1; border-radius:4px;">
                             <option value="">-</option>
                             <option value="1" ${item.score == 1 ? 'selected' : ''}>1</option>
                             <option value="2" ${item.score == 2 ? 'selected' : ''}>2</option>
@@ -987,20 +989,48 @@
             });
         }
 
-        function saveDrive(idx) {
-            const el = document.getElementById(`drive-${idx}`);
-            if (!el || el.value.trim() === '') return alert('Masukkan URL Drive terlebih dahulu!');
-            const item = db[selectedSchoolId].quarters[currentQuarter].items[idx];
-            item.driveLink = el.value.trim();
-            item.isSaved = true;
-            saveStorage();
-            renderTable();
-            showToast('💾 Tautan Drive disimpan!');
+        function updateDriveValue(code, val) {
+            const item = db[selectedSchoolId].quarters[currentQuarter].items.find(x => x.code === code);
+            if (item) {
+                item.driveLink = val;
+                item.isSaved = false;
+            }
         }
 
-        function editDrive(idx) {
-            db[selectedSchoolId].quarters[currentQuarter].items[idx].isSaved = false;
-            renderTable();
+        function updateObsValue(code, val) {
+            const item = db[selectedSchoolId].quarters[currentQuarter].items.find(x => x.code === code);
+            if (item) item.obs = val;
+        }
+
+        function updateScoreValue(code, val) {
+            const item = db[selectedSchoolId].quarters[currentQuarter].items.find(x => x.code === code);
+            if (item) {
+                item.score = val;
+                saveStorage();
+            }
+        }
+
+        function saveDriveByCode(code) {
+            const safeCode = code.replace('.', '_');
+            const el = document.getElementById(`drive-input-${safeCode}`);
+            if (!el || el.value.trim() === '') return alert('Masukkan URL Drive terlebih dahulu!');
+            
+            const item = db[selectedSchoolId].quarters[currentQuarter].items.find(x => x.code === code);
+            if (item) {
+                item.driveLink = el.value.trim();
+                item.isSaved = true;
+                saveStorage();
+                renderTable();
+                showToast('💾 Tautan Drive disimpan!');
+            }
+        }
+
+        function editDriveByCode(code) {
+            const item = db[selectedSchoolId].quarters[currentQuarter].items.find(x => x.code === code);
+            if (item) {
+                item.isSaved = false;
+                renderTable();
+            }
         }
 
         function setCapacity(btn) {
@@ -1224,7 +1254,6 @@
             }
         }
 
-        /* RENDER MODUL SUPERVISI KLINIS PEMBELAJARAN */
         function renderSupervisi() {
             const container = document.getElementById('supervisi-container');
             container.innerHTML = '';
