@@ -77,6 +77,12 @@
         .hidden { display: none !important; }
         #toast { position: fixed; bottom: 20px; right: 20px; background: #1e1b4b; color: white; padding: 12px 20px; border-radius: 8px; font-weight: bold; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); z-index: 1000; }
 
+        /* STYLE KHUSUS HALAMAN PANDUAN */
+        .guide-step { background: #f8fafc; border-left: 4px solid #4338ca; padding: 14px; border-radius: 0 8px 8px 0; margin-bottom: 12px; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
+        .guide-step h3 { color: #1e1b4b; font-size: 13px; font-weight: bold; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+        .guide-step p, .guide-step ul { font-size: 11px; color: #334155; margin-top: 4px; }
+        .guide-step ul { padding-left: 18px; line-height: 1.6; }
+
         /* MANAJEMEN TATA LETAK KHUSUS CETAK/PRINT PREVIEW */
         @media print {
             header, .json-btns, .btn-action, button, #toast, .school-header, #identity-card-section, #quarter-info-banner, #toggle-target-only, #filter-comp, #search-box, .capacity-btn, span.badge-q, p.sub-desc, .analytics-grid { display: none !important; }
@@ -136,6 +142,7 @@
                     <button class="nav-btn" onclick="switchTab('pbd')" id="nav-pbd">Matriks PBD</button>
                     <button class="nav-btn" onclick="switchTab('tirta')" id="nav-tirta">Coaching TIRTA</button>
                     <button class="nav-btn" onclick="switchTab('eksekutif')" id="nav-eksekutif" style="background-color:#0284c7; color:white;">📊 Ringkasan Eksekutif</button>
+                    <button class="nav-btn" onclick="switchTab('panduan')" id="nav-panduan" style="background-color:#059669; color:white;">📖 Panduan Penggunaan</button>
                 </div>
                 <div class="json-btns">
                     <button class="btn-json btn-export" onclick="exportJSON()">📥 Ekspor JSON</button>
@@ -561,6 +568,75 @@
 
             <div id="eksekutif-content" style="display:flex; flex-direction:column; gap:16px;"></div>
         </div>
+
+        <!-- NAVIGASI 8: PANDUAN PENGGUNAAN APLIKASI -->
+        <div id="tab-panduan" class="card hidden">
+            <span style="display:inline-block; padding:3px 8px; background:#dcfce7; color:#166534; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:8px;">PETUNJUK OPERASIONAL APLIKASI</span>
+            <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 6px; color:#0f172a;">Panduan Penggunaan Aplikasi Monev SPMI & PKKS 2026</h2>
+            <p style="color:#64748b; margin-bottom:18px;">Panduan langkah demi langkah untuk memaksimalkan penggunaan aplikasi Monev SPMI & PKKS berbasis alur 6M Continuous Improvement.</p>
+
+            <div class="guide-step">
+                <h3>1. 🏫 Memilih Sekolah & Pengisian Profil Satuan Pendidikan</h3>
+                <p>Setiap pengawas membina hingga 20 sekolah. Sebelum melakukan pengisian data:</p>
+                <ul>
+                    <li>Pilih sekolah binaan melalui <strong>Dropdown Pilihan Sekolah</strong> di bagian atas kartu profil.</li>
+                    <li>Lengkapi nama sekolah, nama Kepala Sekolah, NIP, serta status kepegawaian (ASN/Non-ASN).</li>
+                    <li>Sistem secara otomatis mendeteksi status <strong>ASN (Negeri)</strong> atau <strong>Non-ASN (Swasta)</strong> untuk penyesuaian muara laporan administrasi.</li>
+                </ul>
+            </div>
+
+            <div class="guide-step">
+                <h3>2. 🗓️ Pengaturan Triwulan Evaluasi (T1 - T4)</h3>
+                <p>Evaluasi dilaksanakan terbagi dalam 4 triwulan sesuai fokus Roadmap 6M:</p>
+                <ul>
+                    <li><strong>Triwulan I (T1):</strong> Fokus pada perencanaan (Memetakan & Merencanakan) — Target Butir 6, 7, 9.</li>
+                    <li><strong>Triwulan II (T2):</strong> Fokus pada pelaksanaan pembelajaran & supervisi — Target Butir 1 s.d. 5.</li>
+                    <li><strong>Triwulan III (T3):</strong> Fokus pada iklim belajar, safety/TPPK, & sarpras — Target Butir 8, 10 s.d. 14.</li>
+                    <li><strong>Triwulan IV (T4):</strong> Evaluasi komprehensif 45 sub-indikator lengkap untuk penilaian PKKS final tahunan.</li>
+                </ul>
+            </div>
+
+            <div class="guide-step">
+                <h3>3. 📋 Pengisian Instrumen 45 Sub-Indikator & Tautan Google Drive</h3>
+                <p>Panduan penting dalam pengisian link bukti dukung digital:</p>
+                <ul>
+                    <li>Tempelkan (Paste) URL Google Drive bukti dukung pada kolom <strong>Tautan Drive / Sispena</strong>.</li>
+                    <li>Tekan tombol <strong>💾 Simpan</strong> di samping kolom tautan. Sistem akan mengunci kolom dan memunculkan tombol hijau <strong>🔗 Buka Link Drive ↗</strong>.</li>
+                    <li>Jika ingin mengubah link, klik tombol <strong>✏️ Edit</strong> untuk membuka kembali kuncian input.</li>
+                    <li>Beri nilai <strong>Skor (1 - 4)</strong> serta masukkan <strong>Catatan Observasi Pengawas</strong> pada masing-masing indikator target.</li>
+                    <li>Gunakan fitur <i>Filter Komponen</i> atau <i>Kotak Pencarian</i> untuk menemukan kode indikator spesifik dengan cepat.</li>
+                </ul>
+            </div>
+
+            <div class="guide-step">
+                <h3>4. 📊 Memahami Dasbor Analytics & Kesiapan Akreditasi Sispena</h3>
+                <p>Indikator statistik otomatis di bagian atas menu Instrumen memantau progres secara real-time:</p>
+                <ul>
+                    <li><strong>Predikat Rata-Rata Skor Target:</strong> Menghitung nilai rerata kinerja indikator target aktif (Sangat Baik ≥ 3.5, Baik ≥ 3.0, Cukup ≥ 2.0).</li>
+                    <li><strong>Kelengkapan Bukti Dukung (Drive):</strong> Persentase keterisian tautan Drive pada indikator target aktif.</li>
+                    <li><strong>Kesiapan Akreditasi Sispena:</strong> Status kelayakan dokumen digital (🟢 Siap jika ≥ 80%, 🟡 Cukup jika ≥ 50%, 🔴 Belum Siap jika &lt; 50%).</li>
+                </ul>
+            </div>
+
+            <div class="guide-step">
+                <h3>5. 💡 Matriks PBD & Simulator Coaching TIRTA</h3>
+                <p>Integrasi rekomendasi perbaikan mutu dan pendampingan dialogis:</p>
+                <ul>
+                    <li><strong>Matriks PBD:</strong> Gunakan untuk mencatat Identifikasi, Refleksi Akar Masalah, Program Benahi RKT, dan alokasi anggaran ARKAS.</li>
+                    <li><strong>Coaching TIRTA:</strong> Simulator pendampingan pengawas berbasis alur TIRTA (Tujuan, Identifikasi, Rencana Aksi, Tanggung Jawab).</li>
+                    <li>Gunakan tombol <strong>🔗 Tarik Rekomendasi PBD</strong> di menu TIRTA untuk menyalin otomatis hasil analisis PBD ke dalam lembar pendampingan dialogis.</li>
+                </ul>
+            </div>
+
+            <div class="guide-step">
+                <h3>6. 📤 Manajemen Data Cadangan & Keamanan (Ekspor / Impor JSON)</h3>
+                <p>Seluruh data tersimpan secara mandiri dan aman di penyimpanan lokal browser Anda (Offline LocalStorage):</p>
+                <ul>
+                    <li>Lakukan backup data secara rutin dengan mengeklik tombol <strong>📥 Ekspor JSON</strong> di pojok kanan atas header. File JSON backup akan terunduh ke perangkat Anda.</li>
+                    <li>Gunakan tombol <strong>📤 Impor JSON</strong> untuk mengembalikan/memindahkan data monev ke perangkat atau laptop lain.</li>
+                </ul>
+            </div>
+        </div>
     </main>
 
     <div id="toast" class="hidden">💾 Data berhasil disimpan!</div>
@@ -825,12 +901,12 @@
         }
 
         function switchTab(tId) {
-            ['spmi','komparasi','roadmap','instrumen','tirta','pbd','eksekutif'].forEach(t => {
+            ['spmi','komparasi','roadmap','instrumen','tirta','pbd','eksekutif','panduan'].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
                 document.getElementById(`nav-${t}`).classList.remove('active');
             });
 
-            if (tId === 'spmi' || tId === 'komparasi' || tId === 'roadmap') {
+            if (tId === 'spmi' || tId === 'komparasi' || tId === 'roadmap' || tId === 'panduan') {
                 document.getElementById('identity-card-section').classList.add('hidden');
             } else {
                 document.getElementById('identity-card-section').classList.remove('hidden');
@@ -941,7 +1017,6 @@
             saveStorage();
         }
 
-        /* REVISI PERBAIKAN UTAMA: RENDER TABLE & FUNGSI SIMPAN UNIK BERDASARKAN KODE INDIKATOR */
         function renderTable() {
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = '';
