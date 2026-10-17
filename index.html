@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Monev SPMI & PKKS 2026 - 45 Sub-Indikator Lengkap BAN-PDM</title>
+    <title>Aplikasi Monev SPMI & PKKS 2026 - Alur 6M Continuous Improvement</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; }
         body { background-color: #f1f5f9; color: #1e293b; font-size: 13px; line-height: 1.5; }
@@ -13,7 +13,7 @@
         .logo-area { display: flex; align-items: center; gap: 10px; }
         .logo-area h1 { font-size: 16px; font-weight: bold; }
         .logo-area p { font-size: 11px; color: #c7d2fe; }
-        .nav-menu { display: flex; gap: 4px; }
+        .nav-menu { display: flex; gap: 4px; flex-wrap: wrap; }
         .nav-btn { background: transparent; color: #e0e7ff; border: none; padding: 8px 12px; font-weight: 600; font-size: 12px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
         .nav-btn:hover, .nav-btn.active { background-color: #4338ca; color: #ffffff; }
         .json-btns { display: flex; gap: 6px; border-left: 1px solid #3730a3; padding-left: 10px; }
@@ -54,6 +54,7 @@
         .btn-add { background-color: #059669; } .btn-add:hover { background-color: #047857; }
         .btn-preset { background-color: #4f46e5; }
         .btn-import-prev { background-color: #2563eb; }
+        .btn-link { background-color: #0284c7; } .btn-link:hover { background-color: #0369a1; }
 
         .btn-open { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; background-color: #dcfce7; color: #166534; font-weight: bold; border-radius: 4px; text-decoration: none; border: 1px solid #86efac; margin-top: 4px; font-size: 11px; }
 
@@ -64,8 +65,6 @@
         .capacity-btn.active { background-color: #e0e7ff; border-color: #4338ca; color: #1e1b4b; font-weight: bold; }
 
         .print-header { display: none; }
-        
-        /* DEKORASI SUB-JUDUL PER TRIWULAN (T TABS) */
         .q-section-divider { background: #1e1b4b; color: white; padding: 8px 12px; font-weight: bold; font-size: 12px; border-radius: 6px; margin: 20px 0 12px 0; display: flex; align-items: center; gap: 6px; }
 
         .hidden { display: none !important; }
@@ -82,7 +81,6 @@
             .print-header h3 { font-size: 11pt; font-weight: normal; text-align: center; margin-bottom: 10px; border-bottom: 1px solid #000; padding-bottom: 4px; }
             .print-header-grid { display: grid; grid-template-columns: 1fr; gap: 2px; font-size: 10pt; line-height: 1.4; }
 
-            /* MENCEGAH ORPHAN SUB-JUDUL (TATA LETAK SUB-JUDUL TIKIDAK BERDIRI SENDIRI DI BAWAH KERTAS) */
             .q-section-divider { 
                 background: #f1f5f9 !important; 
                 color: #0f172a !important; 
@@ -119,17 +117,19 @@
                 <span style="font-size: 20px;">🏫</span>
                 <div>
                     <h1>Monev SPMI & PKKS 2026</h1>
-                    <p>Permendikdasmen No. 21/2026 • 45 Sub-Indikator Lengkap BAN-PDM</p>
+                    <p>Permendikdasmen No. 21/2026 • Alur 6M Continuous Improvement</p>
                 </div>
             </div>
             <div style="display: flex; align-items: center;">
                 <div class="nav-menu">
-                    <button class="nav-btn active" onclick="switchTab('spmi')" id="nav-spmi">Siklus SPMI</button>
+                    <button class="nav-btn active" onclick="switchTab('spmi')" id="nav-spmi">Siklus SPMI (6M)</button>
                     <button class="nav-btn" onclick="switchTab('komparasi')" id="nav-komparasi">ASN vs Non-ASN</button>
                     <button class="nav-btn" onclick="switchTab('roadmap')" id="nav-roadmap">Roadmap 6M (T1-T4)</button>
                     <button class="nav-btn" onclick="switchTab('instrumen')" id="nav-instrumen">Instrumen 45 Sub-Butir</button>
-                    <button class="nav-btn" onclick="switchTab('tirta')" id="nav-tirta">Coaching TIRTA</button>
+                    <!-- URUTAN NAVIGASI DILURUSKAN: MATRIKS PBD DAHULU SEBELUM COACHING TIRTA -->
                     <button class="nav-btn" onclick="switchTab('pbd')" id="nav-pbd">Matriks PBD</button>
+                    <button class="nav-btn" onclick="switchTab('tirta')" id="nav-tirta">Coaching TIRTA</button>
+                    <button class="nav-btn" onclick="switchTab('eksekutif')" id="nav-eksekutif" style="background-color:#0284c7; color:white;">📊 Ringkasan Eksekutif</button>
                 </div>
                 <div class="json-btns">
                     <button class="btn-json btn-export" onclick="exportJSON()">📥 Ekspor JSON</button>
@@ -141,44 +141,49 @@
     </header>
 
     <main>
-        <!-- NAVIGASI 1: SIKLUS SPMI -->
+        <!-- NAVIGASI 1: SIKLUS SPMI 6M PERMENDIKDASMEN NO. 21 TAHUN 2026 -->
         <div id="tab-spmi" class="card">
-            <span style="display:inline-block; padding:3px 8px; background:#e0e7ff; color:#3730a3; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:8px;">SISTEM PENJAMINAN MUTU INTERNAL</span>
-            <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 6px; color:#0f172a;">Siklus SPMI Terintegrasi Permendikdasmen No. 21 Tahun 2026</h2>
-            <p style="color:#64748b; margin-bottom:18px;">Kerangka kerja continuous improvement untuk menjamin mutu pendidikan secara menyeluruh melalui 5 alur sistemik.</p>
+            <span style="display:inline-block; padding:3px 8px; background:#e0e7ff; color:#3730a3; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:8px;">SISTEM PENJAMINAN MUTU INTERNAL (SPMI)</span>
+            <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 6px; color:#0f172a;">Siklus Alur 6M SPMI Permendikdasmen Nomor 21 Tahun 2026</h2>
+            <p style="color:#64748b; margin-bottom:18px;">Kerangka kerja continuous improvement untuk penjaminan dan peningkatan mutu pendidikan berkelanjutan melalui 6 tahapan sistematis.</p>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom:20px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom:20px;">
                 <div style="background:#e0e7ff; padding:16px; border-radius:10px; border:1px solid #c7d2fe;">
                     <span style="background:#4338ca; color:white; font-weight:bold; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px;">1</span>
-                    <h3 style="font-weight:bold; color:#1e1b4b; font-size:13px; margin-bottom:4px;">PPEPP - Penetapan</h3>
-                    <p style="font-size:11px; color:#334155;">Penetapan standar mutu KOSP, Visi-Misi, RKAS, dan alokasi indikator acuan Rapor Pendidikan.</p>
+                    <h3 style="font-weight:bold; color:#1e1b4b; font-size:13px; margin-bottom:4px;">Memetakan</h3>
+                    <p style="font-size:11px; color:#334155;">Eksplorasi Rapor Pendidikan & pemetaan mutu awal berdasarkan 45 sub-indikator BAN-PDM.</p>
                 </div>
                 <div style="background:#dbeafe; padding:16px; border-radius:10px; border:1px solid #bfdbfe;">
                     <span style="background:#2563eb; color:white; font-weight:bold; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px;">2</span>
-                    <h3 style="font-weight:bold; color:#1e3a8a; font-size:13px; margin-bottom:4px;">Pelaksanaan</h3>
-                    <p style="font-size:11px; color:#334155;">Implementasi kurikulum, pembelajaran bermakna, iklim inklusif, dan penguatan Kombel.</p>
+                    <h3 style="font-weight:bold; color:#1e3a8a; font-size:13px; margin-bottom:4px;">Merencanakan</h3>
+                    <p style="font-size:11px; color:#334155;">Penyusunan KOSP, RKT, Perencanaan Berbasis Data (PBD), dan penganggaran ARKAS.</p>
                 </div>
                 <div style="background:#fef3c7; padding:16px; border-radius:10px; border:1px solid #fde68a;">
                     <span style="background:#d97706; color:white; font-weight:bold; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px;">3</span>
-                    <h3 style="font-weight:bold; color:#78350f; font-size:13px; margin-bottom:4px;">Evaluasi</h3>
-                    <p style="font-size:11px; color:#334155;">Monev internal berkala, supervisi akademik pengawas, dan pemetaan 45 sub-indikator.</p>
+                    <h3 style="font-weight:bold; color:#78350f; font-size:13px; margin-bottom:4px;">Melaksanakan</h3>
+                    <p style="font-size:11px; color:#334155;">Implementasi pembelajaran bermakna, penguatan Kombel, budaya sekolah, dan iklim inklusif.</p>
                 </div>
                 <div style="background:#f3e8ff; padding:16px; border-radius:10px; border:1px solid #e9d5ff;">
                     <span style="background:#7c3aed; color:white; font-weight:bold; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px;">4</span>
-                    <h3 style="font-weight:bold; color:#4c1d95; font-size:13px; margin-bottom:4px;">Pengendalian</h3>
-                    <p style="font-size:11px; color:#334155;">Dialogis pendampingan TIRTA, audit capaian kinerja, dan koreksi deviasi mutu.</p>
+                    <h3 style="font-weight:bold; color:#4c1d95; font-size:13px; margin-bottom:4px;">Mengevaluasi</h3>
+                    <p style="font-size:11px; color:#334155;">Monev internal berkala, supervisi akademik pengawas, dan asesmen ketercapaian target.</p>
+                </div>
+                <div style="background:#fed7aa; padding:16px; border-radius:10px; border:1px solid #fdba74;">
+                    <span style="background:#ea580c; color:white; font-weight:bold; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px;">5</span>
+                    <h3 style="font-weight:bold; color:#7c2d12; font-size:13px; margin-bottom:4px;">Menindaklanjuti</h3>
+                    <p style="font-size:11px; color:#334155;">Pendampingan dialogis Coaching TIRTA, koreksi deviasi, dan intervensi rekomendasi PBD.</p>
                 </div>
                 <div style="background:#d1fae5; padding:16px; border-radius:10px; border:1px solid #a7f3d0;">
-                    <span style="background:#059669; color:white; font-weight:bold; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px;">5</span>
-                    <h3 style="font-weight:bold; color:#064e3b; font-size:13px; margin-bottom:4px;">Peningkatan</h3>
-                    <p style="font-size:11px; color:#334155;">Inovasi mutu lanjutan, penyesuaian standar baru, dan diseminasi praktik baik.</p>
+                    <span style="background:#059669; color:white; font-weight:bold; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px;">6</span>
+                    <h3 style="font-weight:bold; color:#064e3b; font-size:13px; margin-bottom:4px;">Meningkatkan</h3>
+                    <p style="font-size:11px; color:#334155;">Penetapan standar mutu baru yang lebih tinggi, inovasi sekolah, serta diseminasi praktik baik.</p>
                 </div>
             </div>
 
             <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
                 <div>
-                    <h4 style="font-size:12px; font-weight:bold; color:#0f172a;">KETERKAITAN SPMI DENGAN EVALUASI PKKS & BAN-PDM</h4>
-                    <p style="font-size:11px; color:#64748b;">Seluruh hasil evaluasi diri dan monev internal pada siklus SPMI langsung menjadi bukti dukung digital untuk 14 Butir Akreditasi BAN-PDM dan e-Kinerja BKN.</p>
+                    <h4 style="font-size:12px; font-weight:bold; color:#0f172a;">KETERKAITAN ALUR 6M DENGAN EVALUASI PKKS & BAN-PDM</h4>
+                    <p style="font-size:11px; color:#64748b;">Seluruh aktivitas pada tahapan 6M terdokumentasi otomatis untuk memenuhi bukti dukung digital 14 Butir Akreditasi BAN-PDM dan e-Kinerja BKN.</p>
                 </div>
                 <button class="btn-action btn-save" onclick="switchTab('instrumen')">Lihat Instrumen 45 Sub-Butir ↗</button>
             </div>
@@ -243,7 +248,7 @@
                 <div class="roadmap-card" onclick="selectQuarterAndNavigate('T1')">
                     <span class="badge-q" style="background:#4f46e5;">TRIWULAN 1 (Jan - Mar) &nbsp; M1 & M2</span>
                     <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
-                    <p style="font-size:11px; margin-bottom:8px;"><strong>1. Menetapkan:</strong> Visi-misi, Standar KOSP, RKAS.<br><strong>2. Memetakan:</strong> Eksplorasi Rapor Pendidikan & PBD.</p>
+                    <p style="font-size:11px; margin-bottom:8px;"><strong>1. Memetakan:</strong> Eksplorasi Rapor Pendidikan & PBD.<br><strong>2. Merencanakan:</strong> Visi-misi, Standar KOSP, & ARKAS.</p>
                     
                     <h4 style="font-weight:bold; font-size:10px; color:#3730a3; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
                     <div class="info-box-pbd">D.1 (Kualitas Pembelajaran), D.4 (Kepemimpinan Instruksional), & A.1 - A.3 (Literasi, Numerasi, Karakter).</div>
@@ -259,7 +264,7 @@
                 <div class="roadmap-card" onclick="selectQuarterAndNavigate('T2')">
                     <span class="badge-q" style="background:#059669;">TRIWULAN 2 (Apr - Jun) &nbsp; M3 & M4</span>
                     <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
-                    <p style="font-size:11px; margin-bottom:8px;"><strong>3. Merencanakan:</strong> Modul Ajar & KSE.<br><strong>4. Melaksanakan:</strong> Pembelajaran Aktif, Kombel, & Supervisi.</p>
+                    <p style="font-size:11px; margin-bottom:8px;"><strong>3. Melaksanakan:</strong> Pembelajaran Bermakna, Kombel, & Disiplin Positif.<br><strong>4. Mengevaluasi:</strong> Supervisi Akademik & Observasi Kelas.</p>
 
                     <h4 style="font-weight:bold; font-size:10px; color:#065f46; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
                     <div class="info-box-pbd">D.1 (Kualitas Pembelajaran), D.2 (Penerapan Praktik Inovatif), & D.3 (Komunitas Belajar).</div>
@@ -277,7 +282,7 @@
                 <div class="roadmap-card" onclick="selectQuarterAndNavigate('T3')">
                     <span class="badge-q" style="background:#d97706;">TRIWULAN 3 (Jul - Sep) &nbsp; M4 & M5</span>
                     <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
-                    <p style="font-size:11px; margin-bottom:8px;"><strong>4. Melaksanakan:</strong> Penguatan TPPK & PHBS.<br><strong>5. Mengevaluasi:</strong> Monitoring Tengah Tahun & Sarpras.</p>
+                    <p style="font-size:11px; margin-bottom:8px;"><strong>4. Mengevaluasi:</strong> Audit Sarpras, Iklim Belajar, & Safety TPPK.<br><strong>5. Menindaklanjuti:</strong> Coaching TIRTA & Intervensi PBD Tengah Tahun.</p>
 
                     <h4 style="font-weight:bold; font-size:10px; color:#92400e; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
                     <div class="info-box-pbd">D.8 (Iklim Kebinekaan), D.10 (Iklim Inklusivitas), & D.11 (Iklim Keamanan Sekolah).</div>
@@ -296,7 +301,7 @@
                 <div class="roadmap-card" onclick="selectQuarterAndNavigate('T4')">
                     <span class="badge-q" style="background:#7c3aed;">TRIWULAN 4 (Okt - Des) &nbsp; M5 & M6</span>
                     <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
-                    <p style="font-size:11px; margin-bottom:8px;"><strong>5. Mengevaluasi:</strong> PKKS Final & Audit Anggaran.<br><strong>6. Mengendalikan & Meningkatkan:</strong> Coaching TIRTA & Penetapan Standard Baru.</p>
+                    <p style="font-size:11px; margin-bottom:8px;"><strong>5. Menindaklanjuti:</strong> Refleksi Rekapitulasi PKKS & Audit Mutu.<br><strong>6. Meningkatkan:</strong> Penetapan Standard Baru & Inovasi Mutu Lanjutan.</p>
 
                     <h4 style="font-weight:bold; font-size:10px; color:#5b21b6; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
                     <div class="info-box-pbd">Seluruh Dimensi A, B, C, D, E (Rekap Capaian & Refleksi Akhir Tahun).</div>
@@ -346,10 +351,10 @@
                 <div class="field-group">
                     <label>Periode Evaluasi Active</label>
                     <select id="period-select" onchange="changeQuarter(this.value)" style="font-weight:bold; color:#1e1b4b;">
-                        <option value="T1">Triwulan I (Jan-Mar: Pemetaan)</option>
-                        <option value="T2">Triwulan II (Apr-Jun: Pelaksanaan)</option>
-                        <option value="T3">Triwulan III (Jul-Sep: Evaluasi)</option>
-                        <option value="T4">Triwulan IV (Okt-Des: Rekap Final PKKS)</option>
+                        <option value="T1">Triwulan I (Jan-Mar: Memetakan & Merencanakan)</option>
+                        <option value="T2">Triwulan II (Apr-Jun: Melaksanakan & Mengevaluasi)</option>
+                        <option value="T3">Triwulan III (Jul-Sep: Mengevaluasi & Menindaklanjuti)</option>
+                        <option value="T4">Triwulan IV (Okt-Des: Menindaklanjuti & Meningkatkan)</option>
                     </select>
                 </div>
             </div>
@@ -409,7 +414,7 @@
                             <th style="width: 50px; text-align:center;">Kode</th>
                             <th style="width: 200px;">Komponen & Parent Butir</th>
                             <th>Deskripsi Sub-Indikator Kinerja</th>
-                            <th style="width: 280px;">Tautan Drive / Sispena</th>
+                            <th style="width: 280px;">Tautan Drive / Sispena (Panduan Penamaan)</th>
                             <th style="width: 200px;">Catatan Observasi Pengawas</th>
                             <th style="width: 120px; text-align:center;">Skor (1-4)</th>
                         </tr>
@@ -419,49 +424,7 @@
             </div>
         </div>
 
-        <!-- NAVIGASI 5: COACHING TIRTA -->
-        <div id="tab-tirta" class="card hidden">
-            <!-- HEADER RESMI UNTUK PRINTOUT COACHING TIRTA -->
-            <div class="print-header">
-                <h2>LEMBAR PENDAMPINGAN DIALOGIS (ALUR TIRTA)</h2>
-                <h3>EVALUASI MONEV SPMI & PKKS TAHUN 2026</h3>
-                <div class="print-header-grid">
-                    <div>• <strong>Satuan Pendidikan:</strong> <span class="pr-school">-</span></div>
-                    <div>• <strong>Kepala Sekolah:</strong> <span class="pr-ks-name">-</span> (<span class="pr-ks-nip">-</span>)</div>
-                    <div>• <strong>Pengawas Pembina / Penilai:</strong> <span class="pr-pengawas">-</span></div>
-                    <div>• <strong>Fokus Pembinaan:</strong> <span id="pr-tirta-fokus">-</span></div>
-                </div>
-            </div>
-
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
-                <div>
-                    <span style="display:inline-block; padding:3px 8px; background:#e0e7ff; color:#3730a3; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:4px;">PENDAMPINGAN DIALOGIS</span>
-                    <h2 style="font-size: 18px; font-weight: bold; color:#0f172a;">Simulator Coaching TIRTA Pengawas Sekolah (<span class="q-label-text">Triwulan I</span>)</h2>
-                    <p style="color:#64748b; font-size:11px;" class="sub-desc">Simulator ini memfasilitasi dialog konstruktif berbasis alur TIRTA yang terintegrasi langsung dengan fokus Butir BAN-PDM aktif pada triwulan ini.</p>
-                </div>
-                <div style="display:flex; gap:6px;">
-                    <button class="btn-action btn-save" onclick="saveData()">💾 Simpan Permanen</button>
-                    <button class="btn-action btn-print" onclick="window.print()">🖨️ Cetak</button>
-                    <button class="btn-action btn-pdf" onclick="window.print()">📄 PDF</button>
-                    <button class="btn-action btn-word" onclick="showToast('📝 Word Siap')">📝 Word</button>
-                </div>
-            </div>
-
-            <div style="margin-bottom:15px; background:#f8fafc; padding:12px; border-radius:8px; border:1px solid #e2e8f0;">
-                <label style="font-weight:bold; font-size:11px; display:block; margin-bottom:6px;">Pilih Tingkat Kapasitas Satuan Pendidikan Binaan:</label>
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:8px;">
-                    <button class="capacity-btn" onclick="setCapacity(this)">1. Sangat Rendah (Training)</button>
-                    <button class="capacity-btn" onclick="setCapacity(this)">2. Rendah (Mentoring)</button>
-                    <button class="capacity-btn active" onclick="setCapacity(this)">3. Sedang (Coaching)</button>
-                    <button class="capacity-btn" onclick="setCapacity(this)">4. Tinggi (Facilitating)</button>
-                    <button class="capacity-btn" onclick="setCapacity(this)">5. Sangat Tinggi (Consulting)</button>
-                </div>
-            </div>
-
-            <div id="tirta-container"></div>
-        </div>
-
-        <!-- NAVIGASI 6: MATRIKS PBD -->
+        <!-- NAVIGASI 5: MATRIKS PBD (DIPINDAHKAN SEBELUM COACHING TIRTA) -->
         <div id="tab-pbd" class="card hidden">
             <!-- HEADER RESMI UNTUK PRINTOUT MATRIKS PBD -->
             <div class="print-header">
@@ -492,6 +455,78 @@
             </div>
             <div id="pbd-container" style="margin-top:15px;"></div>
         </div>
+
+        <!-- NAVIGASI 6: COACHING TIRTA -->
+        <div id="tab-tirta" class="card hidden">
+            <!-- HEADER RESMI UNTUK PRINTOUT COACHING TIRTA -->
+            <div class="print-header">
+                <h2>LEMBAR PENDAMPINGAN DIALOGIS (ALUR TIRTA)</h2>
+                <h3>EVALUASI MONEV SPMI & PKKS TAHUN 2026</h3>
+                <div class="print-header-grid">
+                    <div>• <strong>Satuan Pendidikan:</strong> <span class="pr-school">-</span></div>
+                    <div>• <strong>Kepala Sekolah:</strong> <span class="pr-ks-name">-</span> (<span class="pr-ks-nip">-</span>)</div>
+                    <div>• <strong>Pengawas Pembina / Penilai:</strong> <span class="pr-pengawas">-</span></div>
+                    <div>• <strong>Fokus Pembinaan:</strong> <span id="pr-tirta-fokus">-</span></div>
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
+                <div>
+                    <span style="display:inline-block; padding:3px 8px; background:#e0e7ff; color:#3730a3; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:4px;">PENDAMPINGAN DIALOGIS (TAHAP MENINDAKLANJUTI)</span>
+                    <h2 style="font-size: 18px; font-weight: bold; color:#0f172a;">Simulator Coaching TIRTA Pengawas Sekolah (<span class="q-label-text">Triwulan I</span>)</h2>
+                    <p style="color:#64748b; font-size:11px;" class="sub-desc">Simulator ini memfasilitasi dialog konstruktif berbasis alur TIRTA yang terintegrasi langsung dengan fokus Butir BAN-PDM aktif pada triwulan ini.</p>
+                </div>
+                <div style="display:flex; gap:6px;">
+                    <button class="btn-action btn-link" onclick="autoLinkPbdToTirta()">🔗 Tarik Rekomendasi PBD</button>
+                    <button class="btn-action btn-save" onclick="saveData()">💾 Simpan Permanen</button>
+                    <button class="btn-action btn-print" onclick="window.print()">🖨️ Cetak</button>
+                    <button class="btn-action btn-pdf" onclick="window.print()">📄 PDF</button>
+                    <button class="btn-action btn-word" onclick="showToast('📝 Word Siap')">📝 Word</button>
+                </div>
+            </div>
+
+            <div style="margin-bottom:15px; background:#f8fafc; padding:12px; border-radius:8px; border:1px solid #e2e8f0;">
+                <label style="font-weight:bold; font-size:11px; display:block; margin-bottom:6px;">Pilih Tingkat Kapasitas Satuan Pendidikan Binaan:</label>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:8px;">
+                    <button class="capacity-btn" onclick="setCapacity(this)">1. Sangat Rendah (Training)</button>
+                    <button class="capacity-btn" onclick="setCapacity(this)">2. Rendah (Mentoring)</button>
+                    <button class="capacity-btn active" onclick="setCapacity(this)">3. Sedang (Coaching)</button>
+                    <button class="capacity-btn" onclick="setCapacity(this)">4. Tinggi (Facilitating)</button>
+                    <button class="capacity-btn" onclick="setCapacity(this)">5. Sangat Tinggi (Consulting)</button>
+                </div>
+            </div>
+
+            <div id="tirta-container"></div>
+        </div>
+
+        <!-- NAVIGASI 7: RINGKASAN EKSEKUTIF (LAPORAN TERPADU 1 LEMBAR) -->
+        <div id="tab-eksekutif" class="card hidden">
+            <!-- HEADER RESMI UNTUK PRINTOUT RINGKASAN EKSEKUTIF -->
+            <div class="print-header">
+                <h2>RINGKASAN EKSEKUTIF HASIL MONEV SPMI & PKKS TAHUN 2026</h2>
+                <h3>Laporan Rekapitulasi Terpadu Mutu Satuan Pendidikan</h3>
+                <div class="print-header-grid">
+                    <div>• <strong>Satuan Pendidikan:</strong> <span class="pr-school">-</span></div>
+                    <div>• <strong>Nama Kepala Sekolah:</strong> <span class="pr-ks-name">-</span> (<span class="pr-ks-nip">-</span>)</div>
+                    <div>• <strong>Pengawas Pembina / Penilai:</strong> <span class="pr-pengawas">-</span></div>
+                    <div>• <strong>Periode Evaluasi Active:</strong> <span class="pr-period">-</span></div>
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
+                <div>
+                    <span style="display:inline-block; padding:3px 8px; background:#0284c7; color:white; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:4px;">LAPORAN TERPADU UNTUK DINAS & KEPALA SEKOLAH</span>
+                    <h2 style="font-size: 18px; font-weight: bold; color:#0f172a;">Ringkasan Eksekutif Monev Mutu & Kinerja (<span class="q-label-text">Triwulan I</span>)</h2>
+                    <p style="color:#64748b; font-size:11px;" class="sub-desc">Rangkuman terpadu yang menggabungkan skor kinerja, catatan pendampingan TIRTA, dan aksi PBD dalam satu format ringkas.</p>
+                </div>
+                <div style="display:flex; gap:6px;">
+                    <button class="btn-action btn-print" onclick="window.print()">🖨️ Cetak Ringkasan</button>
+                    <button class="btn-action btn-pdf" onclick="window.print()">📄 PDF Ringkasan</button>
+                </div>
+            </div>
+
+            <div id="eksekutif-content" style="display:flex; flex-direction:column; gap:16px;"></div>
+        </div>
     </main>
 
     <div id="toast" class="hidden">💾 Data berhasil disimpan!</div>
@@ -499,7 +534,7 @@
     <script>
         let currentQuarter = "T1";
         let selectedSchoolId = 1;
-        const STORAGE_KEY = "MONEV_SPMI_PKKS_2026_OFFLINE_V10";
+        const STORAGE_KEY = "MONEV_SPMI_PKKS_2026_OFFLINE_V12";
 
         const initialSchoolNames = [
             "SMPN 3 Tarogong Kidul", "SMPN 2 Cigedug", "SMPN 1 Tarogong Kidul", "SMPN 1 Cisompet", "SMPN 2 Cisompet",
@@ -518,10 +553,10 @@
         const defaultPengawasName = "I. Faridlah Sulaeman.";
 
         const roadmapInfoMap = {
-            T1: { title: "Triwulan I (Januari - Maret: Pemetaan)", targetButirIds: [6, 7, 9], targetText: "Butir 6 (Visi Misi & PBD), Butir 7 (Anggaran & ARKAS), Butir 9 (Kurikulum & KOSP)", bg: "#e0e7ff", color: "#1e1b4b", alur: "M1 & M2 (Menetapkan & Memetakan)", fokusTirta: "Penetapan KOSP, Visi-Misi & PBD Target (Butir 6, 7, 9)" },
-            T2: { title: "Triwulan II (April - Juni: Pelaksanaan)", targetButirIds: [1, 2, 3, 4, 5], targetText: "Butir 1 (Sosio-Emosional), Butir 2 (Suasana Kelas), Butir 3 (Pembelajaran Bermakna), Butir 4 (Karakter), Butir 5 (Evaluasi SDM)", bg: "#d1fae5", color: "#065f46", alur: "M3 & M4 (Merencanakan & Melaksanakan)", fokusTirta: "Pembelajaran Bermakna & Kombel (Butir 1-5)" },
-            T3: { title: "Triwulan III (Juli - September: Evaluasi)", targetButirIds: [8, 10, 11, 12, 13, 14], targetText: "Butir 8 (Sarpras), Butir 10 (Kebinekaan), Butir 11 (Inklusif), Butir 12 (Safety/TPPK), Butir 13 (Bencana), Butir 14 (PHBS)", bg: "#fef3c7", color: "#92400e", alur: "M4 & M5 (Melaksanakan & Mengevaluasi)", fokusTirta: "Iklim Belajar & Safety (Butir 8, 10-14)" },
-            T4: { title: "Triwulan IV (Oktober - Desember: Rekap Final PKKS)", targetButirIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], targetText: "14 Butir Lengkap (45 Sub-Indikator): Verifikasi Rekapitulasi Digital Sispena & Penetapan Predikat PKKS", bg: "#f3e8ff", color: "#5b21b6", alur: "M5 & M6 (Mengevaluasi, Mengendalikan & Meningkatkan)", fokusTirta: "Evaluasi Final PKKS & Audit Mutu SPMI (T1 - T4)" }
+            T1: { title: "Triwulan I (Januari - Maret: Memetakan & Merencanakan)", targetButirIds: [6, 7, 9], targetText: "Butir 6 (Visi Misi & PBD), Butir 7 (Anggaran & ARKAS), Butir 9 (Kurikulum & KOSP)", bg: "#e0e7ff", color: "#1e1b4b", alur: "M1 & M2 (Memetakan & Merencanakan)", fokusTirta: "Penetapan KOSP, Visi-Misi & PBD Target (Butir 6, 7, 9)" },
+            T2: { title: "Triwulan II (April - Juni: Melaksanakan & Mengevaluasi)", targetButirIds: [1, 2, 3, 4, 5], targetText: "Butir 1 (Sosio-Emosional), Butir 2 (Suasana Kelas), Butir 3 (Pembelajaran Bermakna), Butir 4 (Karakter), Butir 5 (Evaluasi SDM)", bg: "#d1fae5", color: "#065f46", alur: "M3 & M4 (Melaksanakan & Mengevaluasi)", fokusTirta: "Pembelajaran Bermakna & Kombel (Butir 1-5)" },
+            T3: { title: "Triwulan III (Juli - September: Mengevaluasi & Menindaklanjuti)", targetButirIds: [8, 10, 11, 12, 13, 14], targetText: "Butir 8 (Sarpras), Butir 10 (Kebinekaan), Butir 11 (Inklusif), Butir 12 (Safety/TPPK), Butir 13 (Bencana), Butir 14 (PHBS)", bg: "#fef3c7", color: "#92400e", alur: "M4 & M5 (Mengevaluasi & Menindaklanjuti)", fokusTirta: "Iklim Belajar & Safety (Butir 8, 10-14)" },
+            T4: { title: "Triwulan IV (Oktober - Desember: Menindaklanjuti & Meningkatkan)", targetButirIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], targetText: "14 Butir Lengkap (45 Sub-Indikator): Verifikasi Rekapitulasi Digital Sispena & Penetapan Predikat PKKS", bg: "#f3e8ff", color: "#5b21b6", alur: "M5 & M6 (Menindaklanjuti & Meningkatkan)", fokusTirta: "Evaluasi Final PKKS & Audit Mutu SPMI (T1 - T4)" }
         };
 
         function determineStatus(schoolName) {
@@ -608,19 +643,19 @@
 
         const defaultPbdByQuarter = {
             T1: [
-                { aspek: "Sub-Indikator 9.1 (Dokumen KOSP) [T1]", dim6m: "Menetapkan", identifikasi: "Kurikulum sekolah perlu disesuaikan dengan karakteristik dan analisis Rapor PBD terbaru.", refleksi: "Tim Kurikulum belum merinci pengorganisasian pembelajaran berbasis diferensiasi.", benahi: "Pelaksanaan Raker Penyusunan KOSP dan Analisis Contextual Rapor Pendidikan.", anggaran: "BOS Reguler (Pengembangan Kurikulum)." },
+                { aspek: "Sub-Indikator 9.1 (Dokumen KOSP) [T1]", dim6m: "Merencanakan", identifikasi: "Kurikulum sekolah perlu disesuaikan dengan karakteristik dan analisis Rapor PBD terbaru.", refleksi: "Tim Kurikulum belum merinci pengorganisasian pembelajaran berbasis diferensiasi.", benahi: "Pelaksanaan Raker Penyusunan KOSP dan Analisis Contextual Rapor Pendidikan.", anggaran: "BOS Reguler (Pengembangan Kurikulum)." },
                 { aspek: "Sub-Indikator 7.2 (RKAS/ARKAS Mutu) [T1]", dim6m: "Memetakan", identifikasi: "Penganggaran ARKAS belum sepenuhnya merujuk pada indikator prioritas Benah Mutu.", refleksi: "Perencanaan anggaran tahun sebelumnya masih mengulang pola lama.", benahi: "Penyusunan RKAS berbasis hasil eksplorasi Perencanaan Berbasis Data (PBD).", anggaran: "BOS Reguler (Operational Sekolah)." }
             ],
             T2: [
-                { aspek: "Sub-Indikator 3.5 (Praktik Pembelajaran Contextual) [T2]", dim6m: "Merencanakan", identifikasi: "Guru belum optimal memfasilitasi murid mengutarakan gagasan & pemecahan masalah.", refleksi: "Metode pembelajaran masih didominasi ceramah satu arah.", benahi: "Pelatihan internal Kombel pembuatan Modul Ajar Berbasis Problem Based Learning (PBL).", anggaran: "BOS Reguler (Pengembangan Profesi Pendidik)." },
-                { aspek: "Sub-Indikator 5.1 (Supervisi Akademik & Refleksi) [T2]", dim6m: "Melaksanakan", identifikasi: "Refleksi kinerja guru pasca-observasi kelas belum berjalan konsisten.", refleksi: "Jadwal supervisi belum terintegrasi dengan alur diskusi Kombel.", benahi: "Pelaksanaan supervisi akademik klinis berkala & pembinaan mingguan Kombel.", anggaran: "BOS Reguler (Kegiatan Pembelajaran)." }
+                { aspek: "Sub-Indikator 3.5 (Praktik Pembelajaran Contextual) [T2]", dim6m: "Melaksanakan", identifikasi: "Guru belum optimal memfasilitasi murid mengutarakan gagasan & pemecahan masalah.", refleksi: "Metode pembelajaran masih didominasi ceramah satu arah.", benahi: "Pelatihan internal Kombel pembuatan Modul Ajar Berbasis Problem Based Learning (PBL).", anggaran: "BOS Reguler (Pengembangan Profesi Pendidik)." },
+                { aspek: "Sub-Indikator 5.1 (Supervisi Akademik & Refleksi) [T2]", dim6m: "Mengevaluasi", identifikasi: "Refleksi kinerja guru pasca-observasi kelas belum berjalan konsisten.", refleksi: "Jadwal supervisi belum terintegrasi dengan alur diskusi Kombel.", benahi: "Pelaksanaan supervisi akademik klinis berkala & pembinaan mingguan Kombel.", anggaran: "BOS Reguler (Kegiatan Pembelajaran)." }
             ],
             T3: [
-                { aspek: "Sub-Indikator 12.2 (Mekanisme TPPK) [T3]", dim6m: "Melaksanakan", identifikasi: "Diperlukan pembentukan POS aduan anti-kekerasan dan perundungan yang aman.", refleksi: "Kotak aduan dan portal digital pencegahan belum terintegrasi.", benahi: "Penerbitan SK TPPK baru, penyediaan QR aduan digital, dan sosialisasi orang tua.", anggaran: "BOS Reguler (Kegiatan Kesiswaan & Karakter)." },
+                { aspek: "Sub-Indikator 12.2 (Mekanisme TPPK) [T3]", dim6m: "Menindaklanjuti", identifikasi: "Diperlukan pembentukan POS aduan anti-kekerasan dan perundungan yang aman.", refleksi: "Kotak aduan dan portal digital pencegahan belum terintegrasi.", benahi: "Penerbitan SK TPPK baru, penyediaan QR aduan digital, dan sosialisasi orang tua.", anggaran: "BOS Reguler (Kegiatan Kesiswaan & Karakter)." },
                 { aspek: "Sub-Indikator 14.1 (Program PHBS & Sehat Mental) [T3]", dim6m: "Mengevaluasi", identifikasi: "Fasilitas sanitasi dan program kesehatan mental murid perlu diperkuat.", refleksi: "Pemeriksaan kesehatan berkala dan kampanye sekolah sehat belum rutin.", benahi: "Penyediaan fasilitas PHBS tambahan dan workshop kesehatan mental bersama Puskesmas.", anggaran: "BOS Reguler (Pemeliharaan & Kesehatan)." }
             ],
             T4: [
-                { aspek: "Sub-Indikator 6.3 (Evaluasi Program Menyeluruh) [T4]", dim6m: "Mengevaluasi", identifikasi: "Diperlukan audit rekapitulasi ketercapaian RKT dan daya serap anggaran ARKAS.", refleksi: "Laporan pertanggungjawaban kegiatan belum terekap secara digital menyeluruh.", benahi: "Pelaksanaan Rapat Evaluasi Kinerja Akhir Tahun dan Penyusunan Laporan Mutu SPMI.", anggaran: "BOS Reguler (Evaluasi & Pelaporan)." }
+                { aspek: "Sub-Indikator 6.3 (Evaluasi Program Menyeluruh) [T4]", dim6m: "Meningkatkan", identifikasi: "Diperlukan audit rekapitulasi ketercapaian RKT dan daya serap anggaran ARKAS.", refleksi: "Laporan pertanggungjawaban kegiatan belum terekap secara digital menyeluruh.", benahi: "Pelaksanaan Rapat Evaluasi Kinerja Akhir Tahun dan Penyusunan Laporan Mutu SPMI.", anggaran: "BOS Reguler (Evaluasi & Pelaporan)." }
             ]
         };
 
@@ -703,7 +738,7 @@
         }
 
         function switchTab(tId) {
-            ['spmi','komparasi','roadmap','instrumen','tirta','pbd'].forEach(t => {
+            ['spmi','komparasi','roadmap','instrumen','tirta','pbd','eksekutif'].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
                 document.getElementById(`nav-${t}`).classList.remove('active');
             });
@@ -722,8 +757,9 @@
             updatePrintHeaders();
 
             if (tId === 'instrumen') renderTable();
-            if (tId === 'tirta') renderTirta();
             if (tId === 'pbd') renderPbd();
+            if (tId === 'tirta') renderTirta();
+            if (tId === 'eksekutif') renderExecutiveSummary();
         }
 
         function selectQuarterAndNavigate(qKey) {
@@ -740,8 +776,9 @@
             if (newQ === 'T4') syncT4();
             updatePrintHeaders();
             renderTable();
-            renderTirta();
             renderPbd();
+            renderTirta();
+            renderExecutiveSummary();
             saveStorage();
         }
 
@@ -779,8 +816,9 @@
             if (currentQuarter === 'T4') syncT4();
             updatePrintHeaders();
             renderTable();
-            renderTirta();
             renderPbd();
+            renderTirta();
+            renderExecutiveSummary();
             saveStorage();
         }
 
@@ -835,7 +873,7 @@
                     <td><strong style="color:#4f46e5;">${item.parentTitle}</strong><br><span style="font-size:10px; color:#64748b;">${item.comp}</span></td>
                     <td>${item.title}</td>
                     <td>
-                        <input type="text" id="drive-${idx}" value="${item.driveLink || ''}" ${isSaved ? 'disabled' : ''} style="width:100%; padding:6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;" placeholder="Tautan https://drive..." oninput="db[selectedSchoolId].quarters[currentQuarter].items[${idx}].driveLink=this.value; db[selectedSchoolId].quarters[currentQuarter].items[${idx}].isSaved=false;">
+                        <input type="text" id="drive-${idx}" value="${item.driveLink || ''}" ${isSaved ? 'disabled' : ''} style="width:100%; padding:6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;" placeholder="Format: [Kode]_[NamaDokumen] (contoh: ${item.code}_SOP.pdf)" oninput="db[selectedSchoolId].quarters[currentQuarter].items[${idx}].driveLink=this.value; db[selectedSchoolId].quarters[currentQuarter].items[${idx}].isSaved=false;">
                         <div style="margin-top:4px; display:flex; gap:4px;">
                             <button class="btn-action btn-save" onclick="saveDrive(${idx})">💾 Simpan</button>
                             <button class="btn-action btn-edit" onclick="editDrive(${idx})">✏️ Edit</button>
@@ -879,7 +917,23 @@
             showToast('Tingkat Kapasitas Diset: ' + btn.innerText);
         }
 
-        /* RENDERING COACHING TIRTA DENGAN SUB-JUDUL DAN ATURAN MEMBENTANG CETAK UNTUK T4 */
+        function autoLinkPbdToTirta() {
+            const pbdList = db[selectedSchoolId].quarters[currentQuarter].pbd;
+            if (!pbdList || pbdList.length === 0) {
+                return alert('Belum ada data Rekomendasi PBD pada triwulan ini.');
+            }
+
+            let summaryPbd = pbdList.map((x, i) => `${i+1}. [${x.aspek}]: ${x.benahi || 'Perlu pembenahan'}`).join("\n");
+            
+            const tirtaList = db[selectedSchoolId].quarters[currentQuarter].tirta;
+            if (tirtaList && tirtaList.length >= 3) {
+                tirtaList[2].ks = (tirtaList[2].ks ? tirtaList[2].ks + "\n\n" : "") + "[Rekomendasi Aksi PBD Terhubung]:\n" + summaryPbd;
+                renderTirta();
+                saveStorage();
+                showToast('🔗 Berhasil menghubungkan Aksi PBD ke Rencana Aksi Coaching TIRTA!');
+            }
+        }
+
         function renderTirta() {
             const container = document.getElementById('tirta-container');
             container.innerHTML = '';
@@ -889,10 +943,10 @@
             if (currentQuarter === 'T4') {
                 const quarterKeys = ['T1', 'T2', 'T3', 'T4'];
                 const quarterTitles = {
-                    T1: "TRIWULAN 1 (M1 & M2: Pemetaan & Penetapan)",
-                    T2: "TRIWULAN 2 (M3 & M4: Pelaksanaan Pembelajaran)",
-                    T3: "TRIWULAN 3 (M4 & M5: Iklim Belajar & Safety)",
-                    T4: "TRIWULAN 4 (M5 & M6: Evaluasi Final PKKS & Pengendalian)"
+                    T1: "TRIWULAN 1 (M1 & M2: Memetakan & Merencanakan)",
+                    T2: "TRIWULAN 2 (M3 & M4: Melaksanakan & Mengevaluasi)",
+                    T3: "TRIWULAN 3 (M4 & M5: Mengevaluasi & Menindaklanjuti)",
+                    T4: "TRIWULAN 4 (M5 & M6: Menindaklanjuti & Meningkatkan)"
                 };
 
                 quarterKeys.forEach(qKey => {
@@ -952,7 +1006,6 @@
             }
         }
 
-        /* RENDERING MATRIKS PBD DENGAN SUB-JUDUL DAN ATURAN MEMBENTANG CETAK UNTUK T4 */
         function renderPbd() {
             const container = document.getElementById('pbd-container');
             container.innerHTML = '';
@@ -962,10 +1015,10 @@
             if (currentQuarter === 'T4') {
                 const quarterKeys = ['T1', 'T2', 'T3', 'T4'];
                 const quarterTitles = {
-                    T1: "TRIWULAN 1 (Pemetaan & Penetapan KOSP/ARKAS)",
-                    T2: "TRIWULAN 2 (Pelaksanaan Pembelajaran & Kombel)",
-                    T3: "TRIWULAN 3 (Iklim Inklusif & TPPK)",
-                    T4: "TRIWULAN 4 (Evaluasi Akhir Tahun & Audit Mutu)"
+                    T1: "TRIWULAN 1 (M1 & M2: Memetakan & Merencanakan KOSP/ARKAS)",
+                    T2: "TRIWULAN 2 (M3 & M4: Melaksanakan Pembelajaran & Kombel)",
+                    T3: "TRIWULAN 3 (M4 & M5: Mengevaluasi Iklim Inklusif & Menindaklanjuti TPPK)",
+                    T4: "TRIWULAN 4 (M5 & M6: Menindaklanjuti Evaluasi Akhir & Meningkatkan Mutu)"
                 };
 
                 quarterKeys.forEach(qKey => {
@@ -992,12 +1045,12 @@
                                     <div>
                                         <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Tahapan Alur 6M:</label>
                                         <select onchange="db[selectedSchoolId].quarters['${qKey}'].pbd[${idx}].dim6m=this.value" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; color:#0f172a; background:white;">
-                                            <option value="Menetapkan" ${item.dim6m === "Menetapkan" ? 'selected' : ''}>1. Menetapkan</option>
-                                            <option value="Memetakan" ${item.dim6m === "Memetakan" ? 'selected' : ''}>2. Memetakan</option>
-                                            <option value="Merencanakan" ${item.dim6m === "Merencanakan" ? 'selected' : ''}>3. Merencanakan</option>
-                                            <option value="Melaksanakan" ${item.dim6m === "Melaksanakan" ? 'selected' : ''}>4. Melaksanakan</option>
-                                            <option value="Mengevaluasi" ${item.dim6m === "Mengevaluasi" ? 'selected' : ''}>5. Mengevaluasi</option>
-                                            <option value="Mengendalikan" ${item.dim6m === "Mengendalikan" ? 'selected' : ''}>6. Mengendalikan & Meningkatkan</option>
+                                            <option value="Memetakan" ${item.dim6m === "Memetakan" ? 'selected' : ''}>1. Memetakan</option>
+                                            <option value="Merencanakan" ${item.dim6m === "Merencanakan" ? 'selected' : ''}>2. Merencanakan</option>
+                                            <option value="Melaksanakan" ${item.dim6m === "Melaksanakan" ? 'selected' : ''}>3. Melaksanakan</option>
+                                            <option value="Mengevaluasi" ${item.dim6m === "Mengevaluasi" ? 'selected' : ''}>4. Mengevaluasi</option>
+                                            <option value="Menindaklanjuti" ${item.dim6m === "Menindaklanjuti" ? 'selected' : ''}>5. Menindaklanjuti</option>
+                                            <option value="Meningkatkan" ${item.dim6m === "Meningkatkan" ? 'selected' : ''}>6. Meningkatkan</option>
                                         </select>
                                     </div>
                                 </div>
@@ -1044,12 +1097,12 @@
                             <div>
                                 <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Tahapan Alur 6M:</label>
                                 <select onchange="db[selectedSchoolId].quarters[currentQuarter].pbd[${idx}].dim6m=this.value" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; color:#0f172a; background:white;">
-                                    <option value="Menetapkan" ${item.dim6m === "Menetapkan" ? 'selected' : ''}>1. Menetapkan</option>
-                                    <option value="Memetakan" ${item.dim6m === "Memetakan" ? 'selected' : ''}>2. Memetakan</option>
-                                    <option value="Merencanakan" ${item.dim6m === "Merencanakan" ? 'selected' : ''}>3. Merencanakan</option>
-                                    <option value="Melaksanakan" ${item.dim6m === "Melaksanakan" ? 'selected' : ''}>4. Melaksanakan</option>
-                                    <option value="Mengevaluasi" ${item.dim6m === "Mengevaluasi" ? 'selected' : ''}>5. Mengevaluasi</option>
-                                    <option value="Mengendalikan" ${item.dim6m === "Mengendalikan" ? 'selected' : ''}>6. Mengendalikan & Meningkatkan</option>
+                                    <option value="Memetakan" ${item.dim6m === "Memetakan" ? 'selected' : ''}>1. Memetakan</option>
+                                    <option value="Merencanakan" ${item.dim6m === "Merencanakan" ? 'selected' : ''}>2. Merencanakan</option>
+                                    <option value="Melaksanakan" ${item.dim6m === "Melaksanakan" ? 'selected' : ''}>3. Melaksanakan</option>
+                                    <option value="Mengevaluasi" ${item.dim6m === "Mengevaluasi" ? 'selected' : ''}>4. Mengevaluasi</option>
+                                    <option value="Menindaklanjuti" ${item.dim6m === "Menindaklanjuti" ? 'selected' : ''}>5. Menindaklanjuti</option>
+                                    <option value="Meningkatkan" ${item.dim6m === "Meningkatkan" ? 'selected' : ''}>6. Meningkatkan</option>
                                 </select>
                             </div>
                         </div>
@@ -1077,6 +1130,57 @@
                     container.appendChild(div);
                 });
             }
+        }
+
+        function renderExecutiveSummary() {
+            const container = document.getElementById('eksekutif-content');
+            container.innerHTML = '';
+
+            const p = db[selectedSchoolId].profile;
+            const q = db[selectedSchoolId].quarters[currentQuarter];
+
+            let totalSkor = 0;
+            let countSkor = 0;
+            q.items.forEach(x => {
+                if (x.score) { totalSkor += parseInt(x.score); countSkor++; }
+            });
+            let rataRata = countSkor > 0 ? (totalSkor / countSkor).toFixed(2) : "Belum Dinilai";
+
+            let tirtaSummary = q.tirta.map(x => `• <strong>${x.step}:</strong> ${x.ks || '-'}`).join("<br>");
+            let pbdSummary = q.pbd.map(x => `• <strong>${x.aspek}</strong> (${x.dim6m}): ${x.benahi || '-'} [<i>${x.anggaran}</i>]`).join("<br>");
+
+            container.innerHTML = `
+                <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:14px;">
+                    <h3 style="font-size:14px; font-weight:bold; color:#1e1b4b; border-bottom:1px solid #cbd5e1; padding-bottom:6px; margin-bottom:8px;">1. CAPAIAN KINERJA & EVALUASI MUTU</h3>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                        <div><strong>Predikat Rata-Rata Skor Target:</strong> <span style="font-size:14px; color:#059669; font-weight:bold;">${rataRata} / 4.00</span></div>
+                        <div><strong>Jumlah Sub-Indikator Terisi:</strong> ${countSkor} dari ${q.items.length} Indikator</div>
+                    </div>
+                </div>
+
+                <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:14px;">
+                    <h3 style="font-size:14px; font-weight:bold; color:#1e1b4b; border-bottom:1px solid #cbd5e1; padding-bottom:6px; margin-bottom:8px;">2. MATRIKS AKSI REKOMENDASI PBD & ARKAS</h3>
+                    <div style="font-size:12px; line-height:1.6;">${pbdSummary || 'Belum ada rencana aksi PBD.'}</div>
+                </div>
+
+                <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:14px;">
+                    <h3 style="font-size:14px; font-weight:bold; color:#1e1b4b; border-bottom:1px solid #cbd5e1; padding-bottom:6px; margin-bottom:8px;">3. RINGKASAN DIALOG PENDAMPINGAN (COACHING TIRTA)</h3>
+                    <div style="font-size:12px; line-height:1.6;">${tirtaSummary || 'Belum ada catatan coaching.'}</div>
+                </div>
+
+                <div style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr; text-align:center; font-size:11px;">
+                    <div>
+                        <p>Mengetahui,<br><strong>Kepala Sekolah Binaan</strong></p>
+                        <br><br><br>
+                        <p><u><strong>${p.ksName || '......................................'}</strong></u><br>NIP. ${p.ksNip || '-'}</p>
+                    </div>
+                    <div>
+                        <p>Garut, ${new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})}<br><strong>Pengawas Pembina / Penilai</strong></p>
+                        <br><br><br>
+                        <p><u><strong>${p.pengawasName || '......................................'}</strong></u></p>
+                    </div>
+                </div>
+            `;
         }
 
         function addPbdRow() {
