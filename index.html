@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Monev PKKS SMP 2026 - Alur 6M Continuous Improvement</title>
+    <title id="doc-title">Aplikasi Monev SPMI & PKKS 2026 - Alur 6M Continuous Improvement</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; }
         body { background-color: #f1f5f9; color: #1e293b; font-size: 13px; line-height: 1.5; }
@@ -52,8 +52,6 @@
         .btn-print { background-color: #334155; } .btn-print:hover { background-color: #1e293b; }
         .btn-pdf { background-color: #dc2626; } .btn-pdf:hover { background-color: #b91c1c; }
         .btn-add { background-color: #059669; } .btn-add:hover { background-color: #047857; }
-        .btn-preset { background-color: #4f46e5; }
-        .btn-import-prev { background-color: #2563eb; }
         .btn-link { background-color: #0284c7; } .btn-link:hover { background-color: #0369a1; }
 
         .btn-open { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; background-color: #dcfce7; color: #166534; font-weight: bold; border-radius: 4px; text-decoration: none; border: 1px solid #86efac; margin-top: 4px; font-size: 11px; }
@@ -61,10 +59,6 @@
         .card-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; margin-bottom: 12px; position: relative; }
         textarea { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12px; resize: vertical; }
 
-        .capacity-btn { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; background: white; cursor: pointer; font-size: 11px; font-weight: 600; text-align: center; }
-        .capacity-btn.active { background-color: #e0e7ff; border-color: #4338ca; color: #1e1b4b; font-weight: bold; }
-
-        /* ANALYTICS DASHBOARD STYLES */
         .analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 15px; }
         .stat-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center; }
         .stat-val { font-size: 20px; font-weight: 800; color: #4f46e5; margin-top: 4px; }
@@ -74,51 +68,27 @@
         .print-header { display: none; }
         .q-section-divider { background: #1e1b4b; color: white; padding: 8px 12px; font-weight: bold; font-size: 12px; border-radius: 6px; margin: 20px 0 12px 0; display: flex; align-items: center; gap: 6px; }
 
-        .hidden { display: none !important; }
-        #toast { position: fixed; bottom: 20px; right: 20px; background: #1e1b4b; color: white; padding: 12px 20px; border-radius: 8px; font-weight: bold; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); z-index: 1000; }
-
-        /* STYLE KHUSUS HALAMAN PANDUAN */
-        .guide-step { background: #f8fafc; border-left: 4px solid #4338ca; padding: 14px; border-radius: 0 8px 8px 0; margin-bottom: 12px; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
-        .guide-step h3 { color: #1e1b4b; font-size: 13px; font-weight: bold; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+        .guide-step { background: #f8fafc; border-left: 4px solid #4338ca; padding: 14px; border-radius: 0 8px 8px 0; margin-bottom: 12px; border: 1px solid #e2e8f0; }
+        .guide-step h3 { color: #1e1b4b; font-size: 13px; font-weight: bold; margin-bottom: 4px; }
         .guide-step p, .guide-step ul { font-size: 11px; color: #334155; margin-top: 4px; }
         .guide-step ul { padding-left: 18px; line-height: 1.6; }
 
-        /* MANAJEMEN TATA LETAK KHUSUS CETAK/PRINT PREVIEW */
+        .hidden { display: none !important; }
+        #toast { position: fixed; bottom: 20px; right: 20px; background: #1e1b4b; color: white; padding: 12px 20px; border-radius: 8px; font-weight: bold; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); z-index: 1000; }
+
         @media print {
-            header, .json-btns, .btn-action, button, #toast, .school-header, #identity-card-section, #quarter-info-banner, #toggle-target-only, #filter-comp, #search-box, .capacity-btn, span.badge-q, p.sub-desc, .analytics-grid { display: none !important; }
-            body, main, .card { background: white !important; color: black !important; padding: 0 !important; margin: 0 !important; border: none !important; box-shadow: none !important; width: 100% !important; max-width: 100% !important; }
-            @page { size: A4 portrait; margin: 12mm 10mm 12mm 10mm; }
-            
-            .print-header { display: block !important; margin-bottom: 15px; border-bottom: 2px solid #000; padding-bottom: 10px; }
-            .print-header h2 { font-size: 14pt; font-weight: bold; text-align: center; text-transform: uppercase; margin-bottom: 2px; }
-            .print-header h3 { font-size: 11pt; font-weight: normal; text-align: center; margin-bottom: 10px; border-bottom: 1px solid #000; padding-bottom: 4px; }
-            .print-header-grid { display: grid; grid-template-columns: 1fr; gap: 2px; font-size: 10pt; line-height: 1.4; }
-
-            .q-section-divider { 
-                background: #f1f5f9 !important; 
-                color: #0f172a !important; 
-                border: 1px solid #000 !important; 
-                border-left: 6px solid #1e1b4b !important;
-                font-size: 11pt !important; 
-                padding: 6px 10px !important; 
-                margin: 18px 0 10px 0 !important;
-                page-break-after: avoid !important; 
-                break-after: avoid !important;
-            }
-
-            .card-item { 
-                page-break-inside: avoid !important; 
-                break-inside: avoid !important;
-                border: 1px solid #000 !important; 
-                margin-bottom: 10px !important; 
-                background: white !important; 
-            }
-
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            header, .json-btns, .btn-action, button, #toast, .school-header, #identity-card-section, #quarter-info-banner, #toggle-target-only, #filter-comp, #search-box, .analytics-grid, .draft-option-container { display: none !important; }
+            body, main, .card { background: white !important; padding: 0 !important; margin: 0 !important; border: none !important; box-shadow: none !important; width: 100% !important; }
+            @page { margin: 10mm; }
+            .print-header { display: block !important; margin-bottom: 15px; border-bottom: 2px solid #1e1b4b; padding-bottom: 10px; }
+            .print-header h2 { font-size: 14pt; font-weight: bold; text-align: center; color: #1e1b4b !important; }
+            .print-header h3 { font-size: 11pt; font-weight: normal; text-align: center; margin-bottom: 10px; border-bottom: 1px solid #334155; }
+            .print-header-grid { display: grid; grid-template-columns: 1fr; gap: 2px; font-size: 10pt; }
             table { width: 100% !important; border-collapse: collapse !important; font-size: 9pt !important; }
-            th, td { border: 1px solid #000 !important; padding: 6px !important; }
-            th { background-color: #f1f5f9 !important; color: black !important; }
+            th { background-color: #1e1b4b !important; color: white !important; padding: 6px !important; }
+            td { border: 1px solid #e2e8f0 !important; padding: 6px !important; }
             textarea, input[type="text"] { border: none !important; background: transparent !important; resize: none !important; font-size: 9pt !important; padding: 0 !important; width: 100% !important; }
-            .btn-open { display: inline-block !important; border: none !important; text-decoration: underline !important; color: black !important; padding: 0 !important; font-size: 8pt !important; }
         }
     </style>
 </head>
@@ -129,7 +99,7 @@
             <div class="logo-area">
                 <span style="font-size: 20px;">🏫</span>
                 <div>
-                    <h1>Monev PKKS SMP 2026</h1>
+                    <h1>Monev SPMI & PKKS 2026</h1>
                     <p>Permendikdasmen No. 21/2026 • Alur 6M Continuous Improvement</p>
                 </div>
             </div>
@@ -154,7 +124,7 @@
     </header>
 
     <main>
-        <!-- NAVIGASI 1: SIKLUS SPMI (6M) -->
+        <!-- TAB 1: SIKLUS SPMI (6M) -->
         <div id="tab-spmi" class="card">
             <span style="display:inline-block; padding:3px 8px; background:#e0e7ff; color:#3730a3; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:8px;">SISTEM PENJAMINAN MUTU INTERNAL (SPMI)</span>
             <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 6px; color:#0f172a;">Siklus Alur 6M SPMI Permendikdasmen Nomor 21 Tahun 2026</h2>
@@ -202,7 +172,7 @@
             </div>
         </div>
 
-        <!-- NAVIGASI 2: ASN VS NON-ASN -->
+        <!-- TAB 2: ASN VS NON-ASN -->
         <div id="tab-komparasi" class="card hidden">
             <span style="display:inline-block; padding:3px 8px; background:#e0e7ff; color:#3730a3; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:8px;">ANALISIS KEBIJAKAN EVALUASI</span>
             <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 6px; color:#0f172a;">Komparasi Strategis Penilaian Kinerja: Kepala Sekolah ASN vs. Non-ASN</h2>
@@ -212,36 +182,24 @@
                 <div style="background:#f8fafc; border:1px solid #c7d2fe; border-radius:12px; padding:18px;">
                     <h3 style="font-size:14px; font-weight:bold; color:#1e1b4b; margin-bottom:12px; display:flex; align-items:center; gap:6px;">🏛️ Kepala Sekolah ASN (Negeri / P3K)</h3>
                     <div style="display:flex; flex-direction:column; gap:8px;">
-                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #e2e8f0;">
-                            <strong>Pintu Masuk Utama:</strong> e-Kinerja BKN / Ruang GTK [PermenPANRB No. 7/2026].
-                        </div>
-                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #e2e8f0;">
-                            <strong>Fokus Penilaian:</strong> Keselarasan RHK, SKP Tahunan, Bukti Dukung Digital, & Rating BerAKHLAK.
-                        </div>
-                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #e2e8f0;">
-                            <strong>Output Akhir:</strong> Predikat Kinerja Pegawai untuk TPP & Karir BKN.
-                        </div>
+                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #e2e8f0;"><strong>Pintu Masuk Utama:</strong> e-Kinerja BKN / Ruang GTK [PermenPANRB No. 7/2026].</div>
+                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #e2e8f0;"><strong>Fokus Penilaian:</strong> Keselarasan RHK, SKP Tahunan, Bukti Dukung Digital, & Rating BerAKHLAK.</div>
+                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #e2e8f0;"><strong>Output Akhir:</strong> Predikat Kinerja Pegawai untuk TPP & Karir BKN.</div>
                     </div>
                 </div>
 
                 <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:18px;">
                     <h3 style="font-size:14px; font-weight:bold; color:#78350f; margin-bottom:12px; display:flex; align-items:center; gap:6px;">🏫 Kepala Sekolah Non-ASN (Swasta / Yayasan)</h3>
                     <div style="display:flex; flex-direction:column; gap:8px;">
-                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #fef3c7;">
-                            <strong>Pintu Masuk Utama:</strong> Instrumen PKKS Terintegrasi Statuta Yayasan & BAN-PDM Sispena.
-                        </div>
-                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #fef3c7;">
-                            <strong>Fokus Penilaian:</strong> Pemenuhan 45 Sub-Indikator, Kekhasan Yayasan, & Kemandirian Mutu.
-                        </div>
-                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #fef3c7;">
-                            <strong>Output Akhir:</strong> Laporan Mutu Standar Sekolah & Evaluasi Kontrak Yayasan.
-                        </div>
+                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #fef3c7;"><strong>Pintu Masuk Utama:</strong> Instrumen PKKS Terintegrasi Statuta Yayasan & BAN-PDM Sispena.</div>
+                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #fef3c7;"><strong>Fokus Penilaian:</strong> Pemenuhan 45 Sub-Indikator, Kekhasan Yayasan, & Kemandirian Mutu.</div>
+                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #fef3c7;"><strong>Output Akhir:</strong> Laporan Mutu Standar Sekolah & Evaluasi Kontrak Yayasan.</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- NAVIGASI 3: ROADMAP 6M LENGKAP -->
+        <!-- TAB 3: ROADMAP 6M -->
         <div id="tab-roadmap" class="card hidden">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:10px;">
                 <div>
@@ -251,10 +209,15 @@
                 </div>
                 <div style="display:flex; gap:6px;">
                     <button class="btn-action btn-save" onclick="saveData()">💾 Simpan Permanen</button>
-                    <button class="btn-action btn-print" onclick="window.print()">🖨️ Cetak</button>
-                    <button class="btn-action btn-pdf" onclick="window.print()">📄 PDF</button>
-                    <button class="btn-action btn-word" onclick="showToast('📝 Fitur Ekspor Word Siap')">📝 Word</button>
+                    <button class="btn-action btn-print" onclick="triggerSmartPrint('Roadmap 6M')">🖨️ Cetak BERWARNA</button>
+                    <button class="btn-action btn-pdf" onclick="triggerSmartPrint('Roadmap 6M')">📄 PDF</button>
+                    <button class="btn-action btn-word" onclick="exportToWord('Roadmap 6M')">📝 Word</button>
                 </div>
+            </div>
+
+            <div class="print-header">
+                <h2>ROADMAP TAHAPAN 6M & DISTRIBUSI 14 BUTIR AKREDITASI</h2>
+                <h3>EVALUASI MONEV SPMI & PKKS TAHUN 2026</h3>
             </div>
             
             <div class="grid-roadmap" style="margin-top:15px;">
@@ -262,10 +225,8 @@
                     <span class="badge-q" style="background:#4f46e5;">TRIWULAN 1 (Jan - Mar) &nbsp; M1 & M2</span>
                     <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
                     <p style="font-size:11px; margin-bottom:8px;"><strong>1. Memetakan:</strong> Eksplorasi Rapor Pendidikan & PBD.<br><strong>2. Merencanakan:</strong> Visi-misi, Standar KOSP, & ARKAS.</p>
-                    
                     <h4 style="font-weight:bold; font-size:10px; color:#3730a3; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
                     <div class="info-box-pbd">D.1 (Kualitas Pembelajaran), D.4 (Kepemimpinan Instruksional), & A.1 - A.3 (Literasi, Numerasi, Karakter).</div>
-
                     <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">BUTIR TARGET BAN-PDM:</h4>
                     <ul style="font-size:11px; padding-left:14px; font-weight:bold; color:#1e1b4b;">
                         <li>Butir 6: Visi Misi & PBD</li>
@@ -278,10 +239,8 @@
                     <span class="badge-q" style="background:#059669;">TRIWULAN 2 (Apr - Jun) &nbsp; M3 & M4</span>
                     <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
                     <p style="font-size:11px; margin-bottom:8px;"><strong>3. Melaksanakan:</strong> Pembelajaran Bermakna, Kombel, & Disiplin Positif.<br><strong>4. Mengevaluasi:</strong> Supervisi Akademik & Observasi Kelas.</p>
-
                     <h4 style="font-weight:bold; font-size:10px; color:#065f46; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
                     <div class="info-box-pbd">D.1 (Kualitas Pembelajaran), D.2 (Penerapan Praktik Inovatif), & D.3 (Komunitas Belajar).</div>
-
                     <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">BUTIR TARGET BAN-PDM:</h4>
                     <ul style="font-size:11px; padding-left:14px; font-weight:bold; color:#065f46;">
                         <li>Butir 1: Interaksi Sosio-Emosional</li>
@@ -296,10 +255,8 @@
                     <span class="badge-q" style="background:#d97706;">TRIWULAN 3 (Jul - Sep) &nbsp; M4 & M5</span>
                     <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
                     <p style="font-size:11px; margin-bottom:8px;"><strong>4. Mengevaluasi:</strong> Audit Sarpras, Iklim Belajar, & Safety TPPK.<br><strong>5. Menindaklanjuti:</strong> Coaching TIRTA & Intervensi PBD Tengah Tahun.</p>
-
                     <h4 style="font-weight:bold; font-size:10px; color:#92400e; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
                     <div class="info-box-pbd">D.8 (Iklim Kebinekaan), D.10 (Iklim Inklusivitas), & D.11 (Iklim Keamanan Sekolah).</div>
-
                     <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">BUTIR TARGET BAN-PDM:</h4>
                     <ul style="font-size:11px; padding-left:14px; font-weight:bold; color:#92400e;">
                         <li>Butir 8: Pengelolaan Sarana Prasarana</li>
@@ -315,10 +272,8 @@
                     <span class="badge-q" style="background:#7c3aed;">TRIWULAN 4 (Okt - Des) &nbsp; M5 & M6</span>
                     <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
                     <p style="font-size:11px; margin-bottom:8px;"><strong>5. Menindaklanjuti:</strong> Refleksi Rekapitulasi PKKS & Audit Mutu.<br><strong>6. Meningkatkan:</strong> Penetapan Standard Baru & Inovasi Mutu Lanjutan.</p>
-
-                    <h4 style="font-weight:bold; font-size:10px; color:#5b21b6; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
+                    <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
                     <div class="info-box-pbd">Seluruh Dimensi A, B, C, D, E (Rekap Capaian & Refleksi Akhir Tahun).</div>
-
                     <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">BUTIR TARGET BAN-PDM:</h4>
                     <ul style="font-size:11px; padding-left:14px; font-weight:bold; color:#5b21b6;">
                         <li>14 Butir Lengkap (45 Sub-Indikator): Verifikasi Rekapitulasi Digital Sispena & Penetapan Predikat PKKS.</li>
@@ -373,9 +328,8 @@
             </div>
         </div>
 
-        <!-- NAVIGASI 4: INSTRUMEN 45 SUB-BUTIR -->
+        <!-- TAB 4: INSTRUMEN 45 SUB-BUTIR -->
         <div id="tab-instrumen" class="card hidden">
-            <!-- HEADER RESMI UNTUK PRINTOUT INSTRUMEN 45 SUB-INDIKATOR -->
             <div class="print-header">
                 <h2>LAPORAN MONEV SPMI & PKKS TAHUN 2026</h2>
                 <h3>Berdasarkan Permendikdasmen No. 21/2026 & Indikator BAN-PDM</h3>
@@ -387,7 +341,6 @@
                 </div>
             </div>
 
-            <!-- DASBOR ANALYTICS & KESIAPAN AKREDITASI -->
             <div class="analytics-grid">
                 <div class="stat-card">
                     <div style="font-size:11px; font-weight:bold; color:#475569;">PREDIKAT RATA-RATA SKOR TARGET</div>
@@ -409,17 +362,23 @@
             <div id="quarter-info-banner" style="padding:12px 16px; border-radius:8px; margin-bottom:15px; border:1px solid #cbd5e1;"></div>
 
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
-                <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                    <button class="btn-action btn-preset" onclick="showToast('📋 Preset Triwulan Dimuat')">📋 Muat Preset Triwulan</button>
-                    <button class="btn-action btn-import-prev" onclick="showToast('📥 Data Triwulan Sebelumnya Berhasil Diimpor')">📥 Import T-Sebelumnya</button>
-                    <button class="btn-action btn-add" onclick="showToast('➕ Indikator Ditambahkan')">➕ Tambah Indikator</button>
-                </div>
+                <div></div>
                 <div style="display:flex; gap:6px;">
                     <button class="btn-action btn-save" onclick="saveData()">💾 Simpan Permanen</button>
-                    <button class="btn-action btn-print" onclick="window.print()">🖨️ Cetak Hasil</button>
-                    <button class="btn-action btn-pdf" onclick="window.print()">📄 PDF</button>
-                    <button class="btn-action btn-word" onclick="showToast('📝 Word Siap')">📝 Word</button>
+                    <button class="btn-action btn-print" onclick="triggerSmartPrint('Laporan Monev SPMI & PKKS')">🖨️ Cetak Hasil</button>
+                    <button class="btn-action btn-pdf" onclick="triggerSmartPrint('Laporan Monev SPMI & PKKS')">📄 PDF</button>
+                    <button class="btn-action btn-word" onclick="exportToWord('Laporan Monev SPMI & PKKS')">📝 Word</button>
                 </div>
+            </div>
+
+            <div class="draft-option-container" style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:10px 14px; margin-bottom:15px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+                <label style="font-weight:bold; font-size:12px; color:#92400e; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                    <input type="checkbox" id="chk-draft-blank" onchange="toggleDraftMode(this.checked)" style="width:16px; height:16px; cursor:pointer;">
+                    <span>📝 Cetak / Tampilkan Format Lembar Kerja Kosong (Khusus Persiapan & Sosialisasi Sekolah)</span>
+                </label>
+                <span style="font-size:11px; color:#78350f; background:#fef3c7; padding:2px 8px; border-radius:4px; border:1px solid #fcd34d;">
+                    💡 Centang untuk mengosongkan identitas sekolah & nilai saat dicetak
+                </span>
             </div>
 
             <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap; align-items:center; background:#f8fafc; padding:10px; border-radius:8px; border:1px solid #e2e8f0;">
@@ -456,9 +415,8 @@
             </div>
         </div>
 
-        <!-- NAVIGASI 5: MATRIKS PBD -->
+        <!-- TAB 5: MATRIKS PBD -->
         <div id="tab-pbd" class="card hidden">
-            <!-- HEADER RESMI UNTUK PRINTOUT MATRIKS PBD -->
             <div class="print-header">
                 <h2>MATRIKS AKSI REKOMENDASI PBD & PENGANGGARAN ARKAS</h2>
                 <h3>EVALUASI MONEV SPMI & PKKS TAHUN 2026</h3>
@@ -480,17 +438,16 @@
                 <div style="display:flex; gap:6px;">
                     <button class="btn-action btn-add" onclick="addPbdRow()">➕ Tambah Aksi PBD</button>
                     <button class="btn-action btn-save" onclick="saveData()">💾 Simpan Permanen</button>
-                    <button class="btn-action btn-print" onclick="window.print()">🖨️ Cetak</button>
-                    <button class="btn-action btn-pdf" onclick="window.print()">📄 PDF</button>
-                    <button class="btn-action btn-word" onclick="showToast('📝 Word Siap')">📝 Word</button>
+                    <button class="btn-action btn-print" onclick="triggerSmartPrint('Matriks PBD & ARKAS')">🖨️ Cetak</button>
+                    <button class="btn-action btn-pdf" onclick="triggerSmartPrint('Matriks PBD & ARKAS')">📄 PDF</button>
+                    <button class="btn-action btn-word" onclick="exportToWord('Matriks PBD & ARKAS')">📝 Word</button>
                 </div>
             </div>
             <div id="pbd-container" style="margin-top:15px;"></div>
         </div>
 
-        <!-- NAVIGASI 6: COACHING TIRTA & SUPERVISI KLINIS -->
+        <!-- TAB 6: COACHING TIRTA -->
         <div id="tab-tirta" class="card hidden">
-            <!-- HEADER RESMI UNTUK PRINTOUT COACHING TIRTA -->
             <div class="print-header">
                 <h2>LEMBAR PENDAMPINGAN DIALOGIS (ALUR TIRTA)</h2>
                 <h3>EVALUASI MONEV SPMI & PKKS TAHUN 2026</h3>
@@ -511,26 +468,14 @@
                 <div style="display:flex; gap:6px;">
                     <button class="btn-action btn-link" onclick="autoLinkPbdToTirta()">🔗 Tarik Rekomendasi PBD</button>
                     <button class="btn-action btn-save" onclick="saveData()">💾 Simpan Permanen</button>
-                    <button class="btn-action btn-print" onclick="window.print()">🖨️ Cetak</button>
-                    <button class="btn-action btn-pdf" onclick="window.print()">📄 PDF</button>
-                    <button class="btn-action btn-word" onclick="showToast('📝 Word Siap')">📝 Word</button>
-                </div>
-            </div>
-
-            <div style="margin-bottom:15px; background:#f8fafc; padding:12px; border-radius:8px; border:1px solid #e2e8f0;">
-                <label style="font-weight:bold; font-size:11px; display:block; margin-bottom:6px;">Pilih Tingkat Kapasitas Satuan Pendidikan Binaan:</label>
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:8px;">
-                    <button class="capacity-btn" onclick="setCapacity(this)">1. Sangat Rendah (Training)</button>
-                    <button class="capacity-btn" onclick="setCapacity(this)">2. Rendah (Mentoring)</button>
-                    <button class="capacity-btn active" onclick="setCapacity(this)">3. Sedang (Coaching)</button>
-                    <button class="capacity-btn" onclick="setCapacity(this)">4. Tinggi (Facilitating)</button>
-                    <button class="capacity-btn" onclick="setCapacity(this)">5. Sangat Tinggi (Consulting)</button>
+                    <button class="btn-action btn-print" onclick="triggerSmartPrint('Coaching TIRTA')">🖨️ Cetak</button>
+                    <button class="btn-action btn-pdf" onclick="triggerSmartPrint('Coaching TIRTA')">📄 PDF</button>
+                    <button class="btn-action btn-word" onclick="exportToWord('Coaching TIRTA')">📝 Word</button>
                 </div>
             </div>
 
             <div id="tirta-container"></div>
 
-            <!-- MODUL SUPERVISI KLINIS PEMBELAJARAN -->
             <div style="margin-top:25px; border-top:2px solid #e2e8f0; padding-top:15px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                     <h3 style="font-size:14px; font-weight:bold; color:#1e1b4b;">🏫 Log Observasi Pembelajaran (Supervisi Klinis Guru)</h3>
@@ -540,9 +485,8 @@
             </div>
         </div>
 
-        <!-- NAVIGASI 7: RINGKASAN EKSEKUTIF (LAPORAN TERPADU 1 LEMBAR) -->
+        <!-- TAB 7: RINGKASAN EKSEKUTIF -->
         <div id="tab-eksekutif" class="card hidden">
-            <!-- HEADER RESMI UNTUK PRINTOUT RINGKASAN EKSEKUTIF -->
             <div class="print-header">
                 <h2>RINGKASAN EKSEKUTIF HASIL MONEV SPMI & PKKS TAHUN 2026</h2>
                 <h3>Laporan Rekapitulasi Terpadu Mutu Satuan Pendidikan</h3>
@@ -561,15 +505,16 @@
                     <p style="color:#64748b; font-size:11px;" class="sub-desc">Rangkuman terpadu yang menggabungkan skor kinerja, catatan pendampingan TIRTA, dan aksi PBD dalam satu format ringkas.</p>
                 </div>
                 <div style="display:flex; gap:6px;">
-                    <button class="btn-action btn-print" onclick="window.print()">🖨️ Cetak Ringkasan</button>
-                    <button class="btn-action btn-pdf" onclick="window.print()">📄 PDF Ringkasan</button>
+                    <button class="btn-action btn-print" onclick="triggerSmartPrint('Ringkasan Eksekutif Monev')">🖨️ Cetak Ringkasan</button>
+                    <button class="btn-action btn-pdf" onclick="triggerSmartPrint('Ringkasan Eksekutif Monev')">📄 PDF Ringkasan</button>
+                    <button class="btn-action btn-word" onclick="exportToWord('Ringkasan Eksekutif Monev')">📝 Word</button>
                 </div>
             </div>
 
             <div id="eksekutif-content" style="display:flex; flex-direction:column; gap:16px;"></div>
         </div>
 
-        <!-- NAVIGASI 8: PANDUAN PENGGUNAAN APLIKASI -->
+        <!-- TAB 8: PANDUAN PENGGUNAAN -->
         <div id="tab-panduan" class="card hidden">
             <span style="display:inline-block; padding:3px 8px; background:#dcfce7; color:#166534; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:8px;">PETUNJUK OPERASIONAL APLIKASI</span>
             <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 6px; color:#0f172a;">Panduan Penggunaan Aplikasi Monev SPMI & PKKS 2026</h2>
@@ -577,64 +522,15 @@
 
             <div class="guide-step">
                 <h3>1. 🏫 Memilih Sekolah & Pengisian Profil Satuan Pendidikan</h3>
-                <p>Setiap pengawas membina hingga 20 sekolah. Sebelum melakukan pengisian data:</p>
-                <ul>
-                    <li>Pilih sekolah binaan melalui <strong>Dropdown Pilihan Sekolah</strong> di bagian atas kartu profil.</li>
-                    <li>Lengkapi nama sekolah, nama Kepala Sekolah, NIP, serta status kepegawaian (ASN/Non-ASN).</li>
-                    <li>Sistem secara otomatis mendeteksi status <strong>ASN (Negeri)</strong> atau <strong>Non-ASN (Swasta)</strong> untuk penyesuaian muara laporan administrasi.</li>
-                </ul>
+                <p>Pilih sekolah binaan pada dropdown profil. Isikan nama Kepala Sekolah, NIP, dan Pengawas Pembina. Status ASN/Non-ASN otomatis terdeteksi.</p>
             </div>
-
             <div class="guide-step">
                 <h3>2. 🗓️ Pengaturan Triwulan Evaluasi (T1 - T4)</h3>
-                <p>Evaluasi dilaksanakan terbagi dalam 4 triwulan sesuai fokus Roadmap 6M:</p>
-                <ul>
-                    <li><strong>Triwulan I (T1):</strong> Fokus pada perencanaan (Memetakan & Merencanakan) — Target Butir 6, 7, 9.</li>
-                    <li><strong>Triwulan II (T2):</strong> Fokus pada pelaksanaan pembelajaran & supervisi — Target Butir 1 s.d. 5.</li>
-                    <li><strong>Triwulan III (T3):</strong> Fokus pada iklim belajar, safety/TPPK, & sarpras — Target Butir 8, 10 s.d. 14.</li>
-                    <li><strong>Triwulan IV (T4):</strong> Evaluasi komprehensif 45 sub-indikator lengkap untuk penilaian PKKS final tahunan.</li>
-                </ul>
+                <p>Pilih triwulan aktif. Setiap triwulan memfilter butir target BAN-PDM dan menyesuaikan fokus pembinaan Alur 6M.</p>
             </div>
-
             <div class="guide-step">
-                <h3>3. 📋 Pengisian Instrumen 45 Sub-Indikator & Tautan Google Drive</h3>
-                <p>Panduan penting dalam pengisian link bukti dukung digital:</p>
-                <ul>
-                    <li>Tempelkan (Paste) URL Google Drive bukti dukung pada kolom <strong>Tautan Drive / Sispena</strong>.</li>
-                    <li>Tekan tombol <strong>💾 Simpan</strong> di samping kolom tautan. Sistem akan mengunci kolom dan memunculkan tombol hijau <strong>🔗 Buka Link Drive ↗</strong>.</li>
-                    <li>Jika ingin mengubah link, klik tombol <strong>✏️ Edit</strong> untuk membuka kembali kuncian input.</li>
-                    <li>Beri nilai <strong>Skor (1 - 4)</strong> serta masukkan <strong>Catatan Observasi Pengawas</strong> pada masing-masing indikator target.</li>
-                    <li>Gunakan fitur <i>Filter Komponen</i> atau <i>Kotak Pencarian</i> untuk menemukan kode indikator spesifik dengan cepat.</li>
-                </ul>
-            </div>
-
-            <div class="guide-step">
-                <h3>4. 📊 Memahami Dasbor Analytics & Kesiapan Akreditasi Sispena</h3>
-                <p>Indikator statistik otomatis di bagian atas menu Instrumen memantau progres secara real-time:</p>
-                <ul>
-                    <li><strong>Predikat Rata-Rata Skor Target:</strong> Menghitung nilai rerata kinerja indikator target aktif (Sangat Baik ≥ 3.5, Baik ≥ 3.0, Cukup ≥ 2.0).</li>
-                    <li><strong>Kelengkapan Bukti Dukung (Drive):</strong> Persentase keterisian tautan Drive pada indikator target aktif.</li>
-                    <li><strong>Kesiapan Akreditasi Sispena:</strong> Status kelayakan dokumen digital (🟢 Siap jika ≥ 80%, 🟡 Cukup jika ≥ 50%, 🔴 Belum Siap jika &lt; 50%).</li>
-                </ul>
-            </div>
-
-            <div class="guide-step">
-                <h3>5. 💡 Matriks PBD & Simulator Coaching TIRTA</h3>
-                <p>Integrasi rekomendasi perbaikan mutu dan pendampingan dialogis:</p>
-                <ul>
-                    <li><strong>Matriks PBD:</strong> Gunakan untuk mencatat Identifikasi, Refleksi Akar Masalah, Program Benahi RKT, dan alokasi anggaran ARKAS.</li>
-                    <li><strong>Coaching TIRTA:</strong> Simulator pendampingan pengawas berbasis alur TIRTA (Tujuan, Identifikasi, Rencana Aksi, Tanggung Jawab).</li>
-                    <li>Gunakan tombol <strong>🔗 Tarik Rekomendasi PBD</strong> di menu TIRTA untuk menyalin otomatis hasil analisis PBD ke dalam lembar pendampingan dialogis.</li>
-                </ul>
-            </div>
-
-            <div class="guide-step">
-                <h3>6. 📤 Manajemen Data Cadangan & Keamanan (Ekspor / Impor JSON)</h3>
-                <p>Seluruh data tersimpan secara mandiri dan aman di penyimpanan lokal browser Anda (Offline LocalStorage):</p>
-                <ul>
-                    <li>Lakukan backup data secara rutin dengan mengeklik tombol <strong>📥 Ekspor JSON</strong> di pojok kanan atas header. File JSON backup akan terunduh ke perangkat Anda.</li>
-                    <li>Gunakan tombol <strong>📤 Impor JSON</strong> untuk mengembalikan/memindahkan data monev ke perangkat atau laptop lain.</li>
-                </ul>
+                <h3>3. 📋 Pengisian Link Drive & Skor</h3>
+                <p>Isi link drive bukti dukung lalu klik tombol <strong>💾 Simpan</strong> di sampingnya. Link akan terkunci dan dapat dibuka via tombol hijau. Klik <strong>💾 Simpan Permanen</strong> untuk menyimpan seluruh data sekolah ke penyimpanan browser.</p>
             </div>
         </div>
     </main>
@@ -644,7 +540,8 @@
     <script>
         let currentQuarter = "T1";
         let selectedSchoolId = 1;
-        const STORAGE_KEY = "MONEV_SPMI_PKKS_2026_OFFLINE_V12";
+        let isDraftMode = false;
+        const STORAGE_KEY = "MONEV_SPMI_PKKS_2026_OFFLINE_V13";
 
         const initialSchoolNames = [
             "SMPN 3 Tarogong Kidul", "SMPN 2 Cigedug", "SMPN 1 Tarogong Kidul", "SMPN 1 Cisompet", "SMPN 2 Cisompet",
@@ -663,10 +560,10 @@
         const defaultPengawasName = "I. Faridlah Sulaeman.";
 
         const roadmapInfoMap = {
-            T1: { title: "Triwulan I (Januari - Maret: Memetakan & Merencanakan)", targetButirIds: [6, 7, 9], targetText: "Butir 6 (Visi Misi & PBD), Butir 7 (Anggaran & ARKAS), Butir 9 (Kurikulum & KOSP)", bg: "#e0e7ff", color: "#1e1b4b", alur: "M1 & M2 (Memetakan & Merencanakan)", fokusTirta: "Penetapan KOSP, Visi-Misi & PBD Target (Butir 6, 7, 9)" },
-            T2: { title: "Triwulan II (April - Juni: Melaksanakan & Mengevaluasi)", targetButirIds: [1, 2, 3, 4, 5], targetText: "Butir 1 (Sosio-Emosional), Butir 2 (Suasana Kelas), Butir 3 (Pembelajaran Bermakna), Butir 4 (Karakter), Butir 5 (Evaluasi SDM)", bg: "#d1fae5", color: "#065f46", alur: "M3 & M4 (Melaksanakan & Mengevaluasi)", fokusTirta: "Pembelajaran Bermakna & Kombel (Butir 1-5)" },
-            T3: { title: "Triwulan III (Juli - September: Mengevaluasi & Menindaklanjuti)", targetButirIds: [8, 10, 11, 12, 13, 14], targetText: "Butir 8 (Sarpras), Butir 10 (Kebinekaan), Butir 11 (Inklusif), Butir 12 (Safety/TPPK), Butir 13 (Bencana), Butir 14 (PHBS)", bg: "#fef3c7", color: "#92400e", alur: "M4 & M5 (Mengevaluasi & Menindaklanjuti)", fokusTirta: "Iklim Belajar & Safety (Butir 8, 10-14)" },
-            T4: { title: "Triwulan IV (Oktober - Desember: Menindaklanjuti & Meningkatkan)", targetButirIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], targetText: "14 Butir Lengkap (45 Sub-Indikator): Verifikasi Rekapitulasi Digital Sispena & Penetapan Predikat PKKS", bg: "#f3e8ff", color: "#5b21b6", alur: "M5 & M6 (Menindaklanjuti & Meningkatkan)", fokusTirta: "Evaluasi Final PKKS & Audit Mutu SPMI (T1 - T4)" }
+            T1: { title: "Triwulan 1 (Jan-Mar)", fullTitle: "Triwulan I (Januari - Maret: Memetakan & Merencanakan)", targetButirIds: [6, 7, 9], targetText: "Butir 6 (Visi Misi & PBD), Butir 7 (Anggaran & ARKAS), Butir 9 (Kurikulum & KOSP)", bg: "#e0e7ff", color: "#1e1b4b", alur: "M1 & M2 (Memetakan & Merencanakan)", fokusTirta: "Penetapan KOSP, Visi-Misi & PBD Target (Butir 6, 7, 9)" },
+            T2: { title: "Triwulan 2 (Apr-Jun)", fullTitle: "Triwulan II (April - Juni: Melaksanakan & Mengevaluasi)", targetButirIds: [1, 2, 3, 4, 5], targetText: "Butir 1 (Sosio-Emosional), Butir 2 (Suasana Kelas), Butir 3 (Pembelajaran Bermakna), Butir 4 (Karakter), Butir 5 (Evaluasi SDM)", bg: "#d1fae5", color: "#065f46", alur: "M3 & M4 (Melaksanakan & Mengevaluasi)", fokusTirta: "Pembelajaran Bermakna & Kombel (Butir 1-5)" },
+            T3: { title: "Triwulan 3 (Jul-Sep)", fullTitle: "Triwulan III (Juli - September: Mengevaluasi & Menindaklanjuti)", targetButirIds: [8, 10, 11, 12, 13, 14], targetText: "Butir 8 (Sarpras), Butir 10 (Kebinekaan), Butir 11 (Inklusif), Butir 12 (Safety/TPPK), Butir 13 (Bencana), Butir 14 (PHBS)", bg: "#fef3c7", color: "#92400e", alur: "M4 & M5 (Mengevaluasi & Menindaklanjuti)", fokusTirta: "Iklim Belajar & Safety (Butir 8, 10-14)" },
+            T4: { title: "Triwulan 4 (Okt-Des)", fullTitle: "Triwulan IV (Oktober - Desember: Menindaklanjuti & Meningkatkan)", targetButirIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], targetText: "14 Butir Lengkap (45 Sub-Indikator): Verifikasi Rekapitulasi Digital Sispena & Penetapan Predikat PKKS", bg: "#f3e8ff", color: "#5b21b6", alur: "M5 & M6 (Menindaklanjuti & Meningkatkan)", fokusTirta: "Evaluasi Final PKKS & Audit Mutu SPMI (T1 - T4)" }
         };
 
         function determineStatus(schoolName) {
@@ -796,33 +693,41 @@
         let db = createDb();
 
         function loadStorage() {
-            const s = localStorage.getItem(STORAGE_KEY);
-            if (s) {
-                const parsed = JSON.parse(s);
-                if (parsed.db) {
-                    db = parsed.db;
-                    for (let id in db) {
-                        ['T1','T2','T3','T4'].forEach(q => {
-                            if (!db[id].quarters[q].pbd || db[id].quarters[q].pbd.length === 0) {
-                                db[id].quarters[q].pbd = JSON.parse(JSON.stringify(defaultPbdByQuarter[q]));
-                            }
-                            if (!db[id].quarters[q].tirta || db[id].quarters[q].tirta.length < 4) {
-                                db[id].quarters[q].tirta = JSON.parse(JSON.stringify(defaultTirtaByQuarter[q]));
-                            }
-                            if (!db[id].quarters[q].supervisi) {
-                                db[id].quarters[q].supervisi = [];
-                            }
-                        });
+            try {
+                const s = localStorage.getItem(STORAGE_KEY);
+                if (s) {
+                    const parsed = JSON.parse(s);
+                    if (parsed.db) {
+                        db = parsed.db;
+                        for (let id in db) {
+                            ['T1','T2','T3','T4'].forEach(q => {
+                                if (!db[id].quarters[q].pbd || db[id].quarters[q].pbd.length === 0) {
+                                    db[id].quarters[q].pbd = JSON.parse(JSON.stringify(defaultPbdByQuarter[q]));
+                                }
+                                if (!db[id].quarters[q].tirta || db[id].quarters[q].tirta.length < 4) {
+                                    db[id].quarters[q].tirta = JSON.parse(JSON.stringify(defaultTirtaByQuarter[q]));
+                                }
+                                if (!db[id].quarters[q].supervisi) {
+                                    db[id].quarters[q].supervisi = [];
+                                }
+                            });
+                        }
                     }
+                    if (parsed.selectedSchoolId) selectedSchoolId = parsed.selectedSchoolId;
+                    if (parsed.currentQuarter) currentQuarter = parsed.currentQuarter;
                 }
-                if (parsed.selectedSchoolId) selectedSchoolId = parsed.selectedSchoolId;
-                if (parsed.currentQuarter) currentQuarter = parsed.currentQuarter;
+            } catch(e) {
+                console.error("Gagal membaca LocalStorage, memuat database default.", e);
             }
         }
 
         function saveStorage() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({ db, selectedSchoolId, currentQuarter }));
-            updateAnalyticsDashboard();
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify({ db, selectedSchoolId, currentQuarter }));
+                updateAnalyticsDashboard();
+            } catch(e) {
+                console.error("Gagal menyimpan ke LocalStorage", e);
+            }
         }
 
         function syncT4() {
@@ -838,15 +743,63 @@
             });
         }
 
+        function toggleDraftMode(checked) {
+            isDraftMode = checked;
+            updatePrintHeaders();
+            renderTable();
+            showToast(checked ? "📝 Mode Format Lembar Kerja Kosong Aktif" : "🔄 Kembali ke Mode Pengisian Data");
+        }
+
+        function triggerSmartPrint(docTitlePrefix) {
+            const p = db[selectedSchoolId].profile;
+            const qTitle = roadmapInfoMap[currentQuarter].title;
+            const originalTitle = document.title;
+
+            if (isDraftMode) {
+                document.title = `${docTitlePrefix} (FORMAT KOSONG PROSES PENYUSUNAN) - ${qTitle}`;
+            } else {
+                document.title = `${docTitlePrefix} ${qTitle} - ${p.ksSchool || 'Sekolah Binaan'}`;
+            }
+
+            window.print();
+
+            setTimeout(() => { document.title = originalTitle; }, 1000);
+        }
+
+        function exportToWord(docTitlePrefix) {
+            const p = db[selectedSchoolId].profile;
+            const qTitle = roadmapInfoMap[currentQuarter].title;
+            const fileName = `${docTitlePrefix} ${qTitle} - ${p.ksSchool || 'Sekolah'}.doc`;
+
+            let activeTabId = document.querySelector('main > div:not(.hidden)').id;
+            let contentHtml = document.getElementById(activeTabId).innerHTML;
+
+            let header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+                "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+                "xmlns='http://www.w3.org/TR/REC-html40'>"+
+                "<head><meta charset='utf-8'><title>Export Word</title><style>body{font-family:Arial;font-size:11pt;} table{border-collapse:collapse;width:100%;} th,td{border:1px solid #000;padding:6px;}</style></head><body>";
+            let footer = "</body></html>";
+            let sourceHTML = header + contentHtml + footer;
+
+            let source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+            let fileDownload = document.createElement("a");
+            document.body.appendChild(fileDownload);
+            fileDownload.href = source;
+            fileDownload.download = fileName;
+            fileDownload.click();
+            document.body.removeChild(fileDownload);
+            showToast("📝 File Word berhasil diunduh!");
+        }
+
         function updatePrintHeaders() {
             const p = db[selectedSchoolId].profile;
             const info = roadmapInfoMap[currentQuarter];
 
-            document.querySelectorAll('.pr-school').forEach(el => el.innerText = p.ksSchool || '-');
-            document.querySelectorAll('.pr-ks-name').forEach(el => el.innerText = p.ksName || '-');
-            document.querySelectorAll('.pr-ks-nip').forEach(el => el.innerText = p.ksNip ? `NIP. ${p.ksNip}` : '');
+            document.querySelectorAll('.pr-school').forEach(el => el.innerText = isDraftMode ? '..........................................................' : (p.ksSchool || '-'));
+            document.querySelectorAll('.pr-ks-name').forEach(el => el.innerText = isDraftMode ? '..........................................................' : (p.ksName || '-'));
+            document.querySelectorAll('.pr-ks-nip').forEach(el => el.innerText = isDraftMode ? 'NIP. ...................................' : (p.ksNip ? `NIP. ${p.ksNip}` : ''));
             document.querySelectorAll('.pr-pengawas').forEach(el => el.innerText = p.pengawasName || '-');
-            document.querySelectorAll('.pr-period').forEach(el => el.innerText = info.title);
+            document.querySelectorAll('.pr-period').forEach(el => el.innerText = info.fullTitle);
 
             const prTirta = document.getElementById('pr-tirta-fokus');
             if (prTirta) prTirta.innerText = info.fokusTirta;
@@ -875,17 +828,23 @@
             let rataRata = countSkor > 0 ? (totalSkor / countSkor).toFixed(2) : "0.00";
             let pctDrive = totalTarget > 0 ? Math.round((countDrive / totalTarget) * 100) : 0;
 
-            document.getElementById('stat-skor-val').innerText = `${rataRata} / 4.00`;
+            const elemSkorVal = document.getElementById('stat-skor-val');
+            if (elemSkorVal) elemSkorVal.innerText = `${rataRata} / 4.00`;
             
             let predikatText = "Belum Dinilai";
             if (rataRata >= 3.5) predikatText = "Sangat Baik (A)";
             else if (rataRata >= 3.0) predikatText = "Baik (B)";
             else if (rataRata >= 2.0) predikatText = "Cukup (C)";
             else if (rataRata > 0) predikatText = "Kurang (D)";
-            document.getElementById('stat-skor-label').innerText = predikatText;
+            
+            const elemSkorLabel = document.getElementById('stat-skor-label');
+            if (elemSkorLabel) elemSkorLabel.innerText = predikatText;
 
-            document.getElementById('stat-drive-val').innerText = `${pctDrive}%`;
-            document.getElementById('stat-drive-bar').style.width = `${pctDrive}%`;
+            const elemDriveVal = document.getElementById('stat-drive-val');
+            if (elemDriveVal) elemDriveVal.innerText = `${pctDrive}%`;
+            
+            const elemDriveBar = document.getElementById('stat-drive-bar');
+            if (elemDriveBar) elemDriveBar.style.width = `${pctDrive}%`;
 
             let akredStatus = "🔴 Belum Siap";
             let akredDesc = "Dokumen di bawah 50%";
@@ -896,24 +855,35 @@
                 akredStatus = "🟡 Cukup Siap";
                 akredDesc = "Dokumen terunggah 50% - 79%";
             }
-            document.getElementById('stat-akreditasi-status').innerText = akredStatus;
-            document.getElementById('stat-akreditasi-desc').innerText = akredDesc;
+            
+            const elemAkredStatus = document.getElementById('stat-akreditasi-status');
+            if (elemAkredStatus) elemAkredStatus.innerText = akredStatus;
+            
+            const elemAkredDesc = document.getElementById('stat-akreditasi-desc');
+            if (elemAkredDesc) elemAkredDesc.innerText = akredDesc;
         }
 
         function switchTab(tId) {
             ['spmi','komparasi','roadmap','instrumen','tirta','pbd','eksekutif','panduan'].forEach(t => {
-                document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`nav-${t}`).classList.remove('active');
+                const elTab = document.getElementById(`tab-${t}`);
+                const elNav = document.getElementById(`nav-${t}`);
+                if (elTab) elTab.classList.add('hidden');
+                if (elNav) elNav.classList.remove('active');
             });
 
-            if (tId === 'spmi' || tId === 'komparasi' || tId === 'roadmap' || tId === 'panduan') {
-                document.getElementById('identity-card-section').classList.add('hidden');
-            } else {
-                document.getElementById('identity-card-section').classList.remove('hidden');
+            const cardIdentity = document.getElementById('identity-card-section');
+            if (cardIdentity) {
+                if (tId === 'spmi' || tId === 'komparasi' || tId === 'roadmap' || tId === 'panduan') {
+                    cardIdentity.classList.add('hidden');
+                } else {
+                    cardIdentity.classList.remove('hidden');
+                }
             }
 
-            document.getElementById(`tab-${tId}`).classList.remove('hidden');
-            document.getElementById(`nav-${tId}`).classList.add('active');
+            const targetTab = document.getElementById(`tab-${tId}`);
+            const targetNav = document.getElementById(`nav-${tId}`);
+            if (targetTab) targetTab.classList.remove('hidden');
+            if (targetNav) targetNav.classList.add('active');
 
             if (currentQuarter === 'T4') syncT4();
 
@@ -928,10 +898,11 @@
 
         function selectQuarterAndNavigate(qKey) {
             currentQuarter = qKey;
-            document.getElementById('period-select').value = qKey;
+            const pSel = document.getElementById('period-select');
+            if (pSel) pSel.value = qKey;
             updateQuarterUI();
             switchTab('instrumen');
-            showToast("🎯 Berpindah ke " + roadmapInfoMap[qKey].title);
+            showToast("🎯 Berpindah ke " + roadmapInfoMap[qKey].fullTitle);
         }
 
         function changeQuarter(newQ) {
@@ -951,14 +922,14 @@
         function updateQuarterUI() {
             const info = roadmapInfoMap[currentQuarter];
             const labels = document.querySelectorAll('.q-label-text');
-            labels.forEach(el => el.innerText = info.title);
+            labels.forEach(el => el.innerText = info.fullTitle);
 
             const banner = document.getElementById('quarter-info-banner');
             if (banner) {
                 banner.style.backgroundColor = info.bg;
                 banner.style.color = info.color;
                 banner.innerHTML = `
-                    <div style="font-weight:bold; font-size:13px; margin-bottom:4px;">${info.title} — Acuan Roadmap 6M Active</div>
+                    <div style="font-weight:bold; font-size:13px; margin-bottom:4px;">${info.fullTitle} — Acuan Roadmap 6M Active</div>
                     <div><strong>BUTIR TARGET BAN-PDM:</strong> ${info.targetText}</div>
                 `;
             }
@@ -966,6 +937,7 @@
 
         function initSchoolSelect() {
             const el = document.getElementById('school-selector');
+            if (!el) return;
             el.innerHTML = '';
             for (let i in db) {
                 let opt = document.createElement('option');
@@ -1019,14 +991,15 @@
 
         function renderTable() {
             const tbody = document.getElementById('table-body');
+            if (!tbody) return;
             tbody.innerHTML = '';
             if (currentQuarter === 'T4') syncT4();
 
             const items = db[selectedSchoolId].quarters[currentQuarter].items;
-            const targetOnly = document.getElementById('toggle-target-only').checked;
+            const targetOnly = document.getElementById('toggle-target-only') ? document.getElementById('toggle-target-only').checked : true;
             const activeTargets = roadmapInfoMap[currentQuarter].targetButirIds;
-            const selectedComp = document.getElementById('filter-comp').value;
-            const searchQuery = document.getElementById('search-box').value.trim().toLowerCase();
+            const selectedComp = document.getElementById('filter-comp') ? document.getElementById('filter-comp').value : "ALL";
+            const searchQuery = document.getElementById('search-box') ? document.getElementById('search-box').value.trim().toLowerCase() : "";
 
             items.forEach((item) => {
                 if (targetOnly && !activeTargets.includes(item.butirId)) return;
@@ -1037,26 +1010,30 @@
                 const isSaved = item.isSaved && item.driveLink && item.driveLink.trim() !== "";
                 const safeCode = item.code.replace('.', '_');
 
+                const displayDrive = isDraftMode ? '' : (item.driveLink || '');
+                const displayObs = isDraftMode ? '' : (item.obs || '');
+                const displayScore = isDraftMode ? '' : (item.score || '');
+
                 tr.innerHTML = `
                     <td style="text-align:center; font-weight:bold; background:#f8fafc;">${item.code}</td>
                     <td><strong style="color:#4f46e5;">${item.parentTitle}</strong><br><span style="font-size:10px; color:#64748b;">${item.comp}</span></td>
                     <td>${item.title}</td>
                     <td>
-                        <input type="text" id="drive-input-${safeCode}" value="${item.driveLink || ''}" ${isSaved ? 'disabled' : ''} style="width:100%; padding:6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;" placeholder="Format: [Kode]_[NamaDokumen]" oninput="updateDriveValue('${item.code}', this.value)">
+                        <input type="text" id="drive-input-${safeCode}" value="${displayDrive}" ${isSaved && !isDraftMode ? 'disabled' : ''} style="width:100%; padding:6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;" placeholder="Paste URL Google Drive..." oninput="updateDriveValue('${item.code}', this.value)">
                         <div style="margin-top:4px; display:flex; gap:4px;">
                             <button class="btn-action btn-save" onclick="saveDriveByCode('${item.code}')">💾 Simpan</button>
                             <button class="btn-action btn-edit" onclick="editDriveByCode('${item.code}')">✏️ Edit</button>
                         </div>
-                        ${isSaved ? `<a href="${item.driveLink}" target="_blank" class="btn-open">🔗 Buka Link Drive ↗</a>` : `<span style="color:#d97706; font-size:10px; font-weight:bold; display:block; margin-top:3px;">⚠️ Belum Diisi</span>`}
+                        ${isSaved && !isDraftMode ? `<a href="${item.driveLink}" target="_blank" class="btn-open">🔗 Buka Link Drive ↗</a>` : `<span style="color:#d97706; font-size:10px; font-weight:bold; display:block; margin-top:3px;">⚠️ Belum Diisi</span>`}
                     </td>
-                    <td><textarea oninput="updateObsValue('${item.code}', this.value)" rows="2" placeholder="Catatan observasi...">${item.obs || ''}</textarea></td>
+                    <td><textarea oninput="updateObsValue('${item.code}', this.value)" rows="2" placeholder="Catatan observasi...">${displayObs}</textarea></td>
                     <td>
                         <select onchange="updateScoreValue('${item.code}', this.value)" style="width:100%; padding:6px; border:1px solid #cbd5e1; border-radius:4px;">
                             <option value="">-</option>
-                            <option value="1" ${item.score == 1 ? 'selected' : ''}>1</option>
-                            <option value="2" ${item.score == 2 ? 'selected' : ''}>2</option>
-                            <option value="3" ${item.score == 3 ? 'selected' : ''}>3</option>
-                            <option value="4" ${item.score == 4 ? 'selected' : ''}>4</option>
+                            <option value="1" ${displayScore == 1 ? 'selected' : ''}>1</option>
+                            <option value="2" ${displayScore == 2 ? 'selected' : ''}>2</option>
+                            <option value="3" ${displayScore == 3 ? 'selected' : ''}>3</option>
+                            <option value="4" ${displayScore == 4 ? 'selected' : ''}>4</option>
                         </select>
                     </td>
                 `;
@@ -1096,7 +1073,7 @@
                 item.isSaved = true;
                 saveStorage();
                 renderTable();
-                showToast('💾 Tautan Drive disimpan!');
+                showToast('💾 Tautan Drive berhasil disimpan!');
             }
         }
 
@@ -1106,12 +1083,6 @@
                 item.isSaved = false;
                 renderTable();
             }
-        }
-
-        function setCapacity(btn) {
-            document.querySelectorAll('.capacity-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            showToast('Tingkat Kapasitas Diset: ' + btn.innerText);
         }
 
         function autoLinkPbdToTirta() {
@@ -1127,12 +1098,19 @@
                 tirtaList[2].ks = (tirtaList[2].ks ? tirtaList[2].ks + "\n\n" : "") + "[Rekomendasi Aksi PBD Terhubung]:\n" + summaryPbd;
                 renderTirta();
                 saveStorage();
-                showToast('🔗 Berhasil menghubungkan Aksi PBD ke Rencana Aksi Coaching TIRTA!');
+                showToast('🔗 Berhasil menghubungkan Aksi PBD ke Coaching TIRTA!');
+            }
+        }
+
+        function updateTirtaText(qKey, idx, field, val) {
+            if (db[selectedSchoolId] && db[selectedSchoolId].quarters[qKey] && db[selectedSchoolId].quarters[qKey].tirta[idx]) {
+                db[selectedSchoolId].quarters[qKey].tirta[idx][field] = val;
             }
         }
 
         function renderTirta() {
             const container = document.getElementById('tirta-container');
+            if (!container) return;
             container.innerHTML = '';
             
             const qData = db[selectedSchoolId].quarters;
@@ -1165,11 +1143,11 @@
                                 <div style="display:flex; flex-direction:column; gap:8px;">
                                     <div>
                                         <label style="font-weight:bold; font-size:11px;">Pertanyaan Pemantik Pengawas:</label>
-                                        <textarea onchange="db[selectedSchoolId].quarters['${qKey}'].tirta[${idx}].pengawas=this.value" rows="2">${item.pengawas || ''}</textarea>
+                                        <textarea onchange="updateTirtaText('${qKey}', ${idx}, 'pengawas', this.value)" rows="2">${item.pengawas || ''}</textarea>
                                     </div>
                                     <div>
                                         <label style="font-weight:bold; font-size:11px;">Respon / Komitmen Kepala Sekolah:</label>
-                                        <textarea onchange="db[selectedSchoolId].quarters['${qKey}'].tirta[${idx}].ks=this.value" rows="2">${item.ks || ''}</textarea>
+                                        <textarea onchange="updateTirtaText('${qKey}', ${idx}, 'ks', this.value)" rows="2">${item.ks || ''}</textarea>
                                     </div>
                                 </div>
                             `;
@@ -1190,11 +1168,11 @@
                         <div style="display:flex; flex-direction:column; gap:8px;">
                             <div>
                                 <label style="font-weight:bold; font-size:11px;">Pertanyaan Pemantik Pengawas:</label>
-                                <textarea onchange="db[selectedSchoolId].quarters[currentQuarter].tirta[${idx}].pengawas=this.value" rows="2">${item.pengawas || ''}</textarea>
+                                <textarea onchange="updateTirtaText('${currentQuarter}', ${idx}, 'pengawas', this.value)" rows="2">${item.pengawas || ''}</textarea>
                             </div>
                             <div>
                                 <label style="font-weight:bold; font-size:11px;">Respon / Komitmen Kepala Sekolah:</label>
-                                <textarea onchange="db[selectedSchoolId].quarters[currentQuarter].tirta[${idx}].ks=this.value" rows="2">${item.ks || ''}</textarea>
+                                <textarea onchange="updateTirtaText('${currentQuarter}', ${idx}, 'ks', this.value)" rows="2">${item.ks || ''}</textarea>
                             </div>
                         </div>
                     `;
@@ -1203,8 +1181,21 @@
             }
         }
 
+        function updatePbdField(qKey, idx, field, val) {
+            if (db[selectedSchoolId] && db[selectedSchoolId].quarters[qKey] && db[selectedSchoolId].quarters[qKey].pbd[idx]) {
+                db[selectedSchoolId].quarters[qKey].pbd[idx][field] = val;
+            }
+        }
+
+        function deletePbdRow(qKey, idx) {
+            db[selectedSchoolId].quarters[qKey].pbd.splice(idx, 1);
+            renderPbd();
+            saveStorage();
+        }
+
         function renderPbd() {
             const container = document.getElementById('pbd-container');
+            if (!container) return;
             container.innerHTML = '';
             
             const qData = db[selectedSchoolId].quarters;
@@ -1232,16 +1223,16 @@
                             div.style.cssText = "background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:18px; margin-bottom:16px; position:relative;";
                             
                             div.innerHTML = `
-                                <button onclick="db[selectedSchoolId].quarters['${qKey}'].pbd.splice(${idx},1); renderPbd(); saveStorage();" style="position:absolute; top:14px; right:16px; color:#ef4444; border:none; background:transparent; font-weight:bold; cursor:pointer; font-size:12px;">✕ Hapus</button>
+                                <button onclick="deletePbdRow('${qKey}', ${idx})" style="position:absolute; top:14px; right:16px; color:#ef4444; border:none; background:transparent; font-weight:bold; cursor:pointer; font-size:12px;">✕ Hapus</button>
                                 
                                 <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:16px; margin-bottom:12px;">
                                     <div>
                                         <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Aspek Sub-Indikator Target:</label>
-                                        <input type="text" value="${item.aspek || ''}" onchange="db[selectedSchoolId].quarters['${qKey}'].pbd[${idx}].aspek=this.value" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-weight:600; color:#0f172a;">
+                                        <input type="text" value="${item.aspek || ''}" onchange="updatePbdField('${qKey}', ${idx}, 'aspek', this.value)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-weight:600; color:#0f172a;">
                                     </div>
                                     <div>
                                         <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Tahapan Alur 6M:</label>
-                                        <select onchange="db[selectedSchoolId].quarters['${qKey}'].pbd[${idx}].dim6m=this.value" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; color:#0f172a; background:white;">
+                                        <select onchange="updatePbdField('${qKey}', ${idx}, 'dim6m', this.value)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; color:#0f172a; background:white;">
                                             <option value="Memetakan" ${item.dim6m === "Memetakan" ? 'selected' : ''}>1. Memetakan</option>
                                             <option value="Merencanakan" ${item.dim6m === "Merencanakan" ? 'selected' : ''}>2. Merencanakan</option>
                                             <option value="Melaksanakan" ${item.dim6m === "Melaksanakan" ? 'selected' : ''}>3. Melaksanakan</option>
@@ -1255,21 +1246,21 @@
                                 <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px; margin-bottom:12px;">
                                     <div>
                                         <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Identifikasi Masalah:</label>
-                                        <textarea onchange="db[selectedSchoolId].quarters['${qKey}'].pbd[${idx}].identifikasi=this.value" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.identifikasi || ''}</textarea>
+                                        <textarea onchange="updatePbdField('${qKey}', ${idx}, 'identifikasi', this.value)" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.identifikasi || ''}</textarea>
                                     </div>
                                     <div>
                                         <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Refleksi Akar Masalah:</label>
-                                        <textarea onchange="db[selectedSchoolId].quarters['${qKey}'].pbd[${idx}].refleksi=this.value" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.refleksi || ''}</textarea>
+                                        <textarea onchange="updatePbdField('${qKey}', ${idx}, 'refleksi', this.value)" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.refleksi || ''}</textarea>
                                     </div>
                                     <div>
                                         <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Program Benahi (RKT/ARKAS):</label>
-                                        <textarea onchange="db[selectedSchoolId].quarters['${qKey}'].pbd[${idx}].benahi=this.value" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.benahi || ''}</textarea>
+                                        <textarea onchange="updatePbdField('${qKey}', ${idx}, 'benahi', this.value)" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.benahi || ''}</textarea>
                                     </div>
                                 </div>
 
                                 <div>
                                     <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Sumber Alokasi Anggaran ARKAS:</label>
-                                    <input type="text" value="${item.anggaran || ''}" onchange="db[selectedSchoolId].quarters['${qKey}'].pbd[${idx}].anggaran=this.value" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; color:#0f172a;">
+                                    <input type="text" value="${item.anggaran || ''}" onchange="updatePbdField('${qKey}', ${idx}, 'anggaran', this.value)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; color:#0f172a;">
                                 </div>
                             `;
                             container.appendChild(div);
@@ -1284,16 +1275,16 @@
                     div.style.cssText = "background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:18px; margin-bottom:16px; position:relative;";
                     
                     div.innerHTML = `
-                        <button onclick="db[selectedSchoolId].quarters[currentQuarter].pbd.splice(${idx},1); renderPbd(); saveStorage();" style="position:absolute; top:14px; right:16px; color:#ef4444; border:none; background:transparent; font-weight:bold; cursor:pointer; font-size:12px;">✕ Hapus</button>
+                        <button onclick="deletePbdRow('${currentQuarter}', ${idx})" style="position:absolute; top:14px; right:16px; color:#ef4444; border:none; background:transparent; font-weight:bold; cursor:pointer; font-size:12px;">✕ Hapus</button>
                         
                         <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:16px; margin-bottom:12px;">
                             <div>
                                 <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Aspek Sub-Indikator Target:</label>
-                                <input type="text" value="${item.aspek || ''}" onchange="db[selectedSchoolId].quarters[currentQuarter].pbd[${idx}].aspek=this.value" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-weight:600; color:#0f172a;">
+                                <input type="text" value="${item.aspek || ''}" onchange="updatePbdField('${currentQuarter}', ${idx}, 'aspek', this.value)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-weight:600; color:#0f172a;">
                             </div>
                             <div>
                                 <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Tahapan Alur 6M:</label>
-                                <select onchange="db[selectedSchoolId].quarters[currentQuarter].pbd[${idx}].dim6m=this.value" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; color:#0f172a; background:white;">
+                                <select onchange="updatePbdField('${currentQuarter}', ${idx}, 'dim6m', this.value)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; color:#0f172a; background:white;">
                                     <option value="Memetakan" ${item.dim6m === "Memetakan" ? 'selected' : ''}>1. Memetakan</option>
                                     <option value="Merencanakan" ${item.dim6m === "Merencanakan" ? 'selected' : ''}>2. Merencanakan</option>
                                     <option value="Melaksanakan" ${item.dim6m === "Melaksanakan" ? 'selected' : ''}>3. Melaksanakan</option>
@@ -1307,21 +1298,21 @@
                         <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px; margin-bottom:12px;">
                             <div>
                                 <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Identifikasi Masalah:</label>
-                                <textarea onchange="db[selectedSchoolId].quarters[currentQuarter].pbd[${idx}].identifikasi=this.value" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.identifikasi || ''}</textarea>
+                                <textarea onchange="updatePbdField('${currentQuarter}', ${idx}, 'identifikasi', this.value)" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.identifikasi || ''}</textarea>
                             </div>
                             <div>
                                 <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Refleksi Akar Masalah:</label>
-                                <textarea onchange="db[selectedSchoolId].quarters[currentQuarter].pbd[${idx}].refleksi=this.value" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.refleksi || ''}</textarea>
+                                <textarea onchange="updatePbdField('${currentQuarter}', ${idx}, 'refleksi', this.value)" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.refleksi || ''}</textarea>
                             </div>
                             <div>
                                 <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Program Benahi (RKT/ARKAS):</label>
-                                <textarea onchange="db[selectedSchoolId].quarters[currentQuarter].pbd[${idx}].benahi=this.value" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.benahi || ''}</textarea>
+                                <textarea onchange="updatePbdField('${currentQuarter}', ${idx}, 'benahi', this.value)" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.benahi || ''}</textarea>
                             </div>
                         </div>
 
                         <div>
                             <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Sumber Alokasi Anggaran ARKAS:</label>
-                            <input type="text" value="${item.anggaran || ''}" onchange="db[selectedSchoolId].quarters[currentQuarter].pbd[${idx}].anggaran=this.value" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; color:#0f172a;">
+                            <input type="text" value="${item.anggaran || ''}" onchange="updatePbdField('${currentQuarter}', ${idx}, 'anggaran', this.value)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; color:#0f172a;">
                         </div>
                     `;
                     container.appendChild(div);
@@ -1329,8 +1320,21 @@
             }
         }
 
+        function updateSupervisiField(idx, field, val) {
+            if (db[selectedSchoolId] && db[selectedSchoolId].quarters[currentQuarter] && db[selectedSchoolId].quarters[currentQuarter].supervisi[idx]) {
+                db[selectedSchoolId].quarters[currentQuarter].supervisi[idx][field] = val;
+            }
+        }
+
+        function deleteSupervisiRow(idx) {
+            db[selectedSchoolId].quarters[currentQuarter].supervisi.splice(idx, 1);
+            renderSupervisi();
+            saveStorage();
+        }
+
         function renderSupervisi() {
             const container = document.getElementById('supervisi-container');
+            if (!container) return;
             container.innerHTML = '';
             
             const list = db[selectedSchoolId].quarters[currentQuarter].supervisi || [];
@@ -1339,31 +1343,31 @@
                 div.className = "card-item";
                 div.style.cssText = "background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; padding:12px; margin-bottom:10px;";
                 div.innerHTML = `
-                    <button onclick="db[selectedSchoolId].quarters[currentQuarter].supervisi.splice(${idx},1); renderSupervisi(); saveStorage();" style="position:absolute; top:10px; right:12px; color:#ef4444; border:none; background:transparent; font-weight:bold; cursor:pointer;">✕ Hapus</button>
+                    <button onclick="deleteSupervisiRow(${idx})" style="position:absolute; top:10px; right:12px; color:#ef4444; border:none; background:transparent; font-weight:bold; cursor:pointer;">✕ Hapus</button>
                     
                     <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-bottom:8px;">
                         <div>
                             <label style="font-weight:bold; font-size:10px; color:#475569;">Nama Guru Terobservasi:</label>
-                            <input type="text" value="${item.guru || ''}" onchange="db[selectedSchoolId].quarters[currentQuarter].supervisi[${idx}].guru=this.value" style="width:100%; padding:4px 6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;">
+                            <input type="text" value="${item.guru || ''}" onchange="updateSupervisiField(${idx}, 'guru', this.value)" style="width:100%; padding:4px 6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;">
                         </div>
                         <div>
                             <label style="font-weight:bold; font-size:10px; color:#475569;">Mata Pelajaran / Kelas:</label>
-                            <input type="text" value="${item.mapel || ''}" onchange="db[selectedSchoolId].quarters[currentQuarter].supervisi[${idx}].mapel=this.value" style="width:100%; padding:4px 6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;">
+                            <input type="text" value="${item.mapel || ''}" onchange="updateSupervisiField(${idx}, 'mapel', this.value)" style="width:100%; padding:4px 6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;">
                         </div>
                         <div>
                             <label style="font-weight:bold; font-size:10px; color:#475569;">Tanggal & Sub-Indikator Fokus:</label>
-                            <input type="text" value="${item.fokus || ''}" onchange="db[selectedSchoolId].quarters[currentQuarter].supervisi[${idx}].fokus=this.value" style="width:100%; padding:4px 6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;">
+                            <input type="text" value="${item.fokus || ''}" onchange="updateSupervisiField(${idx}, 'fokus', this.value)" style="width:100%; padding:4px 6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;">
                         </div>
                     </div>
 
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                         <div>
                             <label style="font-weight:bold; font-size:10px; color:#475569;">Temuan Kunci Observasi:</label>
-                            <textarea onchange="db[selectedSchoolId].quarters[currentQuarter].supervisi[${idx}].temuan=this.value" rows="2" style="font-size:11px; padding:4px;">${item.temuan || ''}</textarea>
+                            <textarea onchange="updateSupervisiField(${idx}, 'temuan', this.value)" rows="2" style="font-size:11px; padding:4px;">${item.temuan || ''}</textarea>
                         </div>
                         <div>
                             <label style="font-weight:bold; font-size:10px; color:#475569;">Rekomendasi Umpan Balik Pengawas:</label>
-                            <textarea onchange="db[selectedSchoolId].quarters[currentQuarter].supervisi[${idx}].rekomendasi=this.value" rows="2" style="font-size:11px; padding:4px;">${item.rekomendasi || ''}</textarea>
+                            <textarea onchange="updateSupervisiField(${idx}, 'rekomendasi', this.value)" rows="2" style="font-size:11px; padding:4px;">${item.rekomendasi || ''}</textarea>
                         </div>
                     </div>
                 `;
@@ -1388,6 +1392,7 @@
 
         function renderExecutiveSummary() {
             const container = document.getElementById('eksekutif-content');
+            if (!container) return;
             container.innerHTML = '';
 
             const p = db[selectedSchoolId].profile;
@@ -1452,14 +1457,16 @@
 
         function saveData() {
             saveStorage();
-            showToast('💾 Data Periode ' + currentQuarter + ' berhasil disimpan!');
+            showToast('💾 Data Periode ' + currentQuarter + ' berhasil disimpan permanen!');
         }
 
         function showToast(msg) {
             const t = document.getElementById('toast');
-            t.innerText = msg;
-            t.classList.remove('hidden');
-            setTimeout(() => t.classList.add('hidden'), 2500);
+            if (t) {
+                t.innerText = msg;
+                t.classList.remove('hidden');
+                setTimeout(() => t.classList.add('hidden'), 2500);
+            }
         }
 
         function exportJSON() {
@@ -1472,7 +1479,10 @@
             downloadAnchor.remove();
         }
 
-        function triggerImport() { document.getElementById('json-file').click(); }
+        function triggerImport() { 
+            const input = document.getElementById('json-file');
+            if (input) input.click(); 
+        }
 
         function importJSON(e) {
             const file = e.target.files[0];
