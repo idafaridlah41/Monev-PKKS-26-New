@@ -3,92 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="doc-title">Aplikasi Monev SPMI & PKKS 2026 - Alur 6M Continuous Improvement</title>
+    <title id="doc-title">Aplikasi Monev SPMI, PKKS & Kinerja BKN 2026</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; }
-        body { background-color: #f1f5f9; color: #1e293b; font-size: 13px; line-height: 1.5; }
         
-        header { background-color: #1e1b4b; color: #ffffff; padding: 12px 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        /* CSS VARIABLES UNTUK MODE TEMA (DEFAULT: LIGHT MODE) */
+        :root {
+            --bg-body: #f8fafc;
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --bg-card: #ffffff;
+            --border-card: #e2e8f0;
+            --bg-header: #1e1b4b;
+            --bg-input: #ffffff;
+            --border-input: #cbd5e1;
+            --bg-box-sub: #f1f5f9;
+            --table-th-bg: #1e1b4b;
+            --table-th-text: #ffffff;
+            --table-td-border: #cbd5e1;
+            --table-hover: #f1f5f9;
+            --badge-bg: #e2e8f0;
+            --badge-text: #1e1b4b;
+        }
+
+        /* OVERRIDE KHUSUS DARK MODE */
+        body.dark-mode {
+            --bg-body: #0f172a;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --bg-card: #1e293b;
+            --border-card: #334155;
+            --bg-header: #1e1b4b;
+            --bg-input: #0f172a;
+            --border-input: #475569;
+            --bg-box-sub: #0f172a;
+            --table-th-bg: #0f172a;
+            --table-th-text: #ffffff;
+            --table-td-border: #334155;
+            --table-hover: #334155;
+            --badge-bg: #312e81;
+            --badge-text: #c7d2fe;
+        }
+
+        body { background-color: var(--bg-body); color: var(--text-main); font-size: 13px; line-height: 1.5; transition: background-color 0.3s, color 0.3s; }
+        
+        header { background-color: var(--bg-header); color: #ffffff; padding: 12px 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-bottom: 1px solid #312e81; }
         .nav-container { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .logo-area { display: flex; align-items: center; gap: 10px; }
-        .logo-area h1 { font-size: 16px; font-weight: bold; }
+        .logo-area h1 { font-size: 16px; font-weight: bold; color: #ffffff; }
         .logo-area p { font-size: 11px; color: #c7d2fe; }
         .nav-menu { display: flex; gap: 4px; flex-wrap: wrap; }
         .nav-btn { background: transparent; color: #e0e7ff; border: none; padding: 8px 12px; font-weight: 600; font-size: 12px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
         .nav-btn:hover, .nav-btn.active { background-color: #4338ca; color: #ffffff; }
-        .json-btns { display: flex; gap: 6px; border-left: 1px solid #3730a3; padding-left: 10px; }
+        .json-btns { display: flex; gap: 6px; border-left: 1px solid #3730a3; padding-left: 10px; align-items: center; }
         .btn-json { border: none; padding: 6px 12px; font-weight: bold; font-size: 11px; border-radius: 4px; cursor: pointer; color: white; display: flex; align-items: center; gap: 4px; }
         .btn-export { background-color: #059669; } .btn-export:hover { background-color: #047857; }
         .btn-import { background-color: #d97706; } .btn-import:hover { background-color: #b45309; }
+        
+        .btn-theme-toggle { background-color: #f59e0b; color: #0f172a; font-weight: bold; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; display: flex; align-items: center; gap: 4px; }
+        .btn-theme-toggle:hover { background-color: #d97706; color: white; }
 
         main { max-width: 1280px; margin: 20px auto; padding: 0 16px; display: flex; flex-direction: column; gap: 20px; }
         
-        .card { background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .school-header { background-color: #1e1b4b; color: white; padding: 14px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
-        .school-select { padding: 8px 12px; font-weight: bold; border-radius: 6px; border: 2px solid #f59e0b; font-size: 12px; width: 360px; max-width: 100%; color: #1e1b4b; background: white; }
+        .card { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-card); padding: 20px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); color: var(--text-main); transition: background-color 0.3s; }
+        .school-header { background-color: var(--bg-box-sub); color: var(--text-main); padding: 14px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; border: 1px solid var(--border-card); }
+        .school-select { padding: 8px 12px; font-weight: bold; border-radius: 6px; border: 2px solid #f59e0b; font-size: 12px; width: 360px; max-width: 100%; color: #0f172a; background: white; }
         
         .grid-identity { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
         .field-group { display: flex; flex-direction: column; gap: 4px; }
-        .field-group label { font-weight: bold; font-size: 11px; color: #475569; }
-        .field-group input, .field-group select { padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12px; }
+        .field-group label { font-weight: bold; font-size: 11px; color: var(--text-sub); }
+        .field-group input, .field-group select { padding: 8px; border: 1px solid var(--border-input); border-radius: 6px; font-size: 12px; background-color: var(--bg-input); color: var(--text-main); }
         
         .grid-roadmap { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
-        .roadmap-card { border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; cursor: pointer; transition: 0.2s; background: #f8fafc; }
-        .roadmap-card:hover { transform: translateY(-2px); border-color: #6366f1; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .roadmap-card { border: 2px solid var(--border-card); border-radius: 12px; padding: 16px; cursor: pointer; transition: 0.2s; background: var(--bg-box-sub); }
+        .roadmap-card:hover { transform: translateY(-2px); border-color: #6366f1; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .badge-q { display: inline-block; padding: 4px 10px; color: white; font-weight: 800; font-size: 11px; border-radius: 20px; margin-bottom: 10px; }
         
-        .info-box-pbd { background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px; margin-bottom: 10px; font-size: 11px; color: #334155; }
+        .info-box-pbd { background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 8px; padding: 10px; margin-bottom: 10px; font-size: 11px; color: var(--text-sub); }
 
-        .table-responsive { overflow-x: auto; margin-top: 10px; border-radius: 8px; border: 1px solid #e2e8f0; }
-        table { width: 100%; border-collapse: collapse; text-align: left; background: white; font-size: 12px; }
-        th { background-color: #1e1b4b; color: white; padding: 10px; border: 1px solid #312e81; font-weight: 700; }
-        td { padding: 10px; border: 1px solid #e2e8f0; vertical-align: top; }
-        tr:hover { background-color: #f8fafc; }
+        .table-responsive { overflow-x: auto; margin-top: 10px; border-radius: 8px; border: 1px solid var(--border-card); }
+        table { width: 100%; border-collapse: collapse; text-align: left; background: var(--bg-card); font-size: 12px; color: var(--text-main); }
+        th { background-color: var(--table-th-bg); color: var(--table-th-text); padding: 10px; border: 1px solid var(--table-td-border); font-weight: 700; }
+        td { padding: 10px; border: 1px solid var(--table-td-border); vertical-align: top; }
+        tr:hover { background-color: var(--table-hover); }
         
         .btn-action { padding: 6px 12px; border-radius: 6px; border: none; font-weight: bold; font-size: 11px; color: white; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
         .btn-save { background-color: #4f46e5; } .btn-save:hover { background-color: #4338ca; }
         .btn-edit { background-color: #f59e0b; } .btn-edit:hover { background-color: #d97706; }
         .btn-word { background-color: #2563eb; } .btn-word:hover { background-color: #1d4ed8; }
-        .btn-print { background-color: #334155; } .btn-print:hover { background-color: #1e293b; }
+        .btn-print { background-color: #475569; } .btn-print:hover { background-color: #334155; }
         .btn-pdf { background-color: #dc2626; } .btn-pdf:hover { background-color: #b91c1c; }
         .btn-add { background-color: #059669; } .btn-add:hover { background-color: #047857; }
         .btn-link { background-color: #0284c7; } .btn-link:hover { background-color: #0369a1; }
 
-        .btn-open { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; background-color: #dcfce7; color: #166534; font-weight: bold; border-radius: 4px; text-decoration: none; border: 1px solid #86efac; margin-top: 4px; font-size: 11px; }
+        .btn-open { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; background-color: #064e3b; color: #a7f3d0; font-weight: bold; border-radius: 4px; text-decoration: none; border: 1px solid #059669; margin-top: 4px; font-size: 11px; }
 
-        .card-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; margin-bottom: 12px; position: relative; }
-        textarea { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12px; resize: vertical; }
+        .card-item { background: var(--bg-box-sub); border: 1px solid var(--border-card); border-radius: 10px; padding: 16px; margin-bottom: 12px; position: relative; }
+        textarea, input[type="text"] { width: 100%; padding: 8px; border: 1px solid var(--border-input); border-radius: 6px; font-size: 12px; background-color: var(--bg-input); color: var(--text-main); resize: vertical; }
 
         .analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 15px; }
-        .stat-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center; }
-        .stat-val { font-size: 20px; font-weight: 800; color: #4f46e5; margin-top: 4px; }
-        .progress-bar-bg { background: #e2e8f0; border-radius: 10px; height: 10px; width: 100%; overflow: hidden; margin-top: 8px; }
-        .progress-bar-fill { background: #059669; height: 100%; transition: width 0.3s ease; }
+        .stat-card { background: var(--bg-box-sub); border: 1px solid var(--border-card); border-radius: 8px; padding: 12px; text-align: center; }
+        .stat-val { font-size: 20px; font-weight: 800; color: #6366f1; margin-top: 4px; }
+        .progress-bar-bg { background: var(--border-card); border-radius: 10px; height: 10px; width: 100%; overflow: hidden; margin-top: 8px; }
+        .progress-bar-fill { background: #10b981; height: 100%; transition: width 0.3s ease; }
 
         .print-header { display: none; }
-        .q-section-divider { background: #1e1b4b; color: white; padding: 8px 12px; font-weight: bold; font-size: 12px; border-radius: 6px; margin: 20px 0 12px 0; display: flex; align-items: center; gap: 6px; }
+        .q-section-divider { background: #312e81; color: white; padding: 8px 12px; font-weight: bold; font-size: 12px; border-radius: 6px; margin: 20px 0 12px 0; display: flex; align-items: center; gap: 6px; }
 
-        .guide-step { background: #f8fafc; border-left: 4px solid #4338ca; padding: 14px; border-radius: 0 8px 8px 0; margin-bottom: 12px; border: 1px solid #e2e8f0; }
-        .guide-step h3 { color: #1e1b4b; font-size: 13px; font-weight: bold; margin-bottom: 4px; }
-        .guide-step p, .guide-step ul { font-size: 11px; color: #334155; margin-top: 4px; }
+        .guide-step { background: var(--bg-box-sub); border-left: 4px solid #6366f1; padding: 14px; border-radius: 0 8px 8px 0; margin-bottom: 12px; border: 1px solid var(--border-card); }
+        .guide-step h3 { color: var(--text-main); font-size: 13px; font-weight: bold; margin-bottom: 4px; }
+        .guide-step p, .guide-step ul { font-size: 11px; color: var(--text-sub); margin-top: 4px; }
         .guide-step ul { padding-left: 18px; line-height: 1.6; }
 
+        .matrix-grid { display: grid; grid-template-columns: 180px repeat(3, 1fr); gap: 2px; background: var(--border-card); border: 1px solid var(--border-card); border-radius: 8px; overflow: hidden; margin-top: 15px; }
+        .matrix-cell { padding: 12px; text-align: center; font-size: 11px; font-weight: bold; background: var(--bg-card); display: flex; align-items: center; justify-content: center; min-height: 60px; color: var(--text-main); }
+        .matrix-header { background: var(--table-th-bg); color: #ffffff; font-weight: 800; }
+        .cell-sangat-baik { background: #d1fae5; color: #065f46; }
+        .cell-baik { background: #dbeafe; color: #1e40af; }
+        .cell-butuh-perbaikan { background: #fef3c7; color: #92400e; }
+        .cell-kurang { background: #ffe4e6; color: #9f1239; }
+        .cell-active { outline: 3px solid #f59e0b; outline-offset: -3px; z-index: 2; position: relative; }
+
         .hidden { display: none !important; }
-        #toast { position: fixed; bottom: 20px; right: 20px; background: #1e1b4b; color: white; padding: 12px 20px; border-radius: 8px; font-weight: bold; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); z-index: 1000; }
+        #toast { position: fixed; bottom: 20px; right: 20px; background: #4338ca; color: white; padding: 12px 20px; border-radius: 8px; font-weight: bold; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); z-index: 1000; }
 
         @media print {
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             header, .json-btns, .btn-action, button, #toast, .school-header, #identity-card-section, #quarter-info-banner, #toggle-target-only, #filter-comp, #search-box, .analytics-grid, .draft-option-container { display: none !important; }
-            body, main, .card { background: white !important; padding: 0 !important; margin: 0 !important; border: none !important; box-shadow: none !important; width: 100% !important; }
+            body, main, .card { background: white !important; color: black !important; padding: 0 !important; margin: 0 !important; border: none !important; box-shadow: none !important; width: 100% !important; }
             @page { margin: 10mm; }
             .print-header { display: block !important; margin-bottom: 15px; border-bottom: 2px solid #1e1b4b; padding-bottom: 10px; }
             .print-header h2 { font-size: 14pt; font-weight: bold; text-align: center; color: #1e1b4b !important; }
-            .print-header h3 { font-size: 11pt; font-weight: normal; text-align: center; margin-bottom: 10px; border-bottom: 1px solid #334155; }
+            .print-header h3 { font-size: 11pt; font-weight: normal; text-align: center; margin-bottom: 10px; border-bottom: 1px solid #cbd5e1; }
             .print-header-grid { display: grid; grid-template-columns: 1fr; gap: 2px; font-size: 10pt; }
-            table { width: 100% !important; border-collapse: collapse !important; font-size: 9pt !important; }
+            table { width: 100% !important; border-collapse: collapse !important; font-size: 9pt !important; color: black !important; }
             th { background-color: #1e1b4b !important; color: white !important; padding: 6px !important; }
-            td { border: 1px solid #e2e8f0 !important; padding: 6px !important; }
-            textarea, input[type="text"] { border: none !important; background: transparent !important; resize: none !important; font-size: 9pt !important; padding: 0 !important; width: 100% !important; }
+            td { border: 1px solid #cbd5e1 !important; padding: 6px !important; color: black !important; }
+            textarea, input[type="text"], select { border: none !important; background: transparent !important; resize: none !important; font-size: 9pt !important; padding: 0 !important; width: 100% !important; color: black !important; }
         }
     </style>
 </head>
@@ -99,22 +150,24 @@
             <div class="logo-area">
                 <span style="font-size: 20px;">🏫</span>
                 <div>
-                    <h1>Monev SPMI & PKKS 2026</h1>
-                    <p>Permendikdasmen No. 21/2026 • Alur 6M Continuous Improvement</p>
+                    <h1>Monev SPMI, PKKS & Kinerja BKN 2026</h1>
+                    <p>Permendikdasmen No. 21/2026 • Model Predikat Kinerja BKN (BerAKHLAK)</p>
                 </div>
             </div>
-            <div style="display: flex; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 10px;">
                 <div class="nav-menu">
                     <button class="nav-btn active" onclick="switchTab('spmi')" id="nav-spmi">Siklus SPMI (6M)</button>
                     <button class="nav-btn" onclick="switchTab('komparasi')" id="nav-komparasi">ASN vs Non-ASN</button>
                     <button class="nav-btn" onclick="switchTab('roadmap')" id="nav-roadmap">Roadmap 6M (T1-T4)</button>
-                    <button class="nav-btn" onclick="switchTab('instrumen')" id="nav-instrumen">Instrumen 45 Sub-Butir</button>
+                    <button class="nav-btn" onclick="switchTab('instrumen')" id="nav-instrumen">Praktik Kinerja (45 Sub-Butir)</button>
+                    <button class="nav-btn" onclick="switchTab('perilaku')" id="nav-perilaku" style="background-color:#4f46e5; color:white;">👥 Perilaku Kinerja (BerAKHLAK)</button>
                     <button class="nav-btn" onclick="switchTab('pbd')" id="nav-pbd">Matriks PBD</button>
                     <button class="nav-btn" onclick="switchTab('tirta')" id="nav-tirta">Coaching TIRTA</button>
-                    <button class="nav-btn" onclick="switchTab('eksekutif')" id="nav-eksekutif" style="background-color:#0284c7; color:white;">📊 Ringkasan Eksekutif</button>
-                    <button class="nav-btn" onclick="switchTab('panduan')" id="nav-panduan" style="background-color:#059669; color:white;">📖 Panduan Penggunaan</button>
+                    <button class="nav-btn" onclick="switchTab('eksekutif')" id="nav-eksekutif" style="background-color:#0284c7; color:white;">📊 Ringkasan & Predikat BKN</button>
+                    <button class="nav-btn" onclick="switchTab('panduan')" id="nav-panduan" style="background-color:#059669; color:white;">📖 Panduan</button>
                 </div>
                 <div class="json-btns">
+                    <button class="btn-theme-toggle" onclick="toggleTheme()" id="theme-btn">☀️ Mode Terang</button>
                     <button class="btn-json btn-export" onclick="exportJSON()">📥 Ekspor JSON</button>
                     <button class="btn-json btn-import" onclick="triggerImport()">📤 Impor JSON</button>
                     <input type="file" id="json-file" accept=".json" class="hidden" onchange="importJSON(event)">
@@ -126,47 +179,47 @@
     <main>
         <!-- TAB 1: SIKLUS SPMI (6M) -->
         <div id="tab-spmi" class="card">
-            <span style="display:inline-block; padding:3px 8px; background:#e0e7ff; color:#3730a3; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:8px;">SISTEM PENJAMINAN MUTU INTERNAL (SPMI)</span>
-            <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 6px; color:#0f172a;">Siklus Alur 6M SPMI Permendikdasmen Nomor 21 Tahun 2026</h2>
-            <p style="color:#64748b; margin-bottom:18px;">Kerangka kerja continuous improvement untuk penjaminan dan peningkatan mutu pendidikan berkelanjutan melalui 6 tahapan sistematis.</p>
+            <span style="display:inline-block; padding:3px 8px; background:#312e81; color:#c7d2fe; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:8px;">SISTEM PENJAMINAN MUTU INTERNAL (SPMI)</span>
+            <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 6px;">Siklus Alur 6M SPMI Permendikdasmen Nomor 21 Tahun 2026</h2>
+            <p style="color:var(--text-sub); margin-bottom:18px;">Kerangka kerja continuous improvement untuk penjaminan dan peningkatan mutu pendidikan berkelanjutan melalui 6 tahapan sistematis.</p>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom:20px;">
-                <div style="background:#e0e7ff; padding:16px; border-radius:10px; border:1px solid #c7d2fe;">
+                <div style="background:#e0e7ff; padding:16px; border-radius:10px; border:1px solid #c7d2fe; color:#1e1b4b;">
                     <span style="background:#4338ca; color:white; font-weight:bold; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px;">1</span>
-                    <h3 style="font-weight:bold; color:#1e1b4b; font-size:13px; margin-bottom:4px;">Memetakan</h3>
-                    <p style="font-size:11px; color:#334155;">Eksplorasi Rapor Pendidikan & pemetaan mutu awal berdasarkan 45 sub-indikator BAN-PDM.</p>
+                    <h3 style="font-weight:bold; font-size:13px; margin-bottom:4px;">Memetakan</h3>
+                    <p style="font-size:11px;">Eksplorasi Rapor Pendidikan & pemetaan mutu awal berdasarkan 45 sub-indikator BAN-PDM.</p>
                 </div>
-                <div style="background:#dbeafe; padding:16px; border-radius:10px; border:1px solid #bfdbfe;">
+                <div style="background:#dbeafe; padding:16px; border-radius:10px; border:1px solid #bfdbfe; color:#1e3a8a;">
                     <span style="background:#2563eb; color:white; font-weight:bold; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px;">2</span>
-                    <h3 style="font-weight:bold; color:#1e3a8a; font-size:13px; margin-bottom:4px;">Merencanakan</h3>
-                    <p style="font-size:11px; color:#334155;">Penyusunan KOSP, RKT, Perencanaan Berbasis Data (PBD), dan penganggaran ARKAS.</p>
+                    <h3 style="font-weight:bold; font-size:13px; margin-bottom:4px;">Merencanakan</h3>
+                    <p style="font-size:11px;">Penyusunan KOSP, RKT, Perencanaan Berbasis Data (PBD), dan penganggaran ARKAS.</p>
                 </div>
-                <div style="background:#fef3c7; padding:16px; border-radius:10px; border:1px solid #fde68a;">
+                <div style="background:#fef3c7; padding:16px; border-radius:10px; border:1px solid #fde68a; color:#78350f;">
                     <span style="background:#d97706; color:white; font-weight:bold; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px;">3</span>
-                    <h3 style="font-weight:bold; color:#78350f; font-size:13px; margin-bottom:4px;">Melaksanakan</h3>
-                    <p style="font-size:11px; color:#334155;">Implementasi pembelajaran bermakna, penguatan Kombel, budaya sekolah, dan iklim inklusif.</p>
+                    <h3 style="font-weight:bold; font-size:13px; margin-bottom:4px;">Melaksanakan</h3>
+                    <p style="font-size:11px;">Implementasi pembelajaran bermakna, penguatan Kombel, budaya sekolah, dan iklim inklusif.</p>
                 </div>
-                <div style="background:#f3e8ff; padding:16px; border-radius:10px; border:1px solid #e9d5ff;">
+                <div style="background:#f3e8ff; padding:16px; border-radius:10px; border:1px solid #e9d5ff; color:#4c1d95;">
                     <span style="background:#7c3aed; color:white; font-weight:bold; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px;">4</span>
-                    <h3 style="font-weight:bold; color:#4c1d95; font-size:13px; margin-bottom:4px;">Mengevaluasi</h3>
-                    <p style="font-size:11px; color:#334155;">Monev internal berkala, supervisi akademik pengawas, dan asesmen ketercapaian target.</p>
+                    <h3 style="font-weight:bold; font-size:13px; margin-bottom:4px;">Mengevaluasi</h3>
+                    <p style="font-size:11px;">Monev internal berkala, supervisi akademik pengawas, dan asesmen ketercapaian target.</p>
                 </div>
-                <div style="background:#fed7aa; padding:16px; border-radius:10px; border:1px solid #fdba74;">
+                <div style="background:#ffedd5; padding:16px; border-radius:10px; border:1px solid #fed7aa; color:#7c2d12;">
                     <span style="background:#ea580c; color:white; font-weight:bold; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px;">5</span>
-                    <h3 style="font-weight:bold; color:#7c2d12; font-size:13px; margin-bottom:4px;">Menindaklanjuti</h3>
-                    <p style="font-size:11px; color:#334155;">Pendampingan dialogis Coaching TIRTA, koreksi deviasi, dan intervensi rekomendasi PBD.</p>
+                    <h3 style="font-weight:bold; font-size:13px; margin-bottom:4px;">Menindaklanjuti</h3>
+                    <p style="font-size:11px;">Pendampingan dialogis Coaching TIRTA, koreksi deviasi, dan intervensi rekomendasi PBD.</p>
                 </div>
-                <div style="background:#d1fae5; padding:16px; border-radius:10px; border:1px solid #a7f3d0;">
+                <div style="background:#d1fae5; padding:16px; border-radius:10px; border:1px solid #a7f3d0; color:#064e3b;">
                     <span style="background:#059669; color:white; font-weight:bold; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; margin-bottom:8px;">6</span>
-                    <h3 style="font-weight:bold; color:#064e3b; font-size:13px; margin-bottom:4px;">Meningkatkan</h3>
-                    <p style="font-size:11px; color:#334155;">Penetapan standar mutu baru yang lebih tinggi, inovasi sekolah, serta diseminasi praktik baik.</p>
+                    <h3 style="font-weight:bold; font-size:13px; margin-bottom:4px;">Meningkatkan</h3>
+                    <p style="font-size:11px;">Penetapan standar mutu baru yang lebih tinggi, inovasi sekolah, serta diseminasi praktik baik.</p>
                 </div>
             </div>
 
-            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div style="background:var(--bg-box-sub); border:1px solid var(--border-card); border-radius:10px; padding:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
                 <div>
-                    <h4 style="font-size:12px; font-weight:bold; color:#0f172a;">KETERKAITAN ALUR 6M DENGAN EVALUASI PKKS & BAN-PDM</h4>
-                    <p style="font-size:11px; color:#64748b;">Seluruh aktivitas pada tahapan 6M terdokumentasi otomatis untuk memenuhi bukti dukung digital 14 Butir Akreditasi BAN-PDM dan e-Kinerja BKN.</p>
+                    <h4 style="font-size:12px; font-weight:bold;">KETERKAITAN ALUR 6M DENGAN EVALUASI PKKS & BAN-PDM</h4>
+                    <p style="font-size:11px; color:var(--text-sub);">Seluruh aktivitas pada tahapan 6M terdokumentasi otomatis untuk memenuhi bukti dukung digital 14 Butir Akreditasi BAN-PDM dan e-Kinerja BKN.</p>
                 </div>
                 <button class="btn-action btn-save" onclick="switchTab('instrumen')">Lihat Instrumen 45 Sub-Butir ↗</button>
             </div>
@@ -174,26 +227,26 @@
 
         <!-- TAB 2: ASN VS NON-ASN -->
         <div id="tab-komparasi" class="card hidden">
-            <span style="display:inline-block; padding:3px 8px; background:#e0e7ff; color:#3730a3; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:8px;">ANALISIS KEBIJAKAN EVALUASI</span>
-            <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 6px; color:#0f172a;">Komparasi Strategis Penilaian Kinerja: Kepala Sekolah ASN vs. Non-ASN</h2>
-            <p style="color:#64748b; margin-bottom:18px;">Seluruh 45 sub-indikator dievaluasi dengan tolok ukur yang sama, namun muara regulasi administrasi disesuaikan dengan status kepegawaian.</p>
+            <span style="display:inline-block; padding:3px 8px; background:#312e81; color:#c7d2fe; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:8px;">ANALISIS KEBIJAKAN EVALUASI</span>
+            <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 6px;">Komparasi Strategis Penilaian Kinerja: Kepala Sekolah ASN vs. Non-ASN</h2>
+            <p style="color:var(--text-sub); margin-bottom:18px;">Seluruh 45 sub-indikator dievaluasi dengan tolok ukur yang sama, namun muara regulasi administrasi disesuaikan dengan status kepegawaian.</p>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px;">
-                <div style="background:#f8fafc; border:1px solid #c7d2fe; border-radius:12px; padding:18px;">
-                    <h3 style="font-size:14px; font-weight:bold; color:#1e1b4b; margin-bottom:12px; display:flex; align-items:center; gap:6px;">🏛️ Kepala Sekolah ASN (Negeri / P3K)</h3>
+                <div style="background:var(--bg-box-sub); border:1px solid #3730a3; border-radius:12px; padding:18px;">
+                    <h3 style="font-size:14px; font-weight:bold; color:#4338ca; margin-bottom:12px; display:flex; align-items:center; gap:6px;">🏛️ Kepala Sekolah ASN (Negeri / P3K)</h3>
                     <div style="display:flex; flex-direction:column; gap:8px;">
-                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #e2e8f0;"><strong>Pintu Masuk Utama:</strong> e-Kinerja BKN / Ruang GTK [PermenPANRB No. 7/2026].</div>
-                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #e2e8f0;"><strong>Fokus Penilaian:</strong> Keselarasan RHK, SKP Tahunan, Bukti Dukung Digital, & Rating BerAKHLAK.</div>
-                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #e2e8f0;"><strong>Output Akhir:</strong> Predikat Kinerja Pegawai untuk TPP & Karir BKN.</div>
+                        <div style="background:var(--bg-card); padding:10px; border-radius:6px; border:1px solid var(--border-card);"><strong>Pintu Masuk Utama:</strong> e-Kinerja BKN / Ruang GTK [PermenPANRB No. 7/2026].</div>
+                        <div style="background:var(--bg-card); padding:10px; border-radius:6px; border:1px solid var(--border-card);"><strong>Fokus Penilaian:</strong> Keselarasan RHK, SKP Tahunan, Bukti Dukung Digital, & Rating BerAKHLAK.</div>
+                        <div style="background:var(--bg-card); padding:10px; border-radius:6px; border:1px solid var(--border-card);"><strong>Output Akhir:</strong> Predikat Kinerja Pegawai untuk TPP & Karir BKN.</div>
                     </div>
                 </div>
 
-                <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:18px;">
-                    <h3 style="font-size:14px; font-weight:bold; color:#78350f; margin-bottom:12px; display:flex; align-items:center; gap:6px;">🏫 Kepala Sekolah Non-ASN (Swasta / Yayasan)</h3>
+                <div style="background:var(--bg-box-sub); border:1px solid #b45309; border-radius:12px; padding:18px;">
+                    <h3 style="font-size:14px; font-weight:bold; color:#d97706; margin-bottom:12px; display:flex; align-items:center; gap:6px;">🏫 Kepala Sekolah Non-ASN (Swasta / Yayasan)</h3>
                     <div style="display:flex; flex-direction:column; gap:8px;">
-                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #fef3c7;"><strong>Pintu Masuk Utama:</strong> Instrumen PKKS Terintegrasi Statuta Yayasan & BAN-PDM Sispena.</div>
-                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #fef3c7;"><strong>Fokus Penilaian:</strong> Pemenuhan 45 Sub-Indikator, Kekhasan Yayasan, & Kemandirian Mutu.</div>
-                        <div style="background:white; padding:10px; border-radius:6px; border:1px solid #fef3c7;"><strong>Output Akhir:</strong> Laporan Mutu Standar Sekolah & Evaluasi Kontrak Yayasan.</div>
+                        <div style="background:var(--bg-card); padding:10px; border-radius:6px; border:1px solid var(--border-card);"><strong>Pintu Masuk Utama:</strong> Instrumen PKKS Terintegrasi Statuta Yayasan & BAN-PDM Sispena.</div>
+                        <div style="background:var(--bg-card); padding:10px; border-radius:6px; border:1px solid var(--border-card);"><strong>Fokus Penilaian:</strong> Pemenuhan 45 Sub-Indikator, Kekhasan Yayasan, & Kemandirian Mutu.</div>
+                        <div style="background:var(--bg-card); padding:10px; border-radius:6px; border:1px solid var(--border-card);"><strong>Output Akhir:</strong> Laporan Mutu Standar Sekolah & Evaluasi Kontrak Yayasan.</div>
                     </div>
                 </div>
             </div>
@@ -203,9 +256,9 @@
         <div id="tab-roadmap" class="card hidden">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:10px;">
                 <div>
-                    <span style="display:inline-block; padding:3px 8px; background:#e0e7ff; color:#3730a3; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:4px;">KERANGKA TAHAPAN BERKELANJUTAN</span>
-                    <h2 style="font-size: 18px; font-weight: bold; color:#0f172a;">Roadmap Tahapan 6M & Distribusi 14 Butir Akreditasi (T1 - T4)</h2>
-                    <p style="color:#64748b; font-size:11px;" class="sub-desc">Pendampingan pengawas sekolah dan pemenuhan 45 sub-indikator disusun secara proporsional.</p>
+                    <span style="display:inline-block; padding:3px 8px; background:#312e81; color:#c7d2fe; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:4px;">KERANGKA TAHAPAN BERKELANJUTAN</span>
+                    <h2 style="font-size: 18px; font-weight: bold;">Roadmap Tahapan 6M & Distribusi 14 Butir Akreditasi (T1 - T4)</h2>
+                    <p style="color:var(--text-sub); font-size:11px;" class="sub-desc">Pendampingan pengawas sekolah dan pemenuhan 45 sub-indikator disusun secara proporsional.</p>
                 </div>
                 <div style="display:flex; gap:6px;">
                     <button class="btn-action btn-save" onclick="saveData()">💾 Simpan Permanen</button>
@@ -223,12 +276,12 @@
             <div class="grid-roadmap" style="margin-top:15px;">
                 <div class="roadmap-card" onclick="selectQuarterAndNavigate('T1')">
                     <span class="badge-q" style="background:#4f46e5;">TRIWULAN 1 (Jan - Mar) &nbsp; M1 & M2</span>
-                    <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
+                    <h4 style="font-weight:bold; font-size:10px; color:var(--text-sub); margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
                     <p style="font-size:11px; margin-bottom:8px;"><strong>1. Memetakan:</strong> Eksplorasi Rapor Pendidikan & PBD.<br><strong>2. Merencanakan:</strong> Visi-misi, Standar KOSP, & ARKAS.</p>
-                    <h4 style="font-weight:bold; font-size:10px; color:#3730a3; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
+                    <h4 style="font-weight:bold; font-size:10px; color:#4338ca; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
                     <div class="info-box-pbd">D.1 (Kualitas Pembelajaran), D.4 (Kepemimpinan Instruksional), & A.1 - A.3 (Literasi, Numerasi, Karakter).</div>
-                    <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">BUTIR TARGET BAN-PDM:</h4>
-                    <ul style="font-size:11px; padding-left:14px; font-weight:bold; color:#1e1b4b;">
+                    <h4 style="font-weight:bold; font-size:10px; color:var(--text-sub); margin-bottom:2px;">BUTIR TARGET BAN-PDM:</h4>
+                    <ul style="font-size:11px; padding-left:14px; font-weight:bold; color:#4338ca;">
                         <li>Butir 6: Visi Misi & PBD</li>
                         <li>Butir 7: Anggaran & ARKAS</li>
                         <li>Butir 9: Kurikulum & KOSP</li>
@@ -237,12 +290,12 @@
 
                 <div class="roadmap-card" onclick="selectQuarterAndNavigate('T2')">
                     <span class="badge-q" style="background:#059669;">TRIWULAN 2 (Apr - Jun) &nbsp; M3 & M4</span>
-                    <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
+                    <h4 style="font-weight:bold; font-size:10px; color:var(--text-sub); margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
                     <p style="font-size:11px; margin-bottom:8px;"><strong>3. Melaksanakan:</strong> Pembelajaran Bermakna, Kombel, & Disiplin Positif.<br><strong>4. Mengevaluasi:</strong> Supervisi Akademik & Observasi Kelas.</p>
-                    <h4 style="font-weight:bold; font-size:10px; color:#065f46; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
+                    <h4 style="font-weight:bold; font-size:10px; color:#059669; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
                     <div class="info-box-pbd">D.1 (Kualitas Pembelajaran), D.2 (Penerapan Praktik Inovatif), & D.3 (Komunitas Belajar).</div>
-                    <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">BUTIR TARGET BAN-PDM:</h4>
-                    <ul style="font-size:11px; padding-left:14px; font-weight:bold; color:#065f46;">
+                    <h4 style="font-weight:bold; font-size:10px; color:var(--text-sub); margin-bottom:2px;">BUTIR TARGET BAN-PDM:</h4>
+                    <ul style="font-size:11px; padding-left:14px; font-weight:bold; color:#059669;">
                         <li>Butir 1: Interaksi Sosio-Emosional</li>
                         <li>Butir 2: Suasana Kelas</li>
                         <li>Butir 3: Pembelajaran Bermakna</li>
@@ -253,12 +306,12 @@
 
                 <div class="roadmap-card" onclick="selectQuarterAndNavigate('T3')">
                     <span class="badge-q" style="background:#d97706;">TRIWULAN 3 (Jul - Sep) &nbsp; M4 & M5</span>
-                    <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
+                    <h4 style="font-weight:bold; font-size:10px; color:var(--text-sub); margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
                     <p style="font-size:11px; margin-bottom:8px;"><strong>4. Mengevaluasi:</strong> Audit Sarpras, Iklim Belajar, & Safety TPPK.<br><strong>5. Menindaklanjuti:</strong> Coaching TIRTA & Intervensi PBD Tengah Tahun.</p>
-                    <h4 style="font-weight:bold; font-size:10px; color:#92400e; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
+                    <h4 style="font-weight:bold; font-size:10px; color:#d97706; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
                     <div class="info-box-pbd">D.8 (Iklim Kebinekaan), D.10 (Iklim Inklusivitas), & D.11 (Iklim Keamanan Sekolah).</div>
-                    <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">BUTIR TARGET BAN-PDM:</h4>
-                    <ul style="font-size:11px; padding-left:14px; font-weight:bold; color:#92400e;">
+                    <h4 style="font-weight:bold; font-size:10px; color:var(--text-sub); margin-bottom:2px;">BUTIR TARGET BAN-PDM:</h4>
+                    <ul style="font-size:11px; padding-left:14px; font-weight:bold; color:#d97706;">
                         <li>Butir 8: Pengelolaan Sarana Prasarana</li>
                         <li>Butir 10: Kebinekaan & Gender</li>
                         <li>Butir 11: Lingkungan Inklusif</li>
@@ -270,12 +323,12 @@
 
                 <div class="roadmap-card" onclick="selectQuarterAndNavigate('T4')">
                     <span class="badge-q" style="background:#7c3aed;">TRIWULAN 4 (Okt - Des) &nbsp; M5 & M6</span>
-                    <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
+                    <h4 style="font-weight:bold; font-size:10px; color:var(--text-sub); margin-bottom:2px;">FOKUS TAHAPAN 6M:</h4>
                     <p style="font-size:11px; margin-bottom:8px;"><strong>5. Menindaklanjuti:</strong> Refleksi Rekapitulasi PKKS & Audit Mutu.<br><strong>6. Meningkatkan:</strong> Penetapan Standard Baru & Inovasi Mutu Lanjutan.</p>
-                    <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
+                    <h4 style="font-weight:bold; font-size:10px; color:#7c3aed; margin-bottom:2px;">INDIKATOR ACUAN RAPOR PBD:</h4>
                     <div class="info-box-pbd">Seluruh Dimensi A, B, C, D, E (Rekap Capaian & Refleksi Akhir Tahun).</div>
-                    <h4 style="font-weight:bold; font-size:10px; color:#475569; margin-bottom:2px;">BUTIR TARGET BAN-PDM:</h4>
-                    <ul style="font-size:11px; padding-left:14px; font-weight:bold; color:#5b21b6;">
+                    <h4 style="font-weight:bold; font-size:10px; color:var(--text-sub); margin-bottom:2px;">BUTIR TARGET BAN-PDM:</h4>
+                    <ul style="font-size:11px; padding-left:14px; font-weight:bold; color:#7c3aed;">
                         <li>14 Butir Lengkap (45 Sub-Indikator): Verifikasi Rekapitulasi Digital Sispena & Penetapan Predikat PKKS.</li>
                     </ul>
                 </div>
@@ -287,7 +340,7 @@
             <div class="school-header">
                 <div>
                     <h3 style="font-size:14px; font-weight:bold;">🏫 Pilih Sekolah Binaan (Total 20 Sekolah)</h3>
-                    <p style="font-size:11px; color:#c7d2fe;">Kelola & pantau progres monev 20 sekolah binaan pengawas</p>
+                    <p style="font-size:11px; color:var(--text-sub);">Kelola & pantau progres monev 20 sekolah binaan pengawas</p>
                 </div>
                 <select id="school-selector" class="school-select" onchange="switchSchool(this.value)"></select>
             </div>
@@ -318,7 +371,7 @@
                 </div>
                 <div class="field-group">
                     <label>Periode Evaluasi Active</label>
-                    <select id="period-select" onchange="changeQuarter(this.value)" style="font-weight:bold; color:#1e1b4b;">
+                    <select id="period-select" onchange="changeQuarter(this.value)" style="font-weight:bold;">
                         <option value="T1">Triwulan I (Jan-Mar: Memetakan & Merencanakan)</option>
                         <option value="T2">Triwulan II (Apr-Jun: Melaksanakan & Mengevaluasi)</option>
                         <option value="T3">Triwulan III (Jul-Sep: Mengevaluasi & Menindaklanjuti)</option>
@@ -328,7 +381,7 @@
             </div>
         </div>
 
-        <!-- TAB 4: INSTRUMEN 45 SUB-BUTIR -->
+        <!-- TAB 4: PRAKTIK KINERJA (45 SUB-BUTIR) -->
         <div id="tab-instrumen" class="card hidden">
             <div class="print-header">
                 <h2>LAPORAN MONEV SPMI & PKKS TAHUN 2026</h2>
@@ -343,23 +396,23 @@
 
             <div class="analytics-grid">
                 <div class="stat-card">
-                    <div style="font-size:11px; font-weight:bold; color:#475569;">PREDIKAT RATA-RATA SKOR TARGET</div>
+                    <div style="font-size:11px; font-weight:bold; color:var(--text-sub);">PREDIKAT RATA-RATA SKOR TARGET</div>
                     <div class="stat-val" id="stat-skor-val">0.00 / 4.00</div>
-                    <div style="font-size:10px; color:#64748b; margin-top:2px;" id="stat-skor-label">Belum Dinilai</div>
+                    <div style="font-size:10px; color:var(--text-sub); margin-top:2px;" id="stat-skor-label">Belum Dinilai</div>
                 </div>
                 <div class="stat-card">
-                    <div style="font-size:11px; font-weight:bold; color:#475569;">KELENGKAPAN BUKTI DUKUNG (DRIVE)</div>
+                    <div style="font-size:11px; font-weight:bold; color:var(--text-sub);">KELENGKAPAN BUKTI DUKUNG (DRIVE)</div>
                     <div class="stat-val" id="stat-drive-val">0%</div>
                     <div class="progress-bar-bg"><div class="progress-bar-fill" id="stat-drive-bar" style="width:0%;"></div></div>
                 </div>
                 <div class="stat-card">
-                    <div style="font-size:11px; font-weight:bold; color:#475569;">KESIAPAN AKREDITASI SISPENA</div>
+                    <div style="font-size:11px; font-weight:bold; color:var(--text-sub);">KESIAPAN AKREDITASI SISPENA</div>
                     <div class="stat-val" style="font-size:14px; margin-top:8px;" id="stat-akreditasi-status">🔴 Belum Siap</div>
-                    <div style="font-size:10px; color:#64748b; margin-top:2px;" id="stat-akreditasi-desc">Dokumen di bawah 50%</div>
+                    <div style="font-size:10px; color:var(--text-sub); margin-top:2px;" id="stat-akreditasi-desc">Dokumen di bawah 50%</div>
                 </div>
             </div>
 
-            <div id="quarter-info-banner" style="padding:12px 16px; border-radius:8px; margin-bottom:15px; border:1px solid #cbd5e1;"></div>
+            <div id="quarter-info-banner" style="padding:12px 16px; border-radius:8px; margin-bottom:15px; border:1px solid var(--border-card);"></div>
 
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
                 <div></div>
@@ -371,19 +424,19 @@
                 </div>
             </div>
 
-            <div class="draft-option-container" style="background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:10px 14px; margin-bottom:15px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-                <label style="font-weight:bold; font-size:12px; color:#92400e; cursor:pointer; display:flex; align-items:center; gap:8px;">
+            <div class="draft-option-container" style="background:#fef3c7; border:1px solid #fde68a; border-radius:8px; padding:10px 14px; margin-bottom:15px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; color:#78350f;">
+                <label style="font-weight:bold; font-size:12px; cursor:pointer; display:flex; align-items:center; gap:8px;">
                     <input type="checkbox" id="chk-draft-blank" onchange="toggleDraftMode(this.checked)" style="width:16px; height:16px; cursor:pointer;">
                     <span>📝 Cetak / Tampilkan Format Lembar Kerja Kosong (Khusus Persiapan & Sosialisasi Sekolah)</span>
                 </label>
-                <span style="font-size:11px; color:#78350f; background:#fef3c7; padding:2px 8px; border-radius:4px; border:1px solid #fcd34d;">
+                <span style="font-size:11px; background:#fef08a; padding:2px 8px; border-radius:4px; border:1px solid #fde68a;">
                     💡 Centang untuk mengosongkan identitas sekolah & nilai saat dicetak
                 </span>
             </div>
 
-            <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap; align-items:center; background:#f8fafc; padding:10px; border-radius:8px; border:1px solid #e2e8f0;">
+            <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap; align-items:center; background:var(--bg-box-sub); padding:10px; border-radius:8px; border:1px solid var(--border-card);">
                 <label style="font-size:11px; font-weight:bold;">Filter Komponen:</label>
-                <select id="filter-comp" style="padding:4px 8px; border-radius:4px; border:1px solid #cbd5e1; font-size:11px;" onchange="renderTable()">
+                <select id="filter-comp" style="padding:4px 8px; border-radius:4px; border:1px solid var(--border-input); font-size:11px; background:var(--bg-input); color:var(--text-main);" onchange="renderTable()">
                     <option value="ALL">Semua 3 Komponen</option>
                     <option value="1. Kinerja Pendidik">1. Kinerja Pendidik</option>
                     <option value="2. Kepemimpinan KS">2. Kepemimpinan KS</option>
@@ -395,7 +448,7 @@
                     <span>Hanya Tampilkan Butir Target Triwulan</span>
                 </label>
 
-                <input type="text" id="search-box" placeholder="Cari kode (misal 1.2) atau kata kunci..." style="padding:4px 8px; border-radius:4px; border:1px solid #cbd5e1; font-size:11px; flex:1;" oninput="renderTable()">
+                <input type="text" id="search-box" placeholder="Cari kode (misal 1.2) atau kata kunci..." style="padding:4px 8px; border-radius:4px; border:1px solid var(--border-input); font-size:11px; flex:1; background:var(--bg-input); color:var(--text-main);" oninput="renderTable()">
             </div>
 
             <div class="table-responsive">
@@ -415,7 +468,37 @@
             </div>
         </div>
 
-        <!-- TAB 5: MATRIKS PBD -->
+        <!-- TAB 5: PERILAKU KINERJA (BerAKHLAK) -->
+        <div id="tab-perilaku" class="card hidden">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
+                <div>
+                    <span style="display:inline-block; padding:3px 8px; background:#312e81; color:#c7d2fe; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:4px;">EVALUASI PERILAKU ASN BKN</span>
+                    <h2 style="font-size: 18px; font-weight: bold;">Penilaian Perilaku Kinerja (Core Value BerAKHLAK)</h2>
+                    <p style="color:var(--text-sub); font-size:11px;">Evaluasi tingkat perilaku kerja sesuai ekspektasi pimpinan/pengawas pembina (PermenPANRB No. 6/2022 & BKN 2026).</p>
+                </div>
+                <div style="display:flex; gap:6px;">
+                    <button class="btn-action btn-save" onclick="saveData()">💾 Simpan Permanen</button>
+                    <button class="btn-action btn-print" onclick="triggerSmartPrint('Penilaian Perilaku BerAKHLAK')">🖨️ Cetak</button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 40px; text-align:center;">No</th>
+                            <th style="width: 180px;">Core Value BerAKHLAK</th>
+                            <th>Indikator Perilaku Utama</th>
+                            <th>Umpan Balik Berkelanjutan / Catatan Pengawas</th>
+                            <th style="width: 180px; text-align:center;">Rating Ekspektasi Pimpinan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="perilaku-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 6: MATRIKS PBD -->
         <div id="tab-pbd" class="card hidden">
             <div class="print-header">
                 <h2>MATRIKS AKSI REKOMENDASI PBD & PENGANGGARAN ARKAS</h2>
@@ -431,9 +514,9 @@
 
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:10px;">
                 <div>
-                    <span style="display:inline-block; padding:3px 8px; background:#e0e7ff; color:#3730a3; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:4px;">PERENCANAAN BERBASIS DATA</span>
-                    <h2 style="font-size: 18px; font-weight: bold; color:#0f172a;">Matriks Rekapitulasi Aksi PBD & RKT/ARKAS (<span class="q-label-text">Triwulan I</span>)</h2>
-                    <p style="color:#64748b; font-size:11px; margin-top:2px;" class="sub-desc">Pemetaan interaktif untuk menghubungkan rekomendasi sub-indikator ke RKT dan penganggaran ARKAS pada triwulan ini.</p>
+                    <span style="display:inline-block; padding:3px 8px; background:#312e81; color:#c7d2fe; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:4px;">PERENCANAAN BERBASIS DATA</span>
+                    <h2 style="font-size: 18px; font-weight: bold;">Matriks Rekapitulasi Aksi PBD & RKT/ARKAS (<span class="q-label-text">Triwulan I</span>)</h2>
+                    <p style="color:var(--text-sub); font-size:11px; margin-top:2px;" class="sub-desc">Pemetaan interaktif untuk menghubungkan rekomendasi sub-indikator ke RKT dan penganggaran ARKAS pada triwulan ini.</p>
                 </div>
                 <div style="display:flex; gap:6px;">
                     <button class="btn-action btn-add" onclick="addPbdRow()">➕ Tambah Aksi PBD</button>
@@ -446,7 +529,7 @@
             <div id="pbd-container" style="margin-top:15px;"></div>
         </div>
 
-        <!-- TAB 6: COACHING TIRTA -->
+        <!-- TAB 7: COACHING TIRTA -->
         <div id="tab-tirta" class="card hidden">
             <div class="print-header">
                 <h2>LEMBAR PENDAMPINGAN DIALOGIS (ALUR TIRTA)</h2>
@@ -461,9 +544,9 @@
 
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
                 <div>
-                    <span style="display:inline-block; padding:3px 8px; background:#e0e7ff; color:#3730a3; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:4px;">PENDAMPINGAN DIALOGIS (TAHAP MENINDAKLANJUTI)</span>
-                    <h2 style="font-size: 18px; font-weight: bold; color:#0f172a;">Simulator Coaching TIRTA Pengawas Sekolah (<span class="q-label-text">Triwulan I</span>)</h2>
-                    <p style="color:#64748b; font-size:11px;" class="sub-desc">Simulator ini memfasilitasi dialog konstruktif berbasis alur TIRTA yang terintegrasi langsung dengan fokus Butir BAN-PDM aktif pada triwulan ini.</p>
+                    <span style="display:inline-block; padding:3px 8px; background:#312e81; color:#c7d2fe; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:4px;">PENDAMPINGAN DIALOGIS (TAHAP MENINDAKLANJUTI)</span>
+                    <h2 style="font-size: 18px; font-weight: bold;">Simulator Coaching TIRTA Pengawas Sekolah (<span class="q-label-text">Triwulan I</span>)</h2>
+                    <p style="color:var(--text-sub); font-size:11px;" class="sub-desc">Simulator ini memfasilitasi dialog konstruktif berbasis alur TIRTA yang terintegrasi langsung dengan fokus Butir BAN-PDM aktif pada triwulan ini.</p>
                 </div>
                 <div style="display:flex; gap:6px;">
                     <button class="btn-action btn-link" onclick="autoLinkPbdToTirta()">🔗 Tarik Rekomendasi PBD</button>
@@ -476,20 +559,20 @@
 
             <div id="tirta-container"></div>
 
-            <div style="margin-top:25px; border-top:2px solid #e2e8f0; padding-top:15px;">
+            <div style="margin-top:25px; border-top:2px solid var(--border-card); padding-top:15px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <h3 style="font-size:14px; font-weight:bold; color:#1e1b4b;">🏫 Log Observasi Pembelajaran (Supervisi Klinis Guru)</h3>
+                    <h3 style="font-size:14px; font-weight:bold;">🏫 Log Observasi Pembelajaran (Supervisi Klinis Guru)</h3>
                     <button class="btn-action btn-add" onclick="addSupervisiRow()">➕ Tambah Log Observasi Guru</button>
                 </div>
                 <div id="supervisi-container"></div>
             </div>
         </div>
 
-        <!-- TAB 7: RINGKASAN EKSEKUTIF -->
+        <!-- TAB 8: RINGKASAN & PREDIKAT BKN -->
         <div id="tab-eksekutif" class="card hidden">
             <div class="print-header">
-                <h2>RINGKASAN EKSEKUTIF HASIL MONEV SPMI & PKKS TAHUN 2026</h2>
-                <h3>Laporan Rekapitulasi Terpadu Mutu Satuan Pendidikan</h3>
+                <h2>PREDIKAT KINERJA PEGAWAI / KEPALA SEKOLAH</h2>
+                <h3>Model Pengelolaan Kinerja ASN BKN (PermenPANRB No. 6/2022)</h3>
                 <div class="print-header-grid">
                     <div>• <strong>Satuan Pendidikan:</strong> <span class="pr-school">-</span></div>
                     <div>• <strong>Nama Kepala Sekolah:</strong> <span class="pr-ks-name">-</span> (<span class="pr-ks-nip">-</span>)</div>
@@ -501,36 +584,116 @@
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
                 <div>
                     <span style="display:inline-block; padding:3px 8px; background:#0284c7; color:white; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:4px;">LAPORAN TERPADU UNTUK DINAS & KEPALA SEKOLAH</span>
-                    <h2 style="font-size: 18px; font-weight: bold; color:#0f172a;">Ringkasan Eksekutif Monev Mutu & Kinerja (<span class="q-label-text">Triwulan I</span>)</h2>
-                    <p style="color:#64748b; font-size:11px;" class="sub-desc">Rangkuman terpadu yang menggabungkan skor kinerja, catatan pendampingan TIRTA, dan aksi PBD dalam satu format ringkas.</p>
+                    <h2 style="font-size: 18px; font-weight: bold;">PREDIKAT KINERJA PEGAWAI / KEPALA SEKOLAH (<span class="q-label-text">Triwulan I</span>)</h2>
+                    <p style="color:var(--text-sub); font-size:11px;" class="sub-desc">Sinkronisasi Capaian Kinerja (45 Sub-Indikator SPMI) dan Rating Perilaku Kinerja BerAKHLAK.</p>
                 </div>
                 <div style="display:flex; gap:6px;">
-                    <button class="btn-action btn-print" onclick="triggerSmartPrint('Ringkasan Eksekutif Monev')">🖨️ Cetak Ringkasan</button>
-                    <button class="btn-action btn-pdf" onclick="triggerSmartPrint('Ringkasan Eksekutif Monev')">📄 PDF Ringkasan</button>
-                    <button class="btn-action btn-word" onclick="exportToWord('Ringkasan Eksekutif Monev')">📝 Word</button>
+                    <button class="btn-action btn-print" onclick="triggerSmartPrint('Predikat Kinerja BKN')">🖨️ Cetak Ringkasan</button>
+                    <button class="btn-action btn-pdf" onclick="triggerSmartPrint('Predikat Kinerja BKN')">📄 PDF Ringkasan</button>
+                    <button class="btn-action btn-word" onclick="exportToWord('Predikat Kinerja BKN')">📝 Word</button>
+                </div>
+            </div>
+
+            <!-- PREDIKAT SUMMARY BANNER -->
+            <div style="background:var(--bg-box-sub); border:2px solid #3b82f6; border-radius:12px; padding:18px; margin-bottom:20px; display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:15px; align-items:center;">
+                <div>
+                    <span style="font-size:10px; font-weight:bold; color:#2563eb; text-transform:uppercase;">Capaian Hasil Kerja (Praktik)</span>
+                    <div style="font-size:18px; font-weight:bold;" id="bkn-hasil-kerja-val">Di Atas Ekspektasi</div>
+                    <p style="font-size:11px; color:var(--text-sub);" id="bkn-hasil-kerja-sub">Berdasarkan akumulasi 45 sub-indikator SPMI/PKKS.</p>
+                </div>
+                <div>
+                    <span style="font-size:10px; font-weight:bold; color:#2563eb; text-transform:uppercase;">Rating Perilaku Kinerja</span>
+                    <div style="font-size:18px; font-weight:bold;" id="bkn-perilaku-val">Sesuai Ekspektasi</div>
+                    <p style="font-size:11px; color:var(--text-sub);" id="bkn-perilaku-sub">Berdasarkan evaluasi 7 Core Value BerAKHLAK.</p>
+                </div>
+                <div style="text-align:right; background:var(--bg-card); padding:12px; border-radius:8px; border:1px solid var(--border-card);">
+                    <span style="font-size:10px; font-weight:bold; color:#f59e0b; text-transform:uppercase;">PREDIKAT KINERJA AKHIR</span>
+                    <div style="font-size:22px; font-weight:900; color:#059669;" id="bkn-predikat-akhir-val">SANGAT BAIK</div>
+                    <span style="font-size:10px; color:#059669;" id="bkn-predikat-desc">Status: Terverifikasi Tuntas</span>
+                </div>
+            </div>
+
+            <!-- MATRIKS KUADRAN BKN -->
+            <div style="background:var(--bg-box-sub); border:1px solid var(--border-card); border-radius:10px; padding:16px; margin-bottom:20px;">
+                <h3 style="font-size:14px; font-weight:bold; margin-bottom:4px;">📊 Matriks Kuadran Predikat Kinerja BKN</h3>
+                <p style="font-size:11px; color:var(--text-sub); margin-bottom:12px;">Sesuai ketentuan BKN, Predikat Kinerja diperoleh dari persimpangan antara Capaian Hasil Kerja dan Rating Perilaku Kinerja.</p>
+                
+                <div class="matrix-grid">
+                    <div class="matrix-cell matrix-header">Hasil Kerja \ Perilaku</div>
+                    <div class="matrix-cell matrix-header">Di Bawah Ekspektasi</div>
+                    <div class="matrix-cell matrix-header">Sesuai Ekspektasi</div>
+                    <div class="matrix-cell matrix-header">Di Atas Ekspektasi</div>
+
+                    <div class="matrix-cell matrix-header">Di Atas Ekspektasi</div>
+                    <div class="matrix-cell cell-butuh-perbaikan" id="cell-atas-bawah">BUTUH PERBAIKAN</div>
+                    <div class="matrix-cell cell-sangat-baik" id="cell-atas-sesuai">SANGAT BAIK</div>
+                    <div class="matrix-cell cell-sangat-baik" id="cell-atas-atas">SANGAT BAIK</div>
+
+                    <div class="matrix-cell matrix-header">Sesuai Ekspektasi</div>
+                    <div class="matrix-cell cell-kurang" id="cell-sesuai-bawah">KURANG / MISCONDUCT</div>
+                    <div class="matrix-cell cell-baik" id="cell-sesuai-sesuai">BAIK</div>
+                    <div class="matrix-cell cell-baik" id="cell-sesuai-atas">BAIK</div>
+
+                    <div class="matrix-cell matrix-header">Di Bawah Ekspektasi</div>
+                    <div class="matrix-cell cell-kurang" id="cell-bawah-bawah">SANGAT KURANG</div>
+                    <div class="matrix-cell cell-butuh-perbaikan" id="cell-bawah-sesuai">BUTUH PERBAIKAN</div>
+                    <div class="matrix-cell cell-butuh-perbaikan" id="cell-bawah-atas">BUTUH PERBAIKAN</div>
                 </div>
             </div>
 
             <div id="eksekutif-content" style="display:flex; flex-direction:column; gap:16px;"></div>
         </div>
 
-        <!-- TAB 8: PANDUAN PENGGUNAAN -->
+        <!-- TAB 9: PANDUAN PENGGUNAAN -->
         <div id="tab-panduan" class="card hidden">
-            <span style="display:inline-block; padding:3px 8px; background:#dcfce7; color:#166534; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:8px;">PETUNJUK OPERASIONAL APLIKASI</span>
-            <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 6px; color:#0f172a;">Panduan Penggunaan Aplikasi Monev SPMI & PKKS 2026</h2>
-            <p style="color:#64748b; margin-bottom:18px;">Panduan langkah demi langkah untuk memaksimalkan penggunaan aplikasi Monev SPMI & PKKS berbasis alur 6M Continuous Improvement.</p>
+            <span style="display:inline-block; padding:3px 8px; background:#064e3b; color:#a7f3d0; font-weight:bold; font-size:10px; border-radius:12px; margin-bottom:8px;">PETUNJUK OPERASIONAL APLIKASI</span>
+            <h2 style="font-size:18px; font-weight:bold; margin-bottom:6px;">Panduan Penggunaan Aplikasi Monev SPMI, PKKS & Kinerja BKN 2026</h2>
+            <p style="color:var(--text-sub); margin-bottom:14px;">Panduan praktis untuk pengawas pembina dan kepala sekolah dalam melakukan pemantauan, evaluasi, pendampingan, serta tindak lanjut peningkatan mutu. Gunakan panduan ini bersama dokumen resmi dan ketentuan yang berlaku.</p>
 
-            <div class="guide-step">
-                <h3>1. 🏫 Memilih Sekolah & Pengisian Profil Satuan Pendidikan</h3>
-                <p>Pilih sekolah binaan pada dropdown profil. Isikan nama Kepala Sekolah, NIP, dan Pengawas Pembina. Status ASN/Non-ASN otomatis terdeteksi.</p>
+            <div class="guide-step"><h3>🧭 A. Urutan kerja yang disarankan</h3>
+                <ol style="padding-left:20px; line-height:1.8; color:var(--text-sub);">
+                    <li>Pilih sekolah binaan dan pastikan profil serta periode evaluasi benar.</li>
+                    <li>Baca Siklus SPMI (6M) dan Roadmap 6M untuk memahami fokus triwulan.</li>
+                    <li>Periksa target pada Praktik Kinerja (45 Sub-Butir), lalu isi bukti, catatan observasi, dan skor berdasarkan kondisi nyata.</li>
+                    <li>Isi Perilaku Kinerja BerAKHLAK dengan umpan balik yang spesifik dan rating sesuai bukti perilaku.</li>
+                    <li>Gunakan Matriks PBD untuk menghubungkan temuan dengan akar masalah, program benahi, dan anggaran.</li>
+                    <li>Gunakan Coaching TIRTA untuk membangun dialog dan menyepakati tindak lanjut.</li>
+                    <li>Periksa Ringkasan & Predikat BKN, simpan data, lalu cetak atau ekspor laporan.</li>
+                </ol>
             </div>
-            <div class="guide-step">
-                <h3>2. 🗓️ Pengaturan Triwulan Evaluasi (T1 - T4)</h3>
-                <p>Pilih triwulan aktif. Setiap triwulan memfilter butir target BAN-PDM dan menyesuaikan fokus pembinaan Alur 6M.</p>
+            <div class="guide-step"><h3>1. 🏫 Memilih sekolah dan memeriksa profil</h3>
+                <ul><li>Pilih nama sekolah pada daftar sekolah binaan.</li><li>Periksa nama satuan pendidikan, kepala sekolah, NIP, status ASN/Non-ASN, dan nama pengawas pembina.</li><li>Pilih Triwulan I, II, III, atau IV sesuai kegiatan yang sedang dievaluasi.</li><li>Jika ada data identitas yang keliru, perbaiki sebelum melakukan penilaian dan pastikan perubahan tersimpan.</li></ul>
             </div>
-            <div class="guide-step">
-                <h3>3. 📋 Pengisian Link Drive & Skor</h3>
-                <p>Isi link drive bukti dukung lalu klik tombol <strong>💾 Simpan</strong> di sampingnya. Link akan terkunci dan dapat dibuka via tombol hijau. Klik <strong>💾 Simpan Permanen</strong> untuk menyimpan seluruh data sekolah ke penyimpanan browser.</p>
+            <div class="guide-step"><h3>2. 🔄 Siklus SPMI (6M) dan Roadmap 6M</h3>
+                <p>Gunakan Siklus 6M sebagai kerangka peningkatan mutu: Memetakan, Merencanakan, Melaksanakan, Mengevaluasi, Menindaklanjuti, dan Meningkatkan. Roadmap membagi fokus kerja ke dalam empat triwulan. Jadikan roadmap sebagai acuan prioritas, bukan pengganti bukti pelaksanaan.</p>
+            </div>
+            <div class="guide-step"><h3>3. 📋 Praktik Kinerja (45 Sub-Butir)</h3>
+                <ul><li>Baca kode, nama butir, dan deskripsi subindikator sampai tuntas.</li><li>Siapkan bukti yang relevan, terbaru, dapat diakses, dan sesuai dengan indikator. Bila menggunakan tautan Drive/Sispena, pastikan izin aksesnya sesuai.</li><li>Isi catatan observasi secara faktual: apa yang ditemukan, sumber bukti, dan bagian yang perlu ditingkatkan.</li><li>Berikan skor sesuai rubrik yang ditetapkan dalam instrumen. Jangan memberi skor hanya berdasarkan perkiraan atau kelengkapan berkas.</li><li>Periksa kembali butir yang kosong dan fokus triwulan sebelum menyimpan atau mencetak.</li></ul>
+            </div>
+            <div class="guide-step"><h3>4. 🤝 Perilaku Kinerja BerAKHLAK</h3>
+                <p>Tinjau tujuh nilai BerAKHLAK yang tersedia pada tabel. Berikan umpan balik yang spesifik, santun, dapat ditindaklanjuti, dan merujuk pada perilaku yang teramati. Pilih rating ekspektasi berdasarkan bukti dan ketentuan penilaian yang berlaku; hindari penilaian berdasarkan kesan pribadi semata.</p>
+            </div>
+            <div class="guide-step"><h3>5. 🗺️ Matriks PBD</h3>
+                <p>Hubungkan subindikator target dengan tahapan 6M. Uraikan masalah yang ditemukan, refleksi akar masalah, dan program benahi yang realistis. Untuk memperkuat tindak lanjut, rumuskan penanggung jawab, jadwal, indikator keberhasilan, serta kebutuhan anggaran dalam dokumen perencanaan sekolah yang relevan.</p>
+            </div>
+            <div class="guide-step"><h3>6. 💬 Coaching TIRTA</h3>
+                <p>Gunakan ruang dialog untuk membantu kepala sekolah merefleksikan situasi dan menentukan solusi. Catat hasil percakapan secara ringkas, fokus pada pertanyaan yang menggali kondisi dan pilihan, lalu rumuskan komitmen aksi yang jelas: kegiatan, penanggung jawab, waktu, dan tanda keberhasilan. Coaching bukan sekadar mengisi kolom atau memberi instruksi satu arah.</p>
+            </div>
+            <div class="guide-step"><h3>7. 📊 Ringkasan dan Predikat Kinerja</h3>
+                <p>Ringkasan menampilkan rekap praktik kinerja, rating perilaku, dan hasil matriks predikat. Periksa jumlah butir yang sudah dinilai serta kesesuaian hasil dengan bukti. Hasil otomatis aplikasi merupakan alat bantu rekapitulasi dan harus diverifikasi terhadap instrumen, regulasi, serta prosedur resmi yang berlaku sebelum dipakai sebagai keputusan formal.</p>
+                <p><strong>Catatan:</strong> bila belum ada skor praktik kinerja, hasil harus dibaca sebagai belum dinilai, bukan sebagai predikat final.</p>
+            </div>
+            <div class="guide-step"><h3>8. 💾 Simpan Permanen, cetak, PDF, Word</h3>
+                <ul><li>Tekan <strong>Simpan Permanen</strong> setelah selesai mengisi atau memperbarui data.</li><li>Tunggu notifikasi, lalu periksa kembali data dengan berpindah menu dan kembali lagi.</li><li>Gunakan Cetak, PDF, atau Word untuk membuat keluaran laporan yang tersedia pada menu tersebut.</li><li>Simpan laporan pada lokasi penyimpanan yang dikelola sekolah/pengawas sesuai kebijakan perlindungan data.</li></ul>
+            </div>
+            <div class="guide-step"><h3>9. 🔐 Ekspor JSON dan Impor JSON (cadangan data)</h3>
+                <ul><li><strong>Ekspor JSON:</strong> unduh file cadangan secara berkala, terutama sebelum memindahkan perangkat atau melakukan perubahan besar.</li><li>Simpan file cadangan di lokasi aman dan beri nama yang menunjukkan tanggal serta versi.</li><li><strong>Impor JSON:</strong> pilih file cadangan yang benar dan berasal dari aplikasi ini. Impor dapat mengganti data yang sedang dimuat; ekspor data terbaru terlebih dahulu sebelum mengimpor.</li><li>Setelah impor, periksa sekolah, triwulan, profil, skor, catatan, PBD, dan coaching untuk memastikan data yang benar telah dimuat.</li><li>Jangan membagikan file cadangan karena dapat berisi data identitas dan catatan evaluasi.</li></ul>
+            </div>
+            <div class="guide-step"><h3>10. ✅ Daftar pemeriksaan sebelum laporan digunakan</h3>
+                <ul><li>Identitas sekolah, kepala sekolah, pengawas, dan periode sudah benar.</li><li>Skor didukung bukti dan catatan observasi yang relevan.</li><li>Umpan balik perilaku berisi masukan yang jelas dan profesional.</li><li>Rencana PBD dan komitmen coaching memiliki tindak lanjut yang dapat dipantau.</li><li>Angka rekap, status, dan predikat telah diperiksa; tidak ada konflik seperti nilai kosong tetapi predikat sudah muncul.</li><li>Data sudah disimpan dan file cadangan dibuat bila diperlukan.</li></ul>
+            </div>
+            <div class="guide-step" style="border-left-color:#d97706;"><h3>⚠️ Pengingat penting</h3>
+                <p>Aplikasi ini merupakan alat bantu pencatatan, pemantauan, dan rekapitulasi. Pastikan penggunaan indikator, pemetaan butir, rumus penilaian, predikat, dan rujukan regulasi telah diverifikasi oleh pihak berwenang. Jangan memasukkan data pribadi yang tidak diperlukan dan jangan menjadikan hasil otomatis sebagai satu-satunya dasar keputusan resmi.</p>
             </div>
         </div>
     </main>
@@ -541,7 +704,8 @@
         let currentQuarter = "T1";
         let selectedSchoolId = 1;
         let isDraftMode = false;
-        const STORAGE_KEY = "MONEV_SPMI_PKKS_2026_OFFLINE_V13";
+        let isDarkMode = false;
+        const STORAGE_KEY = "MONEV_SPMI_PKKS_2026_OFFLINE_V14";
 
         const initialSchoolNames = [
             "SMPN 3 Tarogong Kidul", "SMPN 2 Cigedug", "SMPN 1 Tarogong Kidul", "SMPN 1 Cisompet", "SMPN 2 Cisompet",
@@ -559,11 +723,21 @@
 
         const defaultPengawasName = "I. Faridlah Sulaeman.";
 
+        const masterBerakhlak = [
+            { no: 1, key: "pelayanan", title: "Berorientasi Pelayanan", desc: "Memahami dan memenuhi kebutuhan warga sekolah serta memberikan pelayanan prima." },
+            { no: 2, key: "akuntabel", title: "Akuntabel", desc: "Melaksanakan tugas dengan jujur, bertanggung jawab, cermat, disiplin dan berintegritas tinggi." },
+            { no: 3, key: "kompeten", title: "Kompeten", desc: "Meningkatkan kompetensi diri untuk menjawab tantangan yang selalu berubah dan membantu orang lain belajar." },
+            { no: 4, key: "harmonis", title: "Harmonis", desc: "Membangun lingkungan kerja yang kondusif, menghargai setiap orang, dan suka menolong." },
+            { no: 5, key: "loyal", title: "Loyal", desc: "Memegang teguh ideologi Pancasila, UUD 1945, serta setia kepada NKRI dan Pemerintah." },
+            { no: 6, key: "adaptif", title: "Adaptif", desc: "Cepat menyesuaikan diri menghadapi perubahan dan terus berinovasi memanfaatkan digitalisasi." },
+            { no: 7, key: "kolaboratif", title: "Kolaboratif", desc: "Memberi kesempatan kepada berbagai pihak untuk berkontribusi dan terbuka dalam bekerja sama." }
+        ];
+
         const roadmapInfoMap = {
             T1: { title: "Triwulan 1 (Jan-Mar)", fullTitle: "Triwulan I (Januari - Maret: Memetakan & Merencanakan)", targetButirIds: [6, 7, 9], targetText: "Butir 6 (Visi Misi & PBD), Butir 7 (Anggaran & ARKAS), Butir 9 (Kurikulum & KOSP)", bg: "#e0e7ff", color: "#1e1b4b", alur: "M1 & M2 (Memetakan & Merencanakan)", fokusTirta: "Penetapan KOSP, Visi-Misi & PBD Target (Butir 6, 7, 9)" },
-            T2: { title: "Triwulan 2 (Apr-Jun)", fullTitle: "Triwulan II (April - Juni: Melaksanakan & Mengevaluasi)", targetButirIds: [1, 2, 3, 4, 5], targetText: "Butir 1 (Sosio-Emosional), Butir 2 (Suasana Kelas), Butir 3 (Pembelajaran Bermakna), Butir 4 (Karakter), Butir 5 (Evaluasi SDM)", bg: "#d1fae5", color: "#065f46", alur: "M3 & M4 (Melaksanakan & Mengevaluasi)", fokusTirta: "Pembelajaran Bermakna & Kombel (Butir 1-5)" },
-            T3: { title: "Triwulan 3 (Jul-Sep)", fullTitle: "Triwulan III (Juli - September: Mengevaluasi & Menindaklanjuti)", targetButirIds: [8, 10, 11, 12, 13, 14], targetText: "Butir 8 (Sarpras), Butir 10 (Kebinekaan), Butir 11 (Inklusif), Butir 12 (Safety/TPPK), Butir 13 (Bencana), Butir 14 (PHBS)", bg: "#fef3c7", color: "#92400e", alur: "M4 & M5 (Mengevaluasi & Menindaklanjuti)", fokusTirta: "Iklim Belajar & Safety (Butir 8, 10-14)" },
-            T4: { title: "Triwulan 4 (Okt-Des)", fullTitle: "Triwulan IV (Oktober - Desember: Menindaklanjuti & Meningkatkan)", targetButirIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], targetText: "14 Butir Lengkap (45 Sub-Indikator): Verifikasi Rekapitulasi Digital Sispena & Penetapan Predikat PKKS", bg: "#f3e8ff", color: "#5b21b6", alur: "M5 & M6 (Menindaklanjuti & Meningkatkan)", fokusTirta: "Evaluasi Final PKKS & Audit Mutu SPMI (T1 - T4)" }
+            T2: { title: "Triwulan 2 (Apr-Jun)", fullTitle: "Triwulan II (April - Juni: Melaksanakan & Mengevaluasi)", targetButirIds: [1, 2, 3, 4, 5], targetText: "Butir 1 (Sosio-Emosional), Butir 2 (Suasana Kelas), Butir 3 (Pembelajaran Bermakna), Butir 4 (Karakter), Butir 5 (Evaluasi SDM)", bg: "#d1fae5", color: "#064e3b", alur: "M3 & M4 (Melaksanakan & Mengevaluasi)", fokusTirta: "Pembelajaran Bermakna & Kombel (Butir 1-5)" },
+            T3: { title: "Triwulan 3 (Jul-Sep)", fullTitle: "Triwulan III (Juli - September: Mengevaluasi & Menindaklanjuti)", targetButirIds: [8, 10, 11, 12, 13, 14], targetText: "Butir 8 (Sarpras), Butir 10 (Kebinekaan), Butir 11 (Inklusif), Butir 12 (Safety/TPPK), Butir 13 (Bencana), Butir 14 (PHBS)", bg: "#fef3c7", color: "#78350f", alur: "M4 & M5 (Mengevaluasi & Menindaklanjuti)", fokusTirta: "Iklim Belajar & Safety (Butir 8, 10-14)" },
+            T4: { title: "Triwulan 4 (Okt-Des)", fullTitle: "Triwulan IV (Oktober - Desember: Menindaklanjuti & Meningkatkan)", targetButirIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], targetText: "14 Butir Lengkap (45 Sub-Indikator): Verifikasi Rekapitulasi Digital Sispena & Penetapan Predikat PKKS", bg: "#f3e8ff", color: "#4c1d95", alur: "M5 & M6 (Menindaklanjuti & Meningkatkan)", fokusTirta: "Evaluasi Final PKKS & Audit Mutu SPMI (T1 - T4)" }
         };
 
         function determineStatus(schoolName) {
@@ -676,14 +850,20 @@
                 const sName = initialSchoolNames[i - 1];
                 const kName = initialKSNames[i - 1];
                 const status = determineStatus(sName);
+                
+                let defaultBerakhlak = {};
+                masterBerakhlak.forEach(b => {
+                    defaultBerakhlak[b.key] = { obs: "", rating: "Sesuai Ekspektasi" };
+                });
+
                 db[i] = {
                     id: i,
                     profile: { ksSchool: sName, ksName: kName, ksNip: status === "ASN" ? `19680512 199403 ${i > 9 ? '1' : '2'} 00${i}` : "-", ksStatus: status, pengawasName: defaultPengawasName },
                     quarters: {
-                        T1: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T1)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T1)), supervisi: JSON.parse(JSON.stringify(defaultSupervisi)) },
-                        T2: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T2)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T2)), supervisi: [] },
-                        T3: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T3)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T3)), supervisi: [] },
-                        T4: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T4)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T4)), supervisi: [] }
+                        T1: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T1)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T1)), supervisi: JSON.parse(JSON.stringify(defaultSupervisi)), perilaku: JSON.parse(JSON.stringify(defaultBerakhlak)) },
+                        T2: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T2)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T2)), supervisi: [], perilaku: JSON.parse(JSON.stringify(defaultBerakhlak)) },
+                        T3: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T3)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T3)), supervisi: [], perilaku: JSON.parse(JSON.stringify(defaultBerakhlak)) },
+                        T4: { items: master45Items.map(x => ({...x, driveLink:"", isSaved:false, obs:"", score:""})), tirta: JSON.parse(JSON.stringify(defaultTirtaByQuarter.T4)), pbd: JSON.parse(JSON.stringify(defaultPbdByQuarter.T4)), supervisi: [], perilaku: JSON.parse(JSON.stringify(defaultBerakhlak)) }
                     }
                 };
             }
@@ -691,6 +871,18 @@
         }
 
         let db = createDb();
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('theme-btn').innerText = "🌙 Mode Gelap";
+            } else {
+                document.body.classList.remove('dark-mode');
+                document.getElementById('theme-btn').innerText = "☀️ Mode Terang";
+            }
+            saveStorage();
+        }
 
         function loadStorage() {
             try {
@@ -710,11 +902,25 @@
                                 if (!db[id].quarters[q].supervisi) {
                                     db[id].quarters[q].supervisi = [];
                                 }
+                                if (!db[id].quarters[q].perilaku) {
+                                    let defaultBerakhlak = {};
+                                    masterBerakhlak.forEach(b => {
+                                        defaultBerakhlak[b.key] = { obs: "", rating: "Sesuai Ekspektasi" };
+                                    });
+                                    db[id].quarters[q].perilaku = defaultBerakhlak;
+                                }
                             });
                         }
                     }
                     if (parsed.selectedSchoolId) selectedSchoolId = parsed.selectedSchoolId;
                     if (parsed.currentQuarter) currentQuarter = parsed.currentQuarter;
+                    if (parsed.isDarkMode !== undefined) {
+                        isDarkMode = parsed.isDarkMode;
+                        if (isDarkMode) {
+                            document.body.classList.add('dark-mode');
+                            document.getElementById('theme-btn').innerText = "🌙 Mode Gelap";
+                        }
+                    }
                 }
             } catch(e) {
                 console.error("Gagal membaca LocalStorage, memuat database default.", e);
@@ -723,7 +929,7 @@
 
         function saveStorage() {
             try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify({ db, selectedSchoolId, currentQuarter }));
+                localStorage.setItem(STORAGE_KEY, JSON.stringify({ db, selectedSchoolId, currentQuarter, isDarkMode }));
                 updateAnalyticsDashboard();
             } catch(e) {
                 console.error("Gagal menyimpan ke LocalStorage", e);
@@ -747,6 +953,7 @@
             isDraftMode = checked;
             updatePrintHeaders();
             renderTable();
+            renderPerilaku();
             showToast(checked ? "📝 Mode Format Lembar Kerja Kosong Aktif" : "🔄 Kembali ke Mode Pengisian Data");
         }
 
@@ -864,7 +1071,7 @@
         }
 
         function switchTab(tId) {
-            ['spmi','komparasi','roadmap','instrumen','tirta','pbd','eksekutif','panduan'].forEach(t => {
+            ['spmi','komparasi','roadmap','instrumen','perilaku','tirta','pbd','eksekutif','panduan'].forEach(t => {
                 const elTab = document.getElementById(`tab-${t}`);
                 const elNav = document.getElementById(`nav-${t}`);
                 if (elTab) elTab.classList.add('hidden');
@@ -891,6 +1098,7 @@
             updateAnalyticsDashboard();
 
             if (tId === 'instrumen') renderTable();
+            if (tId === 'perilaku') renderPerilaku();
             if (tId === 'pbd') renderPbd();
             if (tId === 'tirta') { renderTirta(); renderSupervisi(); }
             if (tId === 'eksekutif') renderExecutiveSummary();
@@ -912,6 +1120,7 @@
             updatePrintHeaders();
             updateAnalyticsDashboard();
             renderTable();
+            renderPerilaku();
             renderPbd();
             renderTirta();
             renderSupervisi();
@@ -955,6 +1164,7 @@
             updatePrintHeaders();
             updateAnalyticsDashboard();
             renderTable();
+            renderPerilaku();
             renderPbd();
             renderTirta();
             renderSupervisi();
@@ -1015,20 +1225,20 @@
                 const displayScore = isDraftMode ? '' : (item.score || '');
 
                 tr.innerHTML = `
-                    <td style="text-align:center; font-weight:bold; background:#f8fafc;">${item.code}</td>
-                    <td><strong style="color:#4f46e5;">${item.parentTitle}</strong><br><span style="font-size:10px; color:#64748b;">${item.comp}</span></td>
+                    <td style="text-align:center; font-weight:bold; background:var(--bg-box-sub);">${item.code}</td>
+                    <td><strong style="color:#6366f1;">${item.parentTitle}</strong><br><span style="font-size:10px; color:var(--text-sub);">${item.comp}</span></td>
                     <td>${item.title}</td>
                     <td>
-                        <input type="text" id="drive-input-${safeCode}" value="${displayDrive}" ${isSaved && !isDraftMode ? 'disabled' : ''} style="width:100%; padding:6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;" placeholder="Paste URL Google Drive..." oninput="updateDriveValue('${item.code}', this.value)">
+                        <input type="text" id="drive-input-${safeCode}" value="${displayDrive}" ${isSaved && !isDraftMode ? 'disabled' : ''} style="width:100%; padding:6px; font-size:11px; border:1px solid var(--border-input); border-radius:4px; background:var(--bg-input); color:var(--text-main);" placeholder="Paste URL Google Drive..." oninput="updateDriveValue('${item.code}', this.value)">
                         <div style="margin-top:4px; display:flex; gap:4px;">
                             <button class="btn-action btn-save" onclick="saveDriveByCode('${item.code}')">💾 Simpan</button>
                             <button class="btn-action btn-edit" onclick="editDriveByCode('${item.code}')">✏️ Edit</button>
                         </div>
-                        ${isSaved && !isDraftMode ? `<a href="${item.driveLink}" target="_blank" class="btn-open">🔗 Buka Link Drive ↗</a>` : `<span style="color:#d97706; font-size:10px; font-weight:bold; display:block; margin-top:3px;">⚠️ Belum Diisi</span>`}
+                        ${isSaved && !isDraftMode ? `<a href="${item.driveLink}" target="_blank" class="btn-open">🔗 Buka Link Drive ↗</a>` : `<span style="color:#f59e0b; font-size:10px; font-weight:bold; display:block; margin-top:3px;">⚠️ Belum Diisi</span>`}
                     </td>
                     <td><textarea oninput="updateObsValue('${item.code}', this.value)" rows="2" placeholder="Catatan observasi...">${displayObs}</textarea></td>
                     <td>
-                        <select onchange="updateScoreValue('${item.code}', this.value)" style="width:100%; padding:6px; border:1px solid #cbd5e1; border-radius:4px;">
+                        <select onchange="updateScoreValue('${item.code}', this.value)" style="width:100%; padding:6px; border:1px solid var(--border-input); border-radius:4px; background:var(--bg-input); color:var(--text-main);">
                             <option value="">-</option>
                             <option value="1" ${displayScore == 1 ? 'selected' : ''}>1</option>
                             <option value="2" ${displayScore == 2 ? 'selected' : ''}>2</option>
@@ -1039,6 +1249,53 @@
                 `;
                 tbody.appendChild(tr);
             });
+        }
+
+        function renderPerilaku() {
+            const tbody = document.getElementById('perilaku-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            const pData = db[selectedSchoolId].quarters[currentQuarter].perilaku;
+
+            masterBerakhlak.forEach((b) => {
+                const tr = document.createElement('tr');
+                const curData = pData[b.key] || { obs: "", rating: "Sesuai Ekspektasi" };
+
+                const displayObs = isDraftMode ? '' : (curData.obs || '');
+                const displayRating = isDraftMode ? 'Sesuai Ekspektasi' : (curData.rating || 'Sesuai Ekspektasi');
+
+                tr.innerHTML = `
+                    <td style="text-align:center; font-weight:bold;">${b.no}</td>
+                    <td><strong style="color:#6366f1;">${b.title}</strong></td>
+                    <td style="font-size:11px; color:var(--text-sub);">${b.desc}</td>
+                    <td><textarea onchange="updatePerilakuObs('${b.key}', this.value)" rows="2" placeholder="Umpan balik pimpinan...">${displayObs}</textarea></td>
+                    <td style="text-align:center;">
+                        <select onchange="updatePerilakuRating('${b.key}', this.value)" style="padding:6px; border:1px solid var(--border-input); border-radius:4px; background:var(--bg-input); color:var(--text-main); font-size:11px; font-weight:bold;">
+                            <option value="Di Bawah Ekspektasi" ${displayRating === "Di Bawah Ekspektasi" ? 'selected' : ''}>Di Bawah Ekspektasi</option>
+                            <option value="Sesuai Ekspektasi" ${displayRating === "Sesuai Ekspektasi" ? 'selected' : ''}>Sesuai Ekspektasi</option>
+                            <option value="Di Atas Ekspektasi" ${displayRating === "Di Atas Ekspektasi" ? 'selected' : ''}>Di Atas Ekspektasi</option>
+                        </select>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function updatePerilakuObs(key, val) {
+            const pData = db[selectedSchoolId].quarters[currentQuarter].perilaku;
+            if (pData && pData[key]) {
+                pData[key].obs = val;
+                saveStorage();
+            }
+        }
+
+        function updatePerilakuRating(key, val) {
+            const pData = db[selectedSchoolId].quarters[currentQuarter].perilaku;
+            if (pData && pData[key]) {
+                pData[key].rating = val;
+                saveStorage();
+            }
         }
 
         function updateDriveValue(code, val) {
@@ -1136,17 +1393,17 @@
                             const div = document.createElement('div');
                             div.className = "card-item";
                             div.innerHTML = `
-                                <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-weight:bold; color:#1e1b4b;">
-                                    <span style="background:#e0e7ff; padding:2px 8px; border-radius:4px; color:#3730a3;">${item.step}</span>
-                                    <span style="font-size:11px; color:#64748b;">${item.desc}</span>
+                                <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-weight:bold;">
+                                    <span style="background:#312e81; padding:2px 8px; border-radius:4px; color:#c7d2fe;">${item.step}</span>
+                                    <span style="font-size:11px; color:var(--text-sub);">${item.desc}</span>
                                 </div>
                                 <div style="display:flex; flex-direction:column; gap:8px;">
                                     <div>
-                                        <label style="font-weight:bold; font-size:11px;">Pertanyaan Pemantik Pengawas:</label>
+                                        <label style="font-weight:bold; font-size:11px; color:var(--text-sub);">Pertanyaan Pemantik Pengawas:</label>
                                         <textarea onchange="updateTirtaText('${qKey}', ${idx}, 'pengawas', this.value)" rows="2">${item.pengawas || ''}</textarea>
                                     </div>
                                     <div>
-                                        <label style="font-weight:bold; font-size:11px;">Respon / Komitmen Kepala Sekolah:</label>
+                                        <label style="font-weight:bold; font-size:11px; color:var(--text-sub);">Respon / Komitmen Kepala Sekolah:</label>
                                         <textarea onchange="updateTirtaText('${qKey}', ${idx}, 'ks', this.value)" rows="2">${item.ks || ''}</textarea>
                                     </div>
                                 </div>
@@ -1161,17 +1418,17 @@
                     const div = document.createElement('div');
                     div.className = "card-item";
                     div.innerHTML = `
-                        <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-weight:bold; color:#1e1b4b;">
-                            <span style="background:#e0e7ff; padding:2px 8px; border-radius:4px; color:#3730a3;">${item.step}</span>
-                            <span style="font-size:11px; color:#64748b;">${item.desc}</span>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-weight:bold;">
+                            <span style="background:#312e81; padding:2px 8px; border-radius:4px; color:#c7d2fe;">${item.step}</span>
+                            <span style="font-size:11px; color:var(--text-sub);">${item.desc}</span>
                         </div>
                         <div style="display:flex; flex-direction:column; gap:8px;">
                             <div>
-                                <label style="font-weight:bold; font-size:11px;">Pertanyaan Pemantik Pengawas:</label>
+                                <label style="font-weight:bold; font-size:11px; color:var(--text-sub);">Pertanyaan Pemantik Pengawas:</label>
                                 <textarea onchange="updateTirtaText('${currentQuarter}', ${idx}, 'pengawas', this.value)" rows="2">${item.pengawas || ''}</textarea>
                             </div>
                             <div>
-                                <label style="font-weight:bold; font-size:11px;">Respon / Komitmen Kepala Sekolah:</label>
+                                <label style="font-weight:bold; font-size:11px; color:var(--text-sub);">Respon / Komitmen Kepala Sekolah:</label>
                                 <textarea onchange="updateTirtaText('${currentQuarter}', ${idx}, 'ks', this.value)" rows="2">${item.ks || ''}</textarea>
                             </div>
                         </div>
@@ -1220,19 +1477,18 @@
                         list.forEach((item, idx) => {
                             const div = document.createElement('div');
                             div.className = "card-item";
-                            div.style.cssText = "background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:18px; margin-bottom:16px; position:relative;";
                             
                             div.innerHTML = `
                                 <button onclick="deletePbdRow('${qKey}', ${idx})" style="position:absolute; top:14px; right:16px; color:#ef4444; border:none; background:transparent; font-weight:bold; cursor:pointer; font-size:12px;">✕ Hapus</button>
                                 
                                 <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:16px; margin-bottom:12px;">
                                     <div>
-                                        <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Aspek Sub-Indikator Target:</label>
-                                        <input type="text" value="${item.aspek || ''}" onchange="updatePbdField('${qKey}', ${idx}, 'aspek', this.value)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-weight:600; color:#0f172a;">
+                                        <label style="font-weight:bold; font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Aspek Sub-Indikator Target:</label>
+                                        <input type="text" value="${item.aspek || ''}" onchange="updatePbdField('${qKey}', ${idx}, 'aspek', this.value)">
                                     </div>
                                     <div>
-                                        <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Tahapan Alur 6M:</label>
-                                        <select onchange="updatePbdField('${qKey}', ${idx}, 'dim6m', this.value)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; color:#0f172a; background:white;">
+                                        <label style="font-weight:bold; font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Tahapan Alur 6M:</label>
+                                        <select onchange="updatePbdField('${qKey}', ${idx}, 'dim6m', this.value)" style="width:100%; padding:8px 10px; border:1px solid var(--border-input); border-radius:6px; color:var(--text-main); background:var(--bg-input);">
                                             <option value="Memetakan" ${item.dim6m === "Memetakan" ? 'selected' : ''}>1. Memetakan</option>
                                             <option value="Merencanakan" ${item.dim6m === "Merencanakan" ? 'selected' : ''}>2. Merencanakan</option>
                                             <option value="Melaksanakan" ${item.dim6m === "Melaksanakan" ? 'selected' : ''}>3. Melaksanakan</option>
@@ -1245,22 +1501,22 @@
 
                                 <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px; margin-bottom:12px;">
                                     <div>
-                                        <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Identifikasi Masalah:</label>
-                                        <textarea onchange="updatePbdField('${qKey}', ${idx}, 'identifikasi', this.value)" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.identifikasi || ''}</textarea>
+                                        <label style="font-weight:bold; font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Identifikasi Masalah:</label>
+                                        <textarea onchange="updatePbdField('${qKey}', ${idx}, 'identifikasi', this.value)" rows="3">${item.identifikasi || ''}</textarea>
                                     </div>
                                     <div>
-                                        <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Refleksi Akar Masalah:</label>
-                                        <textarea onchange="updatePbdField('${qKey}', ${idx}, 'refleksi', this.value)" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.refleksi || ''}</textarea>
+                                        <label style="font-weight:bold; font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Refleksi Akar Masalah:</label>
+                                        <textarea onchange="updatePbdField('${qKey}', ${idx}, 'refleksi', this.value)" rows="3">${item.refleksi || ''}</textarea>
                                     </div>
                                     <div>
-                                        <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Program Benahi (RKT/ARKAS):</label>
-                                        <textarea onchange="updatePbdField('${qKey}', ${idx}, 'benahi', this.value)" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.benahi || ''}</textarea>
+                                        <label style="font-weight:bold; font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Program Benahi (RKT/ARKAS):</label>
+                                        <textarea onchange="updatePbdField('${qKey}', ${idx}, 'benahi', this.value)" rows="3">${item.benahi || ''}</textarea>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Sumber Alokasi Anggaran ARKAS:</label>
-                                    <input type="text" value="${item.anggaran || ''}" onchange="updatePbdField('${qKey}', ${idx}, 'anggaran', this.value)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; color:#0f172a;">
+                                    <label style="font-weight:bold; font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Sumber Alokasi Anggaran ARKAS:</label>
+                                    <input type="text" value="${item.anggaran || ''}" onchange="updatePbdField('${qKey}', ${idx}, 'anggaran', this.value)">
                                 </div>
                             `;
                             container.appendChild(div);
@@ -1272,19 +1528,18 @@
                 list.forEach((item, idx) => {
                     const div = document.createElement('div');
                     div.className = "card-item";
-                    div.style.cssText = "background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:18px; margin-bottom:16px; position:relative;";
                     
                     div.innerHTML = `
                         <button onclick="deletePbdRow('${currentQuarter}', ${idx})" style="position:absolute; top:14px; right:16px; color:#ef4444; border:none; background:transparent; font-weight:bold; cursor:pointer; font-size:12px;">✕ Hapus</button>
                         
                         <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:16px; margin-bottom:12px;">
                             <div>
-                                <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Aspek Sub-Indikator Target:</label>
-                                <input type="text" value="${item.aspek || ''}" onchange="updatePbdField('${currentQuarter}', ${idx}, 'aspek', this.value)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; font-weight:600; color:#0f172a;">
+                                <label style="font-weight:bold; font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Aspek Sub-Indikator Target:</label>
+                                <input type="text" value="${item.aspek || ''}" onchange="updatePbdField('${currentQuarter}', ${idx}, 'aspek', this.value)">
                             </div>
                             <div>
-                                <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Tahapan Alur 6M:</label>
-                                <select onchange="updatePbdField('${currentQuarter}', ${idx}, 'dim6m', this.value)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; color:#0f172a; background:white;">
+                                <label style="font-weight:bold; font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Tahapan Alur 6M:</label>
+                                <select onchange="updatePbdField('${currentQuarter}', ${idx}, 'dim6m', this.value)" style="width:100%; padding:8px 10px; border:1px solid var(--border-input); border-radius:6px; color:var(--text-main); background:var(--bg-input);">
                                     <option value="Memetakan" ${item.dim6m === "Memetakan" ? 'selected' : ''}>1. Memetakan</option>
                                     <option value="Merencanakan" ${item.dim6m === "Merencanakan" ? 'selected' : ''}>2. Merencanakan</option>
                                     <option value="Melaksanakan" ${item.dim6m === "Melaksanakan" ? 'selected' : ''}>3. Melaksanakan</option>
@@ -1297,22 +1552,22 @@
 
                         <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px; margin-bottom:12px;">
                             <div>
-                                <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Identifikasi Masalah:</label>
-                                <textarea onchange="updatePbdField('${currentQuarter}', ${idx}, 'identifikasi', this.value)" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.identifikasi || ''}</textarea>
+                                <label style="font-weight:bold; font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Identifikasi Masalah:</label>
+                                <textarea onchange="updatePbdField('${currentQuarter}', ${idx}, 'identifikasi', this.value)" rows="3">${item.identifikasi || ''}</textarea>
                             </div>
                             <div>
-                                <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Refleksi Akar Masalah:</label>
-                                <textarea onchange="updatePbdField('${currentQuarter}', ${idx}, 'refleksi', this.value)" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.refleksi || ''}</textarea>
+                                <label style="font-weight:bold; font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Refleksi Akar Masalah:</label>
+                                <textarea onchange="updatePbdField('${currentQuarter}', ${idx}, 'refleksi', this.value)" rows="3">${item.refleksi || ''}</textarea>
                             </div>
                             <div>
-                                <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Program Benahi (RKT/ARKAS):</label>
-                                <textarea onchange="updatePbdField('${currentQuarter}', ${idx}, 'benahi', this.value)" rows="3" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; color:#1e293b;">${item.benahi || ''}</textarea>
+                                <label style="font-weight:bold; font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Program Benahi (RKT/ARKAS):</label>
+                                <textarea onchange="updatePbdField('${currentQuarter}', ${idx}, 'benahi', this.value)" rows="3">${item.benahi || ''}</textarea>
                             </div>
                         </div>
 
                         <div>
-                            <label style="font-weight:bold; font-size:11px; color:#334155; display:block; margin-bottom:4px;">Sumber Alokasi Anggaran ARKAS:</label>
-                            <input type="text" value="${item.anggaran || ''}" onchange="updatePbdField('${currentQuarter}', ${idx}, 'anggaran', this.value)" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:6px; color:#0f172a;">
+                            <label style="font-weight:bold; font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Sumber Alokasi Anggaran ARKAS:</label>
+                            <input type="text" value="${item.anggaran || ''}" onchange="updatePbdField('${currentQuarter}', ${idx}, 'anggaran', this.value)">
                         </div>
                     `;
                     container.appendChild(div);
@@ -1341,33 +1596,32 @@
             list.forEach((item, idx) => {
                 const div = document.createElement('div');
                 div.className = "card-item";
-                div.style.cssText = "background:#ffffff; border:1px solid #cbd5e1; border-radius:8px; padding:12px; margin-bottom:10px;";
                 div.innerHTML = `
                     <button onclick="deleteSupervisiRow(${idx})" style="position:absolute; top:10px; right:12px; color:#ef4444; border:none; background:transparent; font-weight:bold; cursor:pointer;">✕ Hapus</button>
                     
                     <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-bottom:8px;">
                         <div>
-                            <label style="font-weight:bold; font-size:10px; color:#475569;">Nama Guru Terobservasi:</label>
-                            <input type="text" value="${item.guru || ''}" onchange="updateSupervisiField(${idx}, 'guru', this.value)" style="width:100%; padding:4px 6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;">
+                            <label style="font-weight:bold; font-size:10px; color:var(--text-sub);">Nama Guru Terobservasi:</label>
+                            <input type="text" value="${item.guru || ''}" onchange="updateSupervisiField(${idx}, 'guru', this.value)">
                         </div>
                         <div>
-                            <label style="font-weight:bold; font-size:10px; color:#475569;">Mata Pelajaran / Kelas:</label>
-                            <input type="text" value="${item.mapel || ''}" onchange="updateSupervisiField(${idx}, 'mapel', this.value)" style="width:100%; padding:4px 6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;">
+                            <label style="font-weight:bold; font-size:10px; color:var(--text-sub);">Mata Pelajaran / Kelas:</label>
+                            <input type="text" value="${item.mapel || ''}" onchange="updateSupervisiField(${idx}, 'mapel', this.value)">
                         </div>
                         <div>
-                            <label style="font-weight:bold; font-size:10px; color:#475569;">Tanggal & Sub-Indikator Fokus:</label>
-                            <input type="text" value="${item.fokus || ''}" onchange="updateSupervisiField(${idx}, 'fokus', this.value)" style="width:100%; padding:4px 6px; font-size:11px; border:1px solid #cbd5e1; border-radius:4px;">
+                            <label style="font-weight:bold; font-size:10px; color:var(--text-sub);">Tanggal & Sub-Indikator Fokus:</label>
+                            <input type="text" value="${item.fokus || ''}" onchange="updateSupervisiField(${idx}, 'fokus', this.value)">
                         </div>
                     </div>
 
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                         <div>
-                            <label style="font-weight:bold; font-size:10px; color:#475569;">Temuan Kunci Observasi:</label>
-                            <textarea onchange="updateSupervisiField(${idx}, 'temuan', this.value)" rows="2" style="font-size:11px; padding:4px;">${item.temuan || ''}</textarea>
+                            <label style="font-weight:bold; font-size:10px; color:var(--text-sub);">Temuan Kunci Observasi:</label>
+                            <textarea onchange="updateSupervisiField(${idx}, 'temuan', this.value)" rows="2">${item.temuan || ''}</textarea>
                         </div>
                         <div>
-                            <label style="font-weight:bold; font-size:10px; color:#475569;">Rekomendasi Umpan Balik Pengawas:</label>
-                            <textarea onchange="updateSupervisiField(${idx}, 'rekomendasi', this.value)" rows="2" style="font-size:11px; padding:4px;">${item.rekomendasi || ''}</textarea>
+                            <label style="font-weight:bold; font-size:10px; color:var(--text-sub);">Rekomendasi Umpan Balik Pengawas:</label>
+                            <textarea onchange="updateSupervisiField(${idx}, 'rekomendasi', this.value)" rows="2">${item.rekomendasi || ''}</textarea>
                         </div>
                     </div>
                 `;
@@ -1390,6 +1644,27 @@
             saveStorage();
         }
 
+        function calculateBknMatrix(hasilKerja, perilaku) {
+            let predikat = "BAIK";
+            let cellId = "";
+
+            if (hasilKerja === "Di Atas Ekspektasi") {
+                if (perilaku === "Di Atas Ekspektasi") { predikat = "SANGAT BAIK"; cellId = "cell-atas-atas"; }
+                else if (perilaku === "Sesuai Ekspektasi") { predikat = "SANGAT BAIK"; cellId = "cell-atas-sesuai"; }
+                else { predikat = "BUTUH PERBAIKAN"; cellId = "cell-atas-bawah"; }
+            } else if (hasilKerja === "Sesuai Ekspektasi") {
+                if (perilaku === "Di Atas Ekspektasi") { predikat = "BAIK"; cellId = "cell-sesuai-atas"; }
+                else if (perilaku === "Sesuai Ekspektasi") { predikat = "BAIK"; cellId = "cell-sesuai-sesuai"; }
+                else { predikat = "KURANG / MISCONDUCT"; cellId = "cell-sesuai-bawah"; }
+            } else {
+                if (perilaku === "Di Atas Ekspektasi") { predikat = "BUTUH PERBAIKAN"; cellId = "cell-bawah-atas"; }
+                else if (perilaku === "Sesuai Ekspektasi") { predikat = "BUTUH PERBAIKAN"; cellId = "cell-bawah-sesuai"; }
+                else { predikat = "SANGAT KURANG"; cellId = "cell-bawah-bawah"; }
+            }
+
+            return { predikat, cellId };
+        }
+
         function renderExecutiveSummary() {
             const container = document.getElementById('eksekutif-content');
             if (!container) return;
@@ -1398,33 +1673,73 @@
             const p = db[selectedSchoolId].profile;
             const q = db[selectedSchoolId].quarters[currentQuarter];
 
+            // 1. Hitung Hasil Kerja (Praktik)
             let totalSkor = 0;
             let countSkor = 0;
             q.items.forEach(x => {
                 if (x.score) { totalSkor += parseInt(x.score); countSkor++; }
             });
-            let rataRata = countSkor > 0 ? (totalSkor / countSkor).toFixed(2) : "Belum Dinilai";
+            let rataRata = countSkor > 0 ? (totalSkor / countSkor).toFixed(2) : "0.00";
+
+            let labelHasilKerja = "Belum Dinilai";
+            if (countSkor > 0) {
+                labelHasilKerja = "Sesuai Ekspektasi";
+                if (rataRata >= 3.5) labelHasilKerja = "Di Atas Ekspektasi";
+                else if (rataRata < 2.5) labelHasilKerja = "Di Bawah Ekspektasi";
+            }
+
+            // 2. Hitung Perilaku Kinerja
+            let countAtas = 0, countBawah = 0, countSesuai = 0;
+            masterBerakhlak.forEach(b => {
+                let r = q.perilaku && q.perilaku[b.key] ? q.perilaku[b.key].rating : "Sesuai Ekspektasi";
+                if (r === "Di Atas Ekspektasi") countAtas++;
+                else if (r === "Di Bawah Ekspektasi") countBawah++;
+                else countSesuai++;
+            });
+
+            let labelPerilaku = "Sesuai Ekspektasi";
+            if (countAtas >= 4) labelPerilaku = "Di Atas Ekspektasi";
+            else if (countBawah >= 3) labelPerilaku = "Di Bawah Ekspektasi";
+
+            // 3. Matrix Predikat
+            const resMatrix = countSkor > 0
+                ? calculateBknMatrix(labelHasilKerja, labelPerilaku)
+                : { predikat: "BELUM DINILAI", cellId: "" };
+
+            // Update UI Banner Predikat. Nilai kosong tidak boleh menghasilkan predikat final.
+            document.getElementById('bkn-hasil-kerja-val').innerText = countSkor > 0
+                ? `${labelHasilKerja} (${rataRata}/4.00)`
+                : `Belum Dinilai (0 dari 45 subindikator)`;
+            document.getElementById('bkn-perilaku-val').innerText = labelPerilaku;
+            document.getElementById('bkn-predikat-akhir-val').innerText = resMatrix.predikat;
+
+            // Update Highlight Matrix
+            document.querySelectorAll('.matrix-cell').forEach(el => el.classList.remove('cell-active'));
+            if (resMatrix.cellId) {
+                const targetCell = document.getElementById(resMatrix.cellId);
+                if (targetCell) targetCell.classList.add('cell-active');
+            }
 
             let tirtaSummary = q.tirta.map(x => `• <strong>${x.step}:</strong> ${x.ks || '-'}`).join("<br>");
             let pbdSummary = q.pbd.map(x => `• <strong>${x.aspek}</strong> (${x.dim6m}): ${x.benahi || '-'} [<i>${x.anggaran}</i>]`).join("<br>");
 
             container.innerHTML = `
-                <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:14px;">
-                    <h3 style="font-size:14px; font-weight:bold; color:#1e1b4b; border-bottom:1px solid #cbd5e1; padding-bottom:6px; margin-bottom:8px;">1. CAPAIAN KINERJA & EVALUASI MUTU</h3>
+                <div style="background:var(--bg-box-sub); border:1px solid var(--border-card); border-radius:8px; padding:14px;">
+                    <h3 style="font-size:14px; font-weight:bold; color:#4338ca; border-bottom:1px solid var(--border-card); padding-bottom:6px; margin-bottom:8px;">1. CAPAIAN KINERJA & EVALUASI MUTU</h3>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
                         <div><strong>Predikat Rata-Rata Skor Target:</strong> <span style="font-size:14px; color:#059669; font-weight:bold;">${rataRata} / 4.00</span></div>
                         <div><strong>Jumlah Sub-Indikator Terisi:</strong> ${countSkor} dari ${q.items.length} Indikator</div>
                     </div>
                 </div>
 
-                <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:14px;">
-                    <h3 style="font-size:14px; font-weight:bold; color:#1e1b4b; border-bottom:1px solid #cbd5e1; padding-bottom:6px; margin-bottom:8px;">2. MATRIKS AKSI REKOMENDASI PBD & ARKAS</h3>
-                    <div style="font-size:12px; line-height:1.6;">${pbdSummary || 'Belum ada rencana aksi PBD.'}</div>
+                <div style="background:var(--bg-box-sub); border:1px solid var(--border-card); border-radius:8px; padding:14px;">
+                    <h3 style="font-size:14px; font-weight:bold; color:#4338ca; border-bottom:1px solid var(--border-card); padding-bottom:6px; margin-bottom:8px;">2. MATRIKS AKSI REKOMENDASI PBD & ARKAS</h3>
+                    <div style="font-size:12px; line-height:1.6; color:var(--text-sub);">${pbdSummary || 'Belum ada rencana aksi PBD.'}</div>
                 </div>
 
-                <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:14px;">
-                    <h3 style="font-size:14px; font-weight:bold; color:#1e1b4b; border-bottom:1px solid #cbd5e1; padding-bottom:6px; margin-bottom:8px;">3. RINGKASAN DIALOG PENDAMPINGAN (COACHING TIRTA)</h3>
-                    <div style="font-size:12px; line-height:1.6;">${tirtaSummary || 'Belum ada catatan coaching.'}</div>
+                <div style="background:var(--bg-box-sub); border:1px solid var(--border-card); border-radius:8px; padding:14px;">
+                    <h3 style="font-size:14px; font-weight:bold; color:#4338ca; border-bottom:1px solid var(--border-card); padding-bottom:6px; margin-bottom:8px;">3. RINGKASAN DIALOG PENDAMPINGAN (COACHING TIRTA)</h3>
+                    <div style="font-size:12px; line-height:1.6; color:var(--text-sub);">${tirtaSummary || 'Belum ada catatan coaching.'}</div>
                 </div>
 
                 <div style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr; text-align:center; font-size:11px;">
@@ -1457,7 +1772,7 @@
 
         function saveData() {
             saveStorage();
-            showToast('💾 Data Periode ' + currentQuarter + ' berhasil disimpan permanen!');
+            showToast('💾 Data Periode ' + currentQuarter + ' tersimpan di perangkat ini.');
         }
 
         function showToast(msg) {
@@ -1470,7 +1785,7 @@
         }
 
         function exportJSON() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ db, selectedSchoolId, currentQuarter }));
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ db, selectedSchoolId, currentQuarter, isDarkMode }));
             const downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
             downloadAnchor.setAttribute("download", `Monev_SPMI_PKKS_Backup_${new Date().toISOString().slice(0,10)}.json`);
@@ -1490,16 +1805,28 @@
             const reader = new FileReader();
             reader.onload = function(evt) {
                 try {
+                    if (!confirm('Impor akan mengganti data aplikasi yang sedang dimuat. Pastikan Anda sudah mengekspor cadangan data terbaru. Lanjutkan impor?')) {
+                        e.target.value = '';
+                        return;
+                    }
                     const parsed = JSON.parse(evt.target.result);
-                    if (parsed.db) {
+                    if (parsed.db && typeof parsed.db === 'object') {
                         db = parsed.db;
+                        if (parsed.selectedSchoolId !== undefined) selectedSchoolId = parsed.selectedSchoolId;
+                        if (parsed.currentQuarter) currentQuarter = parsed.currentQuarter;
+                        if (parsed.isDarkMode !== undefined) {
+                            isDarkMode = parsed.isDarkMode;
+                            if (isDarkMode) document.body.classList.add('dark-mode');
+                            else document.body.classList.remove('dark-mode');
+                        }
                         saveStorage();
                         initSchoolSelect();
                         loadProfileUI();
                         switchTab('spmi');
-                        alert('📥 Data berhasil diimpor!');
-                    }
+                        alert('📥 Data berhasil diimpor. Periksa kembali sekolah, periode, dan isi data.');
+                    } else { alert('❌ Struktur file JSON tidak sesuai dengan cadangan aplikasi ini.'); }
                 } catch(err) { alert('❌ File JSON tidak valid!'); }
+                e.target.value = ''; 
             };
             reader.readAsText(file);
         }
